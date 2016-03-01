@@ -1,0 +1,16 @@
+AutoPickup.reload
+AutoPickup.infinity
+
+AutoPickup.enabled
+AutoPickup.toggle
+
+AutoBlock.enabled
+AutoBlock.toggle
+AutoBlock.command
+
+AutoSmelt.enabled
+AutoSmelt.toggle
+AutoSmelt.command
+
+AutoSell.enabled
+AutoSell.toggle

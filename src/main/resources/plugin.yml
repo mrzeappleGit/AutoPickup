@@ -1,0 +1,20 @@
+name: AutoPickup
+version: 3.8
+main: me.MnMaxon.AutoPickup.AutoPickupPlugin
+softdepend: [MythicDrops, MythicMobs, QuickSell, FortuneBlocks, AutoSell, StackableItems, PrisonGems, MyPet, TokenEnchant]
+commands:
+  AutoPickup:
+    aliases: [ap]
+    description: Displays AutoPickup Help
+    usage: /ap help
+  AutoSmelt:
+    aliases: [as]
+    description: Displays AutoPickup Help
+    usage: /as help
+  AutoBlock:
+    aliases: [ab]
+    description: Displays AutoPickup Help
+    usage: /ab help
+  AutoSell:
+    description: Enables autoselling with QuickSell
+    usage: /autosell help
