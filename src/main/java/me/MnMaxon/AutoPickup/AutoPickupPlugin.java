@@ -28,6 +28,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
     public static List<Material> fortuneList = new ArrayList<>();
     public static List<String> smeltList = new ArrayList<>();
     public static Boolean allowBlockGui;
+    public static Boolean autoChest;
 
 
     public static void reloadConfigs() {
@@ -51,6 +52,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
         defaults.put("Mob.AutoXP", true);
         defaults.put("Block AutoXP", true);
         defaults.put("Allow BlockGui Permission", false);
+        defaults.put("Auto Chest", true);
         for (Map.Entry<String, Object> entry : defaults.entrySet())
             if (MainConfig.get(entry.getKey()) == null) {
                 MainConfig.set(entry.getKey(), entry.getValue());
@@ -145,6 +147,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
         autoMob = MainConfig.getBoolean("Mob.AutoPickup");
         autoBlockXp = MainConfig.getBoolean("Block AutoXP");
         autoMobXP = MainConfig.getBoolean("Mob.AutoXP");
+        autoChest = MainConfig.getBoolean("AutoChest");
         allowBlockGui = MainConfig.getBoolean("Allow BlockGui Permission");
     }
 

@@ -1,6 +1,5 @@
 package me.MnMaxon.AutoPickup;
 
-import me.MnMaxon.AutoPickup.API.DropToInventoryEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
@@ -64,25 +63,29 @@ public class MainListener implements Listener {
                 String name = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().toLowerCase());
                 if (name.contains("autopickup")) {
                     if (p.hasPermission("AutoPickup.Toggle")) {
-                        if (AutoPickupPlugin.autoPickup.contains(p.getName())) AutoPickupPlugin.autoPickup.remove(p.getName());
+                        if (AutoPickupPlugin.autoPickup.contains(p.getName()))
+                            AutoPickupPlugin.autoPickup.remove(p.getName());
                         else AutoPickupPlugin.autoPickup.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
                 } else if (name.contains("autosmelt")) {
                     if (p.hasPermission("AutoSmelt.Toggle")) {
-                        if (AutoPickupPlugin.autoSmelt.contains(p.getName())) AutoPickupPlugin.autoSmelt.remove(p.getName());
+                        if (AutoPickupPlugin.autoSmelt.contains(p.getName()))
+                            AutoPickupPlugin.autoSmelt.remove(p.getName());
                         else AutoPickupPlugin.autoSmelt.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
                 } else if (name.contains("autoblock")) {
                     if (p.hasPermission("AutoBlock.Toggle")) {
-                        if (AutoPickupPlugin.autoBlock.contains(p.getName())) AutoPickupPlugin.autoBlock.remove(p.getName());
+                        if (AutoPickupPlugin.autoBlock.contains(p.getName()))
+                            AutoPickupPlugin.autoBlock.remove(p.getName());
                         else AutoPickupPlugin.autoBlock.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
                 } else if (name.contains("autosell")) {
                     if (p.hasPermission("AutoSell.Toggle")) {
-                        if (AutoPickupPlugin.autoSell.contains(p.getName())) AutoPickupPlugin.autoSell.remove(p.getName());
+                        if (AutoPickupPlugin.autoSell.contains(p.getName()))
+                            AutoPickupPlugin.autoSell.remove(p.getName());
                         else AutoPickupPlugin.autoSell.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
@@ -164,11 +167,6 @@ public class MainListener implements Listener {
         else fixPicks(e.getPlayer());
     }
 
-    @EventHandler
-    public void onDrop(DropToInventoryEvent e) {
-        e.setCancelled(true);
-    }
-
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent e) {
         fixPick(e.getEntity().getItemStack());
@@ -209,6 +207,7 @@ public class MainListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent e) {
+        if (!AutoPickupPlugin.autoChest && e.getBlock().getType().name().contains("CHEST")) return;
         ItemStack inhand = e.getPlayer().getItemInHand();
         if (AutoPickupPlugin.FortuneData != null) {
             String worldId = e.getBlock().getWorld().getUID().toString();

@@ -19,7 +19,7 @@ public class AutoBlock {
     public static HashMap<Integer, ItemStack> addItem(Player p, ItemStack is) {
         if (is == null) return new HashMap<>();
         Inventory pInv = p.getInventory();
-        Inventory inv = Bukkit.createInventory(null, pInv.getSize());
+        Inventory inv = Bukkit.createInventory(p, 9 * 4);
         inv.setContents(pInv.getContents());
         HashMap<Integer, ItemStack> remaining = AutoPickupPlugin.giveItem(p, inv, is);
         if (!convertTo.containsKey(is.getType())) {
@@ -79,7 +79,7 @@ public class AutoBlock {
                             }
                     Inventory inv = Bukkit.createInventory(null, conts.length);
                     inv.setContents(conts);
-                    while (toMake > type.getMaxStackSize()) toMake -= type.getMaxStackSize();
+//                    while (toMake > type.getMaxStackSize()) toMake -= type.getMaxStackSize();
                     ItemStack toAdd = new ItemStack(convertTo);
                     toAdd.setAmount(type.getMaxStackSize());
                     while (toMake > convertTo.getMaxStackSize()) {

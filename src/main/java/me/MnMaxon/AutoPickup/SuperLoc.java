@@ -87,9 +87,10 @@ public class SuperLoc {
                 SuperLoc.superLocs.remove(loc);
                 for (ItemStack spawn : die.getItems()) exactLoc.getWorld().dropItem(exactLoc, spawn);
                 return true;
-            } else for (ItemStack give : die.getItems())
+            } else for (ItemStack give : die.getItems()) {
                 if (sl.autoBlock) remaining.addAll(AutoBlock.addItem(sl.p, give).values());
                 else remaining.addAll(AutoPickupPlugin.giveItem(sl.p, give).values());
+            }
             if (!remaining.isEmpty()) {
                 if (!die.isCancelled()) AutoPickupPlugin.warn(sl.p);
                 if (!AutoPickupPlugin.deleteOnFull) return false;
