@@ -3,6 +3,7 @@ package me.MnMaxon.AutoPickup;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +20,7 @@ public class AutoBlock {
     public static HashMap<Integer, ItemStack> addItem(Player p, ItemStack is) {
         if (is == null) return new HashMap<>();
         Inventory pInv = p.getInventory();
-        Inventory inv = Bukkit.createInventory(p, 9 * 4);
+        Inventory inv = Bukkit.createInventory(p, InventoryType.PLAYER);
         inv.setContents(pInv.getContents());
         HashMap<Integer, ItemStack> remaining = AutoPickupPlugin.giveItem(p, inv, is);
         if (!convertTo.containsKey(is.getType())) {
@@ -77,7 +78,8 @@ public class AutoBlock {
                                 tobeUsed -= conts[i].getAmount();
                                 conts[i] = null;
                             }
-                    Inventory inv = Bukkit.createInventory(null, conts.length);
+
+                    Inventory inv = Bukkit.createInventory(null, InventoryType.PLAYER);
                     inv.setContents(conts);
 //                    while (toMake > type.getMaxStackSize()) toMake -= type.getMaxStackSize();
                     ItemStack toAdd = new ItemStack(convertTo);
