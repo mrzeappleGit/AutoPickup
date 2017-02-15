@@ -39,7 +39,7 @@ public enum Message {
 
     public static String decolorize(String msg) {
         if (msg == null) return null;
-        return ChatColor.translateAlternateColorCodes('§', msg).replaceAll("Å", "");
+        return ChatColor.translateAlternateColorCodes('\u00a7', msg).replaceAll("Å", "");
     }
 
     public static String colorize(String msg) {

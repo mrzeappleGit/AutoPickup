@@ -61,7 +61,7 @@ public class AutoBlock {
                         if (numIS != null && numIS.getType() == type && (!numIS.hasItemMeta() || !numIS.getItemMeta().hasDisplayName())
                                 && (!convertDurability.containsKey(type) || numIS.getDurability() == convertDurability.get(type)))
                             num += numIS.getAmount();
-                    if (num < required) continue;
+                    if (num <= required) continue;
                     Material convertTo = AutoBlock.convertTo.get(type);
                     changed = true;
                     totalChanged = true;
