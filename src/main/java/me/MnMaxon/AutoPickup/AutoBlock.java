@@ -2,6 +2,8 @@ package me.MnMaxon.AutoPickup;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -18,6 +20,10 @@ public class AutoBlock {
     private static HashMap<Material, Short> convertDurability = new HashMap<>();
 
     public static HashMap<Integer, ItemStack> addItem(Player p, ItemStack is) {
+        if (!isSpaceAvailable(p, is)) {
+            return new HashMap<>();
+        }
+
         if (is == null) return new HashMap<>();
         Inventory pInv = p.getInventory();
         Inventory inv = Bukkit.createInventory(p, InventoryType.PLAYER);
@@ -80,17 +86,23 @@ public class AutoBlock {
                             }
 
                     Inventory inv = Bukkit.createInventory(null, InventoryType.PLAYER);
-                    inv.setContents(conts);
 //                    while (toMake > type.getMaxStackSize()) toMake -= type.getMaxStackSize();
                     ItemStack toAdd = new ItemStack(convertTo);
-                    toAdd.setAmount(type.getMaxStackSize());
-                    while (toMake > convertTo.getMaxStackSize()) {
+                    if (isSpaceAvailable(p, toAdd)) {
+                        inv.setContents(conts);
+                        toAdd.setAmount(type.getMaxStackSize());
+                        while (toMake > convertTo.getMaxStackSize()) {
+                            AutoPickupPlugin.giveItem(p, inv, toAdd);
+                            toMake -= type.getMaxStackSize();
+                        }
+                        toAdd.setAmount(toMake);
                         AutoPickupPlugin.giveItem(p, inv, toAdd);
-                        toMake -= type.getMaxStackSize();
+                        conts = inv.getContents();
+                    } else {
+                        //Only enable this when we have a way for users to disable this alert TODO: Implement this
+                        //p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
+                        //p.sendTitle(ChatColor.RED + "Inventory is Full!", ChatColor.GOLD + "/fullnotify to disable", 1, 15, 5);
                     }
-                    toAdd.setAmount(toMake);
-                    AutoPickupPlugin.giveItem(p, inv, toAdd);
-                    conts = inv.getContents();
                 }
         }
         if (totalChanged) return conts;
@@ -116,5 +128,17 @@ public class AutoBlock {
         convertNum.put(Material.EMERALD, 9);
         convertTo.put(Material.GOLD_INGOT, Material.GOLD_BLOCK);
         convertNum.put(Material.GOLD_INGOT, 9);
+    }
+
+    static boolean isSpaceAvailable(Player player, ItemStack item) {
+        //Exclude armor slots - ids 100, 101, 102, 103 - Normal Inventory is slots 0-35
+        boolean space = false;
+        for (int i = 0; i <= 35; i++) {
+            ItemStack slotItem = player.getInventory().getItem(i);
+            if (slotItem == null || ((slotItem.getType() == item.getType()) && item.getAmount() + slotItem.getAmount() <= player.getInventory().getMaxStackSize())) {
+                space = true;
+            }
+        }
+        return space;
     }
 }
