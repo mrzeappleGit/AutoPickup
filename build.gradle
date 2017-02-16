@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'me.MnMaxon'
+version = '3.8'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+        eachFile { copyDetails ->
+        if (copyDetails.path == 'plugin.yml') {
+            filter { line ->
+                line.replace('{{version}}', "$version")
+            }
+        }
+    }
+}
+
+repositories {
+     maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
+     maven {url('https://oss.sonatype.org/content/repositories/snapshots')}
+     mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.bukkit', name: 'bukkit', version:'1.11.2-R0.1-SNAPSHOT'
+    compile group: 'org.spigotmc', name: 'spigot-api', version:'1.11.2-R0.1-SNAPSHOT'
+
+    compile fileTree(dir: './', include: '*.jar')
+
+}
