@@ -20,7 +20,11 @@ public class AutoBlock {
     private static HashMap<Material, Short> convertDurability = new HashMap<>();
 
     public static HashMap<Integer, ItemStack> addItem(Player p, ItemStack is) {
-        if (is == null) return new HashMap<>();
+        
+        if (is == null) 
+        {
+            return new HashMap<>();
+        }
         Inventory pInv = p.getInventory();
         Inventory inv = Bukkit.createInventory(p, 36);
         inv.setStorageContents(pInv.getStorageContents());
@@ -30,11 +34,22 @@ public class AutoBlock {
             p.updateInventory();
             return remaining;
         }
-        if (remaining.size() == 1 && remaining.values().toArray()[0].equals(is)) return remaining;
+        
+        if (remaining.size() == 1 && remaining.values().toArray()[0].equals(is))
+        {
+            return remaining;
+        }
+        
         ItemStack[] newCont = block(p, inv.getStorageContents(), is.getType());
-        if (newCont != null) pInv.setStorageContents(newCont);
-        else pInv.setStorageContents(inv.getStorageContents());
+        if (newCont != null)
+        {
+        pInv.setStorageContents(newCont);
+        } else 
+        {   
+            pInv.setStorageContents(inv.getStorageContents());
+        }
         p.updateInventory();
+        
         return remaining;
     }
 
@@ -51,19 +66,38 @@ public class AutoBlock {
     private static ItemStack[] block(Player p, ItemStack[] conts, Material forceType) {
         boolean totalChanged = false;
         boolean changed = true;
-        while (changed) {
+        while (changed)
+        {
             changed = false;
             for (ItemStack is : conts)
-                if (is != null && convertTo.containsKey(is.getType()) && (forceType == null || forceType == is.getType()) && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName())
-                        && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) {
+            {
+                if (is != null
+                    && convertTo.containsKey(is.getType()) 
+                    && (forceType == null || forceType == is.getType()) 
+                    && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName())
+                    && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) 
+                {
                     Material type = is.getType();
                     int num = 0;
                     int required = convertNum.get(type);
                     for (ItemStack numIS : conts)
-                        if (numIS != null && numIS.getType() == type && (!numIS.hasItemMeta() || !numIS.getItemMeta().hasDisplayName())
-                                && (!convertDurability.containsKey(type) || numIS.getDurability() == convertDurability.get(type)))
+                    {
+                        if (numIS != null 
+                            && numIS.getType() == type 
+                            && (!numIS.hasItemMeta() || !numIS.getItemMeta().hasDisplayName())
+                            && (!convertDurability.containsKey(type) || numIS.getDurability() == convertDurability.get(type)))
+                        {
                             num += numIS.getAmount();
-                    if (num <= required) continue;
+                        }
+                    }
+
+                    if (num <= required && !type.equals(Material.INK_SACK)
+                        || num <= required  + 1 && type.equals(Material.INK_SACK))
+                    {
+                        continue;
+                    }
+                    
+                    
                     Material convertTo = AutoBlock.convertTo.get(type);
                     changed = true;
                     totalChanged = true;
@@ -71,16 +105,20 @@ public class AutoBlock {
                     num = toMake * required;
                     int tobeUsed = num;
                     for (int i = 0; i < conts.length; i++)
+                    {
                         if (conts[i] != null && conts[i].getType() == type && (!conts[i].hasItemMeta() || !conts[i].getItemMeta().hasDisplayName())
                                 && (!convertDurability.containsKey(type) || conts[i].getDurability() == convertDurability.get(type)))
-                            if (conts[i].getAmount() > tobeUsed) {
+                        {
+                            if (conts[i].getAmount() > tobeUsed) 
+                            {
                                 conts[i].setAmount(conts[i].getAmount() - tobeUsed);
                                 break;
                             } else {
                                 tobeUsed -= conts[i].getAmount();
                                 conts[i] = null;
                             }
-
+                        }
+                    }
                     Inventory inv = Bukkit.createInventory(null, 36);
                     ItemStack toAdd = new ItemStack(convertTo);
                     inv.setStorageContents(conts);
@@ -93,6 +131,7 @@ public class AutoBlock {
                     AutoPickupPlugin.giveItem(p, inv, toAdd);
                     conts = inv.getStorageContents();
                 }
+            }
         }
         if (totalChanged) return conts;
         return null;
