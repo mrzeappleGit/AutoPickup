@@ -121,7 +121,8 @@ public class AutoBlock {
                         tobeUsed -= required;
                     }
 
-                    for (int i = 0; i < conts.length; i++)
+                    //go backward through the inventory
+                    for (int i = conts.length - 1; i >0; i--)
                     {
                         if (conts[i] != null
                             && conts[i].getType() == type
@@ -143,14 +144,12 @@ public class AutoBlock {
                     }
 
                     //create an inventory to hold our items
-                    //Inventory inv = Bukkit.createInventory(null, 36);
-                    
+                
+                    p.getInventory().setStorageContents(conts);
+                    //set the number of items to the max stack size of the item
+
                     //make a stack of the blocks
                     ItemStack toAdd = new ItemStack(convertTo);
-
-                    p.getInventory().setStorageContents(conts);
-
-                    //set the number of items to the max stack size of the item
                     toAdd.setAmount(type.getMaxStackSize());
 
                     while (toMake > convertTo.getMaxStackSize()) {
