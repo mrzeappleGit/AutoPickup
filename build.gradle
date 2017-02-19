@@ -27,6 +27,6 @@ dependencies {
     compile group: 'org.bukkit', name: 'bukkit', version:'1.11.2-R0.1-SNAPSHOT'
     compile group: 'org.spigotmc', name: 'spigot-api', version:'1.11.2-R0.1-SNAPSHOT'
 
-    compile fileTree(dir: './', include: '*.jar')
+    compile fileTree(dir: './libs', include: '*.jar')
 
 }

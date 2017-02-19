@@ -17,9 +17,7 @@ hs_err_pid*
 
 # User-specific stuff:
 .idea/*
-.idea/libraries
 .idea/tasks.xml
-.idea/dictionaries
 .idea/jsLibraryMappings.xml
 target/
 
@@ -29,11 +27,8 @@ target/
 .idea/dataSources.local.xml
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
-.idea/uiDesigner.xml
 
 # Gradle:
-.idea/gradle.xml
-.idea/libraries
 .gradle/
 
 # Mongo Explorer plugin:
