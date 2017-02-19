@@ -25,30 +25,31 @@ public class AutoBlock {
         {
             return new HashMap<>();
         }
-        Inventory pInv = p.getInventory();
-        Inventory inv = Bukkit.createInventory(p, 36);
-        inv.setStorageContents(pInv.getStorageContents());
-        HashMap<Integer, ItemStack> remaining = AutoPickupPlugin.giveItem(p, inv, is);
+
+        HashMap<Integer, ItemStack> remaining = AutoPickupPlugin.giveItem(p, is);
+
+        //its not an item to turn in to blocks
         if (!convertTo.containsKey(is.getType())) {
-            pInv.setStorageContents(inv.getStorageContents());
-            p.updateInventory();
+            //return items that cant be put in the players inventory
             return remaining;
         }
-        
+
+        //TODO: WTF does this do?
+        //if there is only 1 item of the stack left return it?
         if (remaining.size() == 1 && remaining.values().toArray()[0].equals(is))
         {
             return remaining;
         }
-        
-        ItemStack[] newCont = block(p, inv.getStorageContents(), is.getType());
+
+        Inventory pInv = p.getInventory();
+        ItemStack[] newCont = block(p, pInv.getStorageContents(), is.getType());
+
+        //if we made any blocks
         if (newCont != null)
         {
-        pInv.setStorageContents(newCont);
-        } else 
-        {   
-            pInv.setStorageContents(inv.getStorageContents());
+            pInv.setStorageContents(newCont);
+            p.updateInventory();
         }
-        p.updateInventory();
         
         return remaining;
     }
@@ -64,22 +65,30 @@ public class AutoBlock {
     }
 
     private static ItemStack[] block(Player p, ItemStack[] conts, Material forceType) {
+        
+        //TODO: work out what these are for
         boolean totalChanged = false;
-        boolean changed = true;
-        while (changed)
+
+        //this is weird
+        boolean changed;
+
+        do
         {
+            //say we havent chaged this
             changed = false;
             for (ItemStack is : conts)
             {
-                if (is != null
-                    && convertTo.containsKey(is.getType()) 
-                    && (forceType == null || forceType == is.getType()) 
-                    && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName())
-                    && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) 
+                if (is != null  //the item stack has an item
+                    && convertTo.containsKey(is.getType())  //its something we make blocks from
+                    && (forceType == null || forceType == is.getType())  //are we converting everything, or is this the specifit type we want to convert
+                    && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName()) //something about the block metadata? check if the item has been renamed?
+                    && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) //its the right version of the block to convert
                 {
                     Material type = is.getType();
                     int num = 0;
                     int required = convertNum.get(type);
+
+                    //look through our inventory for items of this type and count how many we have
                     for (ItemStack numIS : conts)
                     {
                         if (numIS != null 
@@ -91,52 +100,87 @@ public class AutoBlock {
                         }
                     }
 
-                    if (num <= required && !type.equals(Material.INK_SACK)
-                        || num <= required  + 1 && type.equals(Material.INK_SACK))
+                    if (num <= required)
                     {
+                        //we dont have enough to make a block
                         continue;
                     }
-                    
                     
                     Material convertTo = AutoBlock.convertTo.get(type);
                     changed = true;
                     totalChanged = true;
+                    
+                    //TODO: this should probably be a floor?
                     int toMake = num / required;
-                    num = toMake * required;
-                    int tobeUsed = num;
+                    int tobeUsed = toMake * required;
+
+                    if (tobeUsed == num)
+                    {
+                        //we have an exact number of blocks so make one less
+                        toMake--;
+                        tobeUsed -= required;
+                    }
+
                     for (int i = 0; i < conts.length; i++)
                     {
-                        if (conts[i] != null && conts[i].getType() == type && (!conts[i].hasItemMeta() || !conts[i].getItemMeta().hasDisplayName())
-                                && (!convertDurability.containsKey(type) || conts[i].getDurability() == convertDurability.get(type)))
+                        if (conts[i] != null
+                            && conts[i].getType() == type
+                            && (!conts[i].hasItemMeta() || !conts[i].getItemMeta().hasDisplayName())
+                            && (!convertDurability.containsKey(type) || conts[i].getDurability() == convertDurability.get(type)))
                         {
+                            //remove the items we are putting into blocks
                             if (conts[i].getAmount() > tobeUsed) 
                             {
+                                //this stack has enough
                                 conts[i].setAmount(conts[i].getAmount() - tobeUsed);
                                 break;
                             } else {
+                                //we need more then this stack has so take it all and remove it from the player
                                 tobeUsed -= conts[i].getAmount();
                                 conts[i] = null;
                             }
                         }
                     }
-                    Inventory inv = Bukkit.createInventory(null, 36);
+
+                    //create an inventory to hold our items
+                    //Inventory inv = Bukkit.createInventory(null, 36);
+                    
+                    //make a stack of the blocks
                     ItemStack toAdd = new ItemStack(convertTo);
-                    inv.setStorageContents(conts);
+
+                    p.getInventory().setStorageContents(conts);
+
+                    //set the number of items to the max stack size of the item
                     toAdd.setAmount(type.getMaxStackSize());
+
                     while (toMake > convertTo.getMaxStackSize()) {
-                        AutoPickupPlugin.giveItem(p, inv, toAdd);
+                        AutoPickupPlugin.giveItem(p, p.getInventory(), toAdd);
                         toMake -= type.getMaxStackSize();
                     }
                     toAdd.setAmount(toMake);
-                    AutoPickupPlugin.giveItem(p, inv, toAdd);
-                    conts = inv.getStorageContents();
+                    AutoPickupPlugin.giveItem(p, p.getInventory(), toAdd);
+                    conts = p.getInventory().getStorageContents();
                 }
             }
-        }
+        } while (changed);
+
         if (totalChanged) return conts;
         return null;
     }
 
+    static boolean isSpaceAvailable(Player player, ItemStack item) {
+        //Exclude armor slots - ids 100, 101, 102, 103 - Normal Inventory is slots 0-35
+        boolean space = false;
+        for (int i = 0; i <= 35; i++) {
+            ItemStack slotItem = player.getInventory().getItem(i);
+            if (slotItem == null || ((slotItem.getType() == item.getType()) && item.getAmount() + slotItem.getAmount() <= slotItem.getMaxStackSize())) {
+                space = true;
+            }
+        }
+        return space;
+    }
+
+    //conversion data
     static {
         convertTo.put(Material.CLAY_BALL, Material.CLAY);
         convertNum.put(Material.CLAY_BALL, 4);
@@ -156,17 +200,5 @@ public class AutoBlock {
         convertNum.put(Material.EMERALD, 9);
         convertTo.put(Material.GOLD_INGOT, Material.GOLD_BLOCK);
         convertNum.put(Material.GOLD_INGOT, 9);
-    }
-
-    static boolean isSpaceAvailable(Player player, ItemStack item) {
-        //Exclude armor slots - ids 100, 101, 102, 103 - Normal Inventory is slots 0-35
-        boolean space = false;
-        for (int i = 0; i <= 35; i++) {
-            ItemStack slotItem = player.getInventory().getItem(i);
-            if (slotItem == null || ((slotItem.getType() == item.getType()) && item.getAmount() + slotItem.getAmount() <= slotItem.getMaxStackSize())) {
-                space = true;
-            }
-        }
-        return space;
     }
 }
