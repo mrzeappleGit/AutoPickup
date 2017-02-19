@@ -1,6 +1,5 @@
 package me.MnMaxon.AutoPickup;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.ChatColor;
@@ -83,132 +82,111 @@ public class AutoBlock {
         //TODO: work out what these are for
         boolean totalChanged = false;
 
-        //this is weird
-        boolean changed;
-
-        do
+        for (ItemStack is : conts)
         {
-            //say we havent chaged this
-            changed = false;
-            for (ItemStack is : conts)
+            if (is != null  //the item stack has an item
+                && convertTo.containsKey(is.getType())  //its something we make blocks from
+                && (forceType == null || forceType == is.getType())  //are we converting everything, or is this the specifit type we want to convert
+                && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName()) //something about the block metadata? check if the item has been renamed?
+                && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) //its the right version of the block to convert
             {
-                if (is != null  //the item stack has an item
-                    && convertTo.containsKey(is.getType())  //its something we make blocks from
-                    && (forceType == null || forceType == is.getType())  //are we converting everything, or is this the specifit type we want to convert
-                    && (!is.hasItemMeta() || !is.getItemMeta().hasDisplayName()) //something about the block metadata? check if the item has been renamed?
-                    && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) //its the right version of the block to convert
+                Material type = is.getType();
+                Material convertTo = AutoBlock.convertTo.get(type);
+                int num = 0;
+                int required = convertNum.get(type);
+                int space = 0;
+
+                //look through our inventory for items of this type and count how many we have
+                for (ItemStack numIS : conts)
                 {
-                    Material type = is.getType();
-                    Material convertTo = AutoBlock.convertTo.get(type);
-                    int num = 0;
-                    int required = convertNum.get(type);
-                    int space = 0;
-
-                    //look through our inventory for items of this type and count how many we have
-                    for (ItemStack numIS : conts)
+                    if (numIS != null 
+                        && numIS.getType() == type 
+                        && (!numIS.hasItemMeta() || !numIS.getItemMeta().hasDisplayName())
+                        && (!convertDurability.containsKey(type) || numIS.getDurability() == convertDurability.get(type)))
                     {
-                        if (numIS != null 
-                            && numIS.getType() == type 
-                            && (!numIS.hasItemMeta() || !numIS.getItemMeta().hasDisplayName())
-                            && (!convertDurability.containsKey(type) || numIS.getDurability() == convertDurability.get(type)))
-                        {
-                            num += numIS.getAmount();
-                        }
-
-                        if (numIS == null)
-                        {
-                            space += convertTo.getMaxStackSize();
-                        }
-
-                        if (numIS != null 
-                            && numIS.getType() == convertTo)
-                        {
-                            space += convertTo.getMaxStackSize() - numIS.getAmount();
-                        }
+                        num += numIS.getAmount();
                     }
 
-                    if (num <= required)
+                    if (numIS == null)
                     {
-                        //we dont have enough to make a block
-                        continue;
+                        space += convertTo.getMaxStackSize();
+                    } else if (numIS.getType().equals(convertTo))
+                    {
+                        space += convertTo.getMaxStackSize() - numIS.getAmount();
                     }
                     
-                    changed = true;
-                    totalChanged = true;
-                    
-                    //TODO: this should probably be a floor?
-                    int toMake = num / required;
-                    int tobeUsed = toMake * required;
-
-                    //leave one block worth of items in your inventory
-                    if (tobeUsed == num)
-                    {
-                        //we have an exact number of blocks so make one less
-                        toMake--;
-                        tobeUsed -= required;
-                    }
-
-                    for (ItemStack numIS : conts)
-                    {
-
-                    }
-
-                    if(space == 0)
-                    {
-                        //we cant make any blocks
-                        continue;
-                    }
-
-
-                    //make sure we dont make more then we can hold
-                    if(space < toMake)
-                    {
-                        tobeUsed = space * required;
-                        toMake = space;
-                    }
-
-
-                    //go backward through the inventory
-                    for (int i = conts.length - 1; i >0; i--)
-                    {
-                        if (conts[i] != null
-                            && conts[i].getType() == type
-                            && (!conts[i].hasItemMeta() || !conts[i].getItemMeta().hasDisplayName())
-                            && (!convertDurability.containsKey(type) || conts[i].getDurability() == convertDurability.get(type)))
-                        {
-                            //remove the items we are putting into blocks
-                            if (conts[i].getAmount() > tobeUsed) 
-                            {
-                                //this stack has enough
-                                conts[i].setAmount(conts[i].getAmount() - tobeUsed);
-                                break;
-                            } else {
-                                //we need more then this stack has so take it all and remove it from the player
-                                tobeUsed -= conts[i].getAmount();
-                                conts[i] = null;
-                            }
-                        }
-                    }
-
-                    //create an inventory to hold our items
-                
-                    p.getInventory().setStorageContents(conts);
-                    //set the number of items to the max stack size of the item
-
-                    //make a stack of the blocks
-                    ItemStack toAdd = new ItemStack(convertTo);
-                    toAdd.setAmount(type.getMaxStackSize());
-
-                    while (toMake > convertTo.getMaxStackSize()) {
-                        AutoPickupPlugin.giveItem(p, p.getInventory(), toAdd);
-                        toMake -= type.getMaxStackSize();
-                    }
-                    toAdd.setAmount(toMake);
-                    AutoPickupPlugin.giveItem(p, p.getInventory(), toAdd);
-                    conts = p.getInventory().getStorageContents();
                 }
+                
+                System.out.println("num: " + num + " space: " + space);
+                if (num < required || space == 0)
+                {
+                    System.out.println("not blocking" + is.getType());
+                    //we can't make a block
+                    continue;
+                }
+
+                totalChanged = true;
+                
+                int toMake = num / required;
+                int tobeUsed = toMake * required;
+
+                //leave one block worth of items in your inventory
+                if (tobeUsed == num)
+                {
+                    //we have an exact number of blocks so make one less
+                    toMake--;
+                    tobeUsed -= required;
+                }
+
+                //make sure we dont make more then we can hold
+                if(space < toMake)
+                {
+                    tobeUsed = space * required;
+                    toMake = space;
+                }
+
+                //go backward through the inventory
+                for (int i = conts.length - 1; i > 0; i--)
+                {
+                    if (conts[i] != null
+                        && conts[i].getType() == type
+                        && (!conts[i].hasItemMeta() || !conts[i].getItemMeta().hasDisplayName())
+                        && (!convertDurability.containsKey(type) || conts[i].getDurability() == convertDurability.get(type)))
+                    {
+                        //remove the items we are putting into blocks
+                        if (conts[i].getAmount() > tobeUsed) 
+                        {
+                            //this stack has enough
+                            conts[i].setAmount(conts[i].getAmount() - tobeUsed);
+                            break;
+                        } else {
+                            //we need more then this stack has so take it all and remove it from the player
+                            tobeUsed -= conts[i].getAmount();
+                            conts[i] = null;
+                        }
+                    }
+                }
+
+                p.getInventory().setStorageContents(conts);
+                p.updateInventory();
+
+                //create an inventory to hold our items
+                //set the number of items to the max stack size of the item
+
+                //make a stack of the blocks
+                ItemStack toAdd = new ItemStack(convertTo);
+                toAdd.setAmount(type.getMaxStackSize());
+
+                while (toMake > convertTo.getMaxStackSize()) {
+                    p.getInventory().addItem(toAdd);
+                    toMake -= type.getMaxStackSize();
+                }
+                toAdd.setAmount(toMake);
+                p.getInventory().addItem(toAdd);
+                p.updateInventory();
+                conts = p.getInventory().getStorageContents();
             }
-        } while (changed);
+        }
 
         if (totalChanged) return conts;
         return null;
