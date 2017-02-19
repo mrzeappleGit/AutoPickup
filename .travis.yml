@@ -1,24 +1,20 @@
 language: java
 jdk:
-  - oraclejdk8
-
-#cache dependencys so the ci builds are faster
+- oraclejdk8
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.m2
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.m2"
 deploy:
   provider: releases
   api_key:
-    secure: NaS/0mkOcJJWXb9a1ZCpo251a1wsvObeZGH7G4XpwAOu4nJ9nulPNsfY/cMTEuo3WYza3v3Ry3zZdmLeFk6vfaX4nAXW8clI+cfQnKNV6KguS538KocAHeCzLiYTo1lD8z5DybegsZncZVWaocYzvQz+V+dCVTFtztHBbTpY7dqR67sAGWaA1tv0U3gZT3Z5yC3SjXD0G565Fon9wIHnmLDwUD0Ne+/uCQHZ1P9suL3it93tEgdW071yGIqaPGSt4ClvuPFUUVqLK8XlxBL4uyzJN4bwMiDPirF+iurbXzJ8MEA71TjgVqxgtDiyqiB/Rquw2aWo0MdYuxazzirJPP9l7tUI/7xM7Niv8h4KR7mdnCpCxwzFo3f9gexQ6ukaGXc4bT40YorysuW1yjub7+iC0tRKLD/8hFSTdrTLJjZG57sN288eq7Kk2wW7041t+Jpw+0BXR1zUt8ccmtGrY+2yi9M48FYBk+wA0/qssjKy3qPproGmAgSen4BFCUz0rrgaorsUBbvHcyBYL8KeSsSYCn4ys0//FBghwj6CVdDOjNWmFeMqqrpZiUiQWd1SLvqtK6C4ncZ45ZVcnRZLcpJf4tDn9e1dcaJ85p1KeCUO4qqEY2fSgot2nuDAmEU1CIJK6wCLgTpDlz9tvhNW9ReNC0v0au9TxZtNgWf5ZzQ=
+    secure: V0I0o3R7ykyYwLT9h1wA4oWoV6+9PCSvsiK7NPBUNPAU1oYrXVLrgwwoVkFWsNtVuP+dyWBIeE9N2H6vKP8dAeK0XZncANN2djfalcbYbC3zQCPUQ+cOB2o8HFkYwMPRPtACVAbBQzuwrVtyuwoSRiaMuTltPgpuYtdzk84zGvOgCjjUd5CKCiHf53iGih+seFJN8nQ2ZP4e+zwA9Jc+UcaCZ7wtEK5ArjwZ2qknumLgbmzl1lKwceh089rpEpMMOe+pQsnZM5gxag0DPwOvR65v/bjNCMprbdeGuPSt1WJwQvcGTQvE/tH0W8XBYAoxlF4V8CNAcCdPj6r+tyn1anYeFGneOcAsLPYRjJbLkmNI9byLQkAS79ZEPE9QDyQBqVpqbgXK9JycvXiozI+jQPhmYmvd5BjmGtrDPsuVQJZpSehSiYSCqZayEFbx6wMBj4MNP3Y0oesw7Uly1hhFBk4hJ+G9PuL2GuGWZfXZWb6Fca4mIWuR0U8egQTD2dC7NN11kt0lXMu1d38qhzHz23UuSndgKURqeXfWmyZJ+RR80BDkF0tKhbVM9FyaJ9BeXjSuru32P9HVLTuu+SIw29/q4AN03DnU0kC7VaBOQmphtauKF+MtOegzhCBdLfkqukiyuYrzFzW/P8B/Nc3ifCbhxI4xDsq+wjPoR8ZY9AQ=
   file_glob: true
-  file: build/libs/AutoPickup*.jar
+  file: build/lib/AutoPickup*.java
   skip_cleanup: true
   on:
     tags: true
