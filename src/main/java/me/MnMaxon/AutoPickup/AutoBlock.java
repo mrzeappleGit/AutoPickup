@@ -54,14 +54,28 @@ public class AutoBlock {
         return remaining;
     }
 
-    public static void block(Player p) {
+
+    public static void block(Player p, boolean notify)
+    {
         ItemStack[] newConts = block(p, p.getInventory().getStorageContents(), null);
-        if (newConts == null) p.sendMessage(Message.ERROR0BLOCKED_INVENTORY + "");
-        else {
+        if (newConts == null)
+        {
+            if(notify)
+            {
+                p.sendMessage(Message.ERROR0BLOCKED_INVENTORY + "");
+            }
+        } else {
             p.getInventory().setStorageContents(newConts);
             p.updateInventory();
-            p.sendMessage(Message.SUCCESS0BLOCKED_INVENTORY + "");
+            if(notify)
+            {
+                p.sendMessage(Message.SUCCESS0BLOCKED_INVENTORY + "");
+            }
         }
+    }
+
+    public static void block(Player p) {
+        block(p, true);
     }
 
     private static ItemStack[] block(Player p, ItemStack[] conts, Material forceType) {

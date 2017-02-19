@@ -30,6 +30,41 @@ public class AutoSmelt {
         return new AutoResult(is, is, false);
     }
 
+
+    public static void smelt(Player p, boolean notify)
+    {
+        if (p == null || !p.isValid())
+        {
+            return;
+        }
+
+        boolean changed = false;
+        ItemStack[] cont = p.getInventory().getContents();
+        for (int i = 0; i < cont.length; i++) 
+        {
+            AutoResult result = smelt(cont[i]);
+            if (result.isChanged()) {
+                changed = true;
+                cont[i] = result.getNewItem();
+            }
+        }
+
+        if (changed) {
+            p.getInventory().setContents(cont);
+            p.updateInventory();
+            if(notify)
+            {
+                p.sendMessage(Message.SUCCESS0SMELTED_INVENTORY + "");
+            }
+        } else 
+        {
+            if(notify)
+            {
+                p.sendMessage(Message.ERROR0SMELTED_INVENTORY + "");
+            }
+        }
+    }
+
     public static void smelt(Player p) {
         if (p == null || !p.isValid()) return;
         boolean changed = false;
