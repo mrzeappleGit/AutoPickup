@@ -99,8 +99,10 @@ public class AutoBlock {
                     && (!convertDurability.containsKey(is.getType()) || is.getDurability() == convertDurability.get(is.getType()))) //its the right version of the block to convert
                 {
                     Material type = is.getType();
+                    Material convertTo = AutoBlock.convertTo.get(type);
                     int num = 0;
                     int required = convertNum.get(type);
+                    int space = 0;
 
                     //look through our inventory for items of this type and count how many we have
                     for (ItemStack numIS : conts)
@@ -112,6 +114,17 @@ public class AutoBlock {
                         {
                             num += numIS.getAmount();
                         }
+
+                        if (numIS == null)
+                        {
+                            space += convertTo.getMaxStackSize();
+                        }
+
+                        if (numIS != null 
+                            && numIS.getType() == convertTo)
+                        {
+                            space += convertTo.getMaxStackSize() - numIS.getAmount();
+                        }
                     }
 
                     if (num <= required)
@@ -120,7 +133,6 @@ public class AutoBlock {
                         continue;
                     }
                     
-                    Material convertTo = AutoBlock.convertTo.get(type);
                     changed = true;
                     totalChanged = true;
                     
@@ -128,12 +140,33 @@ public class AutoBlock {
                     int toMake = num / required;
                     int tobeUsed = toMake * required;
 
+                    //leave one block worth of items in your inventory
                     if (tobeUsed == num)
                     {
                         //we have an exact number of blocks so make one less
                         toMake--;
                         tobeUsed -= required;
                     }
+
+                    for (ItemStack numIS : conts)
+                    {
+
+                    }
+
+                    if(space == 0)
+                    {
+                        //we cant make any blocks
+                        continue;
+                    }
+
+
+                    //make sure we dont make more then we can hold
+                    if(space < toMake)
+                    {
+                        tobeUsed = space * required;
+                        toMake = space;
+                    }
+
 
                     //go backward through the inventory
                     for (int i = conts.length - 1; i >0; i--)

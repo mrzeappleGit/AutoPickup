@@ -45,13 +45,14 @@ public class AutoSmelt {
             AutoResult result = smelt(cont[i]);
             if (result.isChanged()) {
                 changed = true;
-                cont[i] = result.getNewItem();
+                p.getInventory().removeItem(cont[i]);
+                p.getInventory().addItem(result.getNewItem());
+                p.updateInventory();
             }
         }
 
-        if (changed) {
-            p.getInventory().setContents(cont);
-            p.updateInventory();
+        if (changed) 
+        {
             if(notify)
             {
                 p.sendMessage(Message.SUCCESS0SMELTED_INVENTORY + "");
