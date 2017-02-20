@@ -117,10 +117,8 @@ public class AutoBlock {
                     
                 }
                 
-                //System.out.println("num: " + num + " space: " + space);
                 if (num < required || space == 0)
                 {
-                    //System.out.println("not blocking" + is.getType());
                     //we can't make a block
                     continue;
                 }
@@ -146,7 +144,7 @@ public class AutoBlock {
                 }
 
                 //go backward through the inventory
-                for (int i = conts.length - 1; i > 0; i--)
+                for (int i = conts.length - 1; i >= 0; i--)
                 {
                     if (conts[i] != null
                         && conts[i].getType() == type
@@ -168,8 +166,7 @@ public class AutoBlock {
                 }
 
                 p.getInventory().setStorageContents(conts);
-                p.updateInventory();
-
+                //p.updateInventory();
                 //create an inventory to hold our items
                 //set the number of items to the max stack size of the item
 
@@ -181,6 +178,7 @@ public class AutoBlock {
                     p.getInventory().addItem(toAdd);
                     toMake -= type.getMaxStackSize();
                 }
+
                 toAdd.setAmount(toMake);
                 p.getInventory().addItem(toAdd);
                 p.updateInventory();
