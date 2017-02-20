@@ -14,7 +14,7 @@ deploy:
   api_key:
     secure: V0I0o3R7ykyYwLT9h1wA4oWoV6+9PCSvsiK7NPBUNPAU1oYrXVLrgwwoVkFWsNtVuP+dyWBIeE9N2H6vKP8dAeK0XZncANN2djfalcbYbC3zQCPUQ+cOB2o8HFkYwMPRPtACVAbBQzuwrVtyuwoSRiaMuTltPgpuYtdzk84zGvOgCjjUd5CKCiHf53iGih+seFJN8nQ2ZP4e+zwA9Jc+UcaCZ7wtEK5ArjwZ2qknumLgbmzl1lKwceh089rpEpMMOe+pQsnZM5gxag0DPwOvR65v/bjNCMprbdeGuPSt1WJwQvcGTQvE/tH0W8XBYAoxlF4V8CNAcCdPj6r+tyn1anYeFGneOcAsLPYRjJbLkmNI9byLQkAS79ZEPE9QDyQBqVpqbgXK9JycvXiozI+jQPhmYmvd5BjmGtrDPsuVQJZpSehSiYSCqZayEFbx6wMBj4MNP3Y0oesw7Uly1hhFBk4hJ+G9PuL2GuGWZfXZWb6Fca4mIWuR0U8egQTD2dC7NN11kt0lXMu1d38qhzHz23UuSndgKURqeXfWmyZJ+RR80BDkF0tKhbVM9FyaJ9BeXjSuru32P9HVLTuu+SIw29/q4AN03DnU0kC7VaBOQmphtauKF+MtOegzhCBdLfkqukiyuYrzFzW/P8B/Nc3ifCbhxI4xDsq+wjPoR8ZY9AQ=
   file_glob: true
-  file: build/libs/AutoPickup*.java
+  file: build/libs/AutoPickup*.jar
   skip_cleanup: true
   on:
     tags: true
