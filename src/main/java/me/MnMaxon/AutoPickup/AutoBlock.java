@@ -117,10 +117,10 @@ public class AutoBlock {
                     
                 }
                 
-                System.out.println("num: " + num + " space: " + space);
+                //System.out.println("num: " + num + " space: " + space);
                 if (num < required || space == 0)
                 {
-                    System.out.println("not blocking" + is.getType());
+                    //System.out.println("not blocking" + is.getType());
                     //we can't make a block
                     continue;
                 }
