@@ -18,3 +18,7 @@ commands:
   AutoSell:
     description: Enables autoselling with QuickSell
     usage: /autosell help
+  FullNotify:
+    aliases: [fn]
+    description: Enables inventory full notifications
+    usage: /fullnotify help

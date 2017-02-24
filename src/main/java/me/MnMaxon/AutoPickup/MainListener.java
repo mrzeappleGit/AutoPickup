@@ -57,36 +57,43 @@ public class MainListener implements Listener {
     public void onInvClick(InventoryClickEvent e) {
         try {
             e.getCurrentItem().getData().getItemType();
-            if (e.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup")) {
+            if (e.getInventory().getName().equals(ChatColor.BLUE + "Auto Pickup")) {
                 e.setCancelled(true);
                 Player p = (Player) e.getWhoClicked();
                 String name = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().toLowerCase());
-                if (name.contains("autopickup")) {
+                if (name.contains("auto pickup")) {
                     if (p.hasPermission("AutoPickup.Toggle")) {
                         if (AutoPickupPlugin.autoPickup.contains(p.getName()))
                             AutoPickupPlugin.autoPickup.remove(p.getName());
                         else AutoPickupPlugin.autoPickup.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
-                } else if (name.contains("autosmelt")) {
+                } else if (name.contains("auto smelt")) {
                     if (p.hasPermission("AutoSmelt.Toggle")) {
                         if (AutoPickupPlugin.autoSmelt.contains(p.getName()))
                             AutoPickupPlugin.autoSmelt.remove(p.getName());
                         else AutoPickupPlugin.autoSmelt.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
-                } else if (name.contains("autoblock")) {
+                } else if (name.contains("auto block")) {
                     if (p.hasPermission("AutoBlock.Toggle")) {
                         if (AutoPickupPlugin.autoBlock.contains(p.getName()))
                             AutoPickupPlugin.autoBlock.remove(p.getName());
                         else AutoPickupPlugin.autoBlock.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
-                } else if (name.contains("autosell")) {
+                } else if (name.contains("auto sell")) {
                     if (p.hasPermission("AutoSell.Toggle")) {
                         if (AutoPickupPlugin.autoSell.contains(p.getName()))
                             AutoPickupPlugin.autoSell.remove(p.getName());
                         else AutoPickupPlugin.autoSell.add(p.getName());
+                        AutoPickupPlugin.openGui(p);
+                    }
+                } else if (name.contains("full notify")) {
+                    if (p.hasPermission("FullNotify.Toggle")) {
+                        if (AutoPickupPlugin.fullNotify.contains(p.getName()))
+                            AutoPickupPlugin.fullNotify.remove(p.getName());
+                        else AutoPickupPlugin.fullNotify.add(p.getName());
                         AutoPickupPlugin.openGui(p);
                     }
                 } else if (!name.contains("auto"))
@@ -103,6 +110,7 @@ public class MainListener implements Listener {
         if (e.getPlayer().hasPermission("AutoPickup.enabled")) AutoPickupPlugin.autoPickup.add(e.getPlayer().getName());
         if (e.getPlayer().hasPermission("AutoBlock.enabled")) AutoPickupPlugin.autoBlock.add(e.getPlayer().getName());
         if (e.getPlayer().hasPermission("AutoSmelt.enabled")) AutoPickupPlugin.autoSmelt.add(e.getPlayer().getName());
+        if (e.getPlayer().hasPermission("FullNotify.enabled")) AutoPickupPlugin.fullNotify.add(e.getPlayer().getName());
         if (e.getPlayer().hasPermission("AutoSell.enabled") && AutoPickupPlugin.usingQuickSell)
             AutoPickupPlugin.autoSell.add(e.getPlayer().getName());
         fixPicks(e.getPlayer());
@@ -141,7 +149,7 @@ public class MainListener implements Listener {
         AutoPickupPlugin.autoBlock.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoSmelt.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoSell.remove(e.getPlayer().getName());
-        AutoPickupPlugin.warnCooldown.remove(e.getPlayer().getName());
+        AutoPickupPlugin.fullNotify.remove(e.getPlayer().getName());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

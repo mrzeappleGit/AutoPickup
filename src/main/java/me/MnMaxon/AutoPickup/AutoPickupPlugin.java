@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,11 +20,10 @@ import java.util.*;
 public final class AutoPickupPlugin extends JavaPlugin {
     public static String dataFolder;
     public static AutoPickupPlugin plugin;
-    public static boolean infinityPick = false, deleteOnFull = true, warnOnFull = false, autoBlockXp = true, autoMob = true, autoMobXP = true, extraInfo = false,
+    public static boolean infinityPick = false, deleteOnFull = true, autoBlockXp = true, autoMob = true, autoMobXP = true, extraInfo = false,
             usingQuickSell = false, smeltFortune = false, usingCompat = false, usingAutoSell = false, usingStackableItems = false, usingPrisonGems = false;
     public static SuperYaml MainConfig, MessageConfig, SmeltConfig, WorldConfig, FortuneConfig, FortuneData = null;
-    public static List<String> autoSmelt = new ArrayList<>(), autoPickup = new ArrayList<>(), autoBlock = new ArrayList<>(), autoSell = new ArrayList<>();
-    public static HashMap<String, Long> warnCooldown = new HashMap<>();
+    public static List<String> autoSmelt = new ArrayList<>(), autoPickup = new ArrayList<>(), autoBlock = new ArrayList<>(), autoSell = new ArrayList<>(), fullNotify = new ArrayList<>();
     public static HashMap<Material, Short> smeltBlacklist = new HashMap<>();
     private static List<String> blockedWorlds = new ArrayList<>();
     public static List<Material> fortuneList = new ArrayList<>();
@@ -45,7 +46,6 @@ public final class AutoPickupPlugin extends JavaPlugin {
         defaults.put("Infinity Pick", false);
         defaults.put("Gui.Contact Info", true);
         defaults.put("Full Inventory.Delete Item", true);
-        defaults.put("Full Inventory.Warn", true);
         defaults.put("AutoSmelt Compat Mode", true);
         defaults.put("AutoBlock Quartz", true);
         defaults.put("Mob.AutoPickup", true);
@@ -143,7 +143,6 @@ public final class AutoPickupPlugin extends JavaPlugin {
         }
         infinityPick = MainConfig.getBoolean("Infinity Pick");
         deleteOnFull = MainConfig.getBoolean("Full Inventory.Delete Item");
-        warnOnFull = MainConfig.getBoolean("Full Inventory.Warn");
         autoMob = MainConfig.getBoolean("Mob.AutoPickup");
         autoBlockXp = MainConfig.getBoolean("Block AutoXP");
         autoMobXP = MainConfig.getBoolean("Mob.AutoXP");
@@ -297,6 +296,20 @@ public final class AutoPickupPlugin extends JavaPlugin {
                     }
                 else displayHelp(p);
                 break;
+            case ("FullNotify"):
+                if (!p.hasPermission("FullNotify.command")) p.sendMessage(Message.ERROR0NO_PERM + "");
+                else if (args.length == 0) p.sendMessage(ChatColor.RED + "Use like: /FullNotify toggle");
+                else if (args.length == 1 && args[0].equalsIgnoreCase("toggle"))
+                    if (!p.hasPermission("FullNotify.toggle")) p.sendMessage(Message.ERROR0NO_PERM + "");
+                    else if (fullNotify.contains(p.getName())) {
+                        fullNotify.remove(p.getName());
+                        p.sendMessage(Message.SUCCESS0TOGGLE0NOTIFY_OFF + "");
+                    } else {
+                        fullNotify.add(p.getName());
+                        p.sendMessage(Message.SUCCESS0TOGGLE0NOTIFY_ON + "");
+                    }
+                else displayHelp(p);
+                break;
         }
         return true;
     }
@@ -307,31 +320,41 @@ public final class AutoPickupPlugin extends JavaPlugin {
             return;
         }
         int size = 18;
-        Inventory newInv = Bukkit.createInventory(null, size, ChatColor.BLUE + "AutoPickup");
+        Inventory newInv = Bukkit.createInventory(null, size, ChatColor.BLUE + "Auto Pickup");
         // AP|AB|AS|A$|  |  |  |AS|AB
         // TO|TO|TO|TO|  |  |  |HE|SU
         ItemStack[] conts = newInv.getContents();
-        conts[0] = easyItem(ChatColor.GREEN + "AutoPickup", Material.HOPPER, 1, 0, ChatColor.GRAY + "Sends mined blocks", ChatColor.GRAY + "straight to your inventory");
-        conts[1] = easyItem(ChatColor.GREEN + "AutoBlock", Material.IRON_BLOCK, 1, 0, ChatColor.GRAY + "Turns ingots into blocks");
-        conts[2] = easyItem(ChatColor.GREEN + "AutoSmelt", Material.FURNACE, 1, 0, ChatColor.GRAY + "Smelts all mined ores");
-        if (usingQuickSell)
-            conts[3] = easyItem(ChatColor.GREEN + "AutoSell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks");
+        conts[0] = easyItem(ChatColor.GREEN + "Auto Pickup", Material.HOPPER, 1, 0, ChatColor.GRAY + "Sends mined blocks", ChatColor.GRAY + "straight to your inventory");
+        conts[1] = easyItem(ChatColor.GREEN + "Auto Block", Material.IRON_BLOCK, 1, 0, ChatColor.GRAY + "Turns ingots into blocks");
+        conts[2] = easyItem(ChatColor.GREEN + "Auto Smelt", Material.FURNACE, 1, 0, ChatColor.GRAY + "Smelts all mined ores");
+        if (usingQuickSell) {
+            conts[3] = easyItem(ChatColor.GREEN + "Auto Sell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks");
+            conts[4] = easyItem(ChatColor.GREEN + "Full Notify", Material.NOTE_BLOCK, 1, 0, ChatColor.GRAY + "Notifies you on full inventory");
+        } else {
+            conts[3] = easyItem(ChatColor.GREEN + "Full Notify", Material.NOTE_BLOCK, 1, 0, ChatColor.GRAY + "Notifies you on full inventory");
+        }
 
-        String autoPickupName = (autoPickup.contains(p.getName())) ? ChatColor.GREEN + "AutoPickup ENABLED" : ChatColor.RED + "AutoPickup DISABLED";
-        String autoBlockName = (autoBlock.contains(p.getName())) ? ChatColor.GREEN + "AutoBlock ENABLED" : ChatColor.RED + "AutoBlock DISABLED";
-        String autoSmeltName = (autoSmelt.contains(p.getName())) ? ChatColor.GREEN + "AutoSmelt ENABLED" : ChatColor.RED + "AutoSmelt DISABLED";
-        String autoSellName = (autoSell.contains(p.getName())) ? ChatColor.GREEN + "AutoSell ENABLED" : ChatColor.RED + "AutoSell DISABLED";
+        String autoPickupName = (autoPickup.contains(p.getName())) ? ChatColor.GREEN + "Auto Pickup ENABLED" : ChatColor.RED + "Auto Pickup DISABLED";
+        String autoBlockName = (autoBlock.contains(p.getName())) ? ChatColor.GREEN + "Auto Block ENABLED" : ChatColor.RED + "Auto Block DISABLED";
+        String autoSmeltName = (autoSmelt.contains(p.getName())) ? ChatColor.GREEN + "Auto Smelt ENABLED" : ChatColor.RED + "Auto Smelt DISABLED";
+        String autoSellName = (autoSell.contains(p.getName())) ? ChatColor.GREEN + "Auto Sell ENABLED" : ChatColor.RED + "Auto Sell DISABLED";
+        String fullNotifyName = (fullNotify.contains(p.getName())) ? ChatColor.GREEN + "Full Notify ENABLED" : ChatColor.RED + "Full Notify DISABLED";
 
         int apDur = (autoPickup.contains(p.getName())) ? 10 : 8;
         int abDur = (autoBlock.contains(p.getName())) ? 10 : 8;
         int asDur = (autoSmelt.contains(p.getName())) ? 10 : 8;
         int aSellDur = (autoSell.contains(p.getName())) ? 10 : 8;
+        int fullNotifyDur = (fullNotify.contains(p.getName())) ? 10 : 8;
 
         conts[9] = (p.hasPermission("AutoPickup.Toggle")) ? easyItem(autoPickupName, Material.INK_SACK, 1, apDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoPickupName, Material.INK_SACK, 1, apDur);
         conts[10] = (p.hasPermission("AutoBlock.Toggle")) ? easyItem(autoBlockName, Material.INK_SACK, 1, abDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoBlockName, Material.INK_SACK, 1, abDur);
         conts[11] = (p.hasPermission("AutoSmelt.Toggle")) ? easyItem(autoSmeltName, Material.INK_SACK, 1, asDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoSmeltName, Material.INK_SACK, 1, asDur);
-        if (usingQuickSell)
+        if (usingQuickSell) {
             conts[12] = (p.hasPermission("AutoSell.Toggle")) ? easyItem(autoSellName, Material.INK_SACK, 1, aSellDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoSellName, Material.INK_SACK, 1, aSellDur);
+            conts[13] = (p.hasPermission("FullNotify.Toggle")) ? easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle") : easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur);
+        } else {
+            conts[12] = (p.hasPermission("FullNotify.Toggle")) ? easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle") : easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur);
+        }
 
         ItemStack locked = easyItem(ChatColor.RED + "LOCKED", Material.STAINED_GLASS_PANE, 1, 14);
         ItemStack empty = easyItem(null, Material.STAINED_GLASS_PANE, 1, 7);
@@ -342,7 +365,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
         conts[17] = easyItem(ChatColor.RED + "Close", Material.ARROW, 1, 0);
         for (int i = 0; i < conts.length; i++) if (conts[i] == null) conts[i] = empty;
 
-        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup")) {
+        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "Auto Pickup")) {
             p.getInventory().setContents(conts);
             p.updateInventory();
         } else {
@@ -393,15 +416,26 @@ public final class AutoPickupPlugin extends JavaPlugin {
     }
 
     public static void warn(Player p) {
-        if (warnOnFull && p != null && p.isValid() && (!warnCooldown.containsKey(p.getName()) || warnCooldown.get(p.getName()) < Calendar.getInstance().getTimeInMillis())) {
-            p.sendMessage(Message.ERROR0FULL_INVENTORY + "");
-            warnCooldown.put(p.getName(), 5000 + Calendar.getInstance().getTimeInMillis());
+        if (p != null && p.isValid() && fullNotify.contains(p.getName())) {
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            p.sendTitle(Message.ERROR0FULL_INVENTORY.toString(), ChatColor.GOLD + "/autopickup to disable", 1, 15, 5);
+        } else {
+            System.out.println("didnt notify");
         }
     }
 
     public static HashMap<Integer, ItemStack> giveItem(Player p, Inventory inv, ItemStack is) {
         if (is == null) return new HashMap<>();
-        if (!usingStackableItems || p == null) return inv.addItem(is);
+        if (!usingStackableItems || p == null) {
+            HashMap<Integer, ItemStack> remaining = inv.addItem(is);
+
+            if (remaining.size() > 0 && fullNotify.contains(p.getName())) {
+                warn(p);
+            }
+
+            return remaining;
+        }
+
         ItemStack toSend = is.clone();
         ItemStack remaining = null;
         int freeSpaces = InventoryUtil.getPlayerFreeSpaces(p, toSend);
