@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,10 +18,12 @@ import java.util.*;
 public final class AutoPickupPlugin extends JavaPlugin {
     public static String dataFolder;
     public static AutoPickupPlugin plugin;
-    public static boolean infinityPick = false, deleteOnFull = true, autoBlockXp = true, autoMob = true, autoMobXP = true, extraInfo = false,
+    public static boolean infinityPick = false, deleteOnFull = true, warnOnFull = false, autoBlockXp = true, autoMob = true, autoMobXP = true, extraInfo = false,
             usingQuickSell = false, smeltFortune = false, usingCompat = false, usingAutoSell = false, usingStackableItems = false, usingPrisonGems = false;
     public static SuperYaml MainConfig, MessageConfig, SmeltConfig, WorldConfig, FortuneConfig, FortuneData = null;
-    public static List<String> autoSmelt = new ArrayList<>(), autoPickup = new ArrayList<>(), autoBlock = new ArrayList<>(), autoSell = new ArrayList<>(), fullNotify = new ArrayList<>();
+    public static List<String> autoSmelt = new ArrayList<>(), autoPickup = new ArrayList<>(), autoBlock = new ArrayList<>(), autoSell = new ArrayList<>();
+    public static List<String> fullNotify = new ArrayList<>();
+    public static HashMap<String, Long> warnCooldown = new HashMap<>();
     public static HashMap<Material, Short> smeltBlacklist = new HashMap<>();
     private static List<String> blockedWorlds = new ArrayList<>();
     public static List<Material> fortuneList = new ArrayList<>();
@@ -31,123 +31,9 @@ public final class AutoPickupPlugin extends JavaPlugin {
     public static Boolean allowBlockGui;
     public static Boolean autoChest;
 
-
+    @Deprecated
     public static void reloadConfigs() {
-        MainConfig = new SuperYaml(dataFolder + "/Config.yml");
-        MessageConfig = new SuperYaml(dataFolder + "/Messages.yml");
-        SmeltConfig = new SuperYaml(dataFolder + "/Smelt Blacklist.yml");
-        WorldConfig = new SuperYaml(dataFolder + "/World Blacklist.yml");
-        FortuneConfig = new SuperYaml(dataFolder + "/Advanced Fortune.yml");
-        if (FortuneData != null) FortuneData.save();
-        FortuneData = null;
-        Message.setup();
-
-        HashMap<String, Object> defaults = new HashMap<>();
-        defaults.put("Infinity Pick", false);
-        defaults.put("Gui.Contact Info", true);
-        defaults.put("Full Inventory.Delete Item", true);
-        defaults.put("AutoSmelt Compat Mode", true);
-        defaults.put("AutoBlock Quartz", true);
-        defaults.put("Mob.AutoPickup", true);
-        defaults.put("Mob.AutoXP", true);
-        defaults.put("Block AutoXP", true);
-        defaults.put("Allow BlockGui Permission", false);
-        defaults.put("Auto Chest", true);
-        for (Map.Entry<String, Object> entry : defaults.entrySet())
-            if (MainConfig.get(entry.getKey()) == null) {
-                MainConfig.set(entry.getKey(), entry.getValue());
-                MainConfig.save();
-            }
-
-        if (SmeltConfig.get("Enable Blacklist") == null) {
-            SmeltConfig.set("Enable Blacklist", true);
-            SmeltConfig.save();
-        }
-        if (FortuneConfig.get("Info") == null) {
-            FortuneConfig.set("Info", Arrays.asList("Smelt Fortune means if you have autosmelt on, when you mine something like an iron ore, fortune effects will work on it, meaning you would get more iron ingots if you had fortune",
-                    "Fortune all allows to add make fortune work on anything.  For example, you could mine a gold ore with a fortune pick, and get few gold ores as the result.",
-                    "To prevent ore duping, this plugin will need to keep a list of placed blocks.  This will require some more RAM and hard drive space (This should only require a few MB)",
-                    "The Fortune All Whitelist allows you to determine which blocks are affected by fortune, so you don't get billions of stacks of cobble",
-                    "NOTE: The Fortune All Whitelist does not replace the default vanilla fortune whitelist, it just adds to it"));
-            FortuneConfig.save();
-        }
-        if (FortuneConfig.get("Smelt Fortune") == null) {
-            FortuneConfig.set("Smelt Fortune", true);
-            FortuneConfig.save();
-        }
-        if (FortuneConfig.get("Fortune All") == null) {
-            FortuneConfig.set("Fortune All", false);
-            FortuneConfig.save();
-        }
-        if (FortuneConfig.get("Fortune All Whitelist") == null) {
-            FortuneConfig.set("Fortune All Whitelist", Arrays.asList("GOLD_ORE", "IRON_ORE", "DIAMOND_ORE", "LAPIS_ORE", "QUARTZ_ORE", "MYCEL"));
-            FortuneConfig.save();
-        }
-        if (SmeltConfig.get("Blacklist") == null) {
-            SmeltConfig.set("Blacklist", Arrays.asList("1", "Coal:1"));
-            SmeltConfig.save();
-        }
-        if (WorldConfig.get("Enable Blacklist") == null) {
-            WorldConfig.set("Enable Blacklist", true);
-            WorldConfig.save();
-        }
-        if (WorldConfig.get("Blacklist") == null) {
-            WorldConfig.set("Blacklist", Arrays.asList("ExampleWorld", "2nd_Example"));
-            WorldConfig.save();
-        }
-        if (MainConfig.getBoolean("AutoBlock Quartz")) {
-            AutoBlock.convertTo.put(Material.QUARTZ, Material.QUARTZ_BLOCK);
-            AutoBlock.convertNum.put(Material.QUARTZ, 4);
-        } else {
-            AutoBlock.convertTo.remove(Material.QUARTZ);
-            AutoBlock.convertNum.remove(Material.QUARTZ);
-        }
-        if (MainConfig.getBoolean("AutoSmelt Compat Mode")) smeltList.clear();
-        else smeltList = Arrays.asList("SMOOTH_BRICK", "RAW_FISH", "REDSTONE_ORE", "POTATO_ITEM",
-                "RAW_CHICKEN", "SPONGE", "DIAMOND_ORE", "LOG", "CACTUS", "RAW_FISH", "LAPIS_ORE", "SAND", "IRON_ORE",
-                "MUTTON", "QUARTZ_ORE", "COAL_ORE", "GOLD_ORE", "NETHERRACK", "LOG_2", "RAW_BEEF", "CLAY_BALL",
-                "COBBLESTONE", "EMERALD_ORE", "RABBIT", "CLAY", "PORK");
-        smeltFortune = FortuneConfig.getBoolean("Smelt Fortune");
-        fortuneList.clear();
-        if (FortuneConfig.getBoolean("Fortune All")) {
-            FortuneData = new SuperYaml(dataFolder + "/Fortune Data");
-            for (Object o : FortuneConfig.config.getList("Fortune All Whitelist"))
-                if (o != null) {
-                    Material material = Material.matchMaterial(o.toString());
-                    if (material == null)
-                        Bukkit.getLogger().severe(o.toString() + "Is not a valid block name in: Advanced Fortune.yml");
-                    else fortuneList.add(material);
-                }
-        }
-        extraInfo = MainConfig.getBoolean("Gui.Contact Info");
-        blockedWorlds.clear();
-        if (WorldConfig.getBoolean("Enable Blacklist")) for (Object raw : WorldConfig.config.getList("Blacklist"))
-            if (raw instanceof String) blockedWorlds.add((String) raw);
-        smeltBlacklist.clear();
-        if (SmeltConfig.getBoolean("Enable Blacklist")) for (Object raw : SmeltConfig.config.getList("Blacklist")) {
-            if (!(raw instanceof String)) continue;
-            String[] split = ((String) raw).split(":");
-            Material mat = Material.matchMaterial(split[0]);
-            if (mat == null) {
-                Bukkit.getLogger().severe(ChatColor.RED + "[AutoPickup] The blacklist item: '" + split[0] + "' could not be found");
-                continue;
-            }
-            short data = -1;
-            if (split.length > 1) try {
-                data = Short.valueOf(split[1].replace(" ", ""));
-            } catch (NumberFormatException ex) {
-                Bukkit.getLogger().severe(ChatColor.RED + "[AutoPickup] The blacklist item: '" + raw + "' does not have a valid data number");
-                data = -1;
-            }
-            smeltBlacklist.put(mat, data);
-        }
-        infinityPick = MainConfig.getBoolean("Infinity Pick");
-        deleteOnFull = MainConfig.getBoolean("Full Inventory.Delete Item");
-        autoMob = MainConfig.getBoolean("Mob.AutoPickup");
-        autoBlockXp = MainConfig.getBoolean("Block AutoXP");
-        autoMobXP = MainConfig.getBoolean("Mob.AutoXP");
-        autoChest = MainConfig.getBoolean("AutoChest");
-        allowBlockGui = MainConfig.getBoolean("Allow BlockGui Permission");
+        Config.reloadConfigs();
     }
 
     public static ItemStack easyItem(String name, Material material, int amount, int durability, String... lore) {
@@ -176,7 +62,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         dataFolder = this.getDataFolder().getAbsolutePath();
-        reloadConfigs();
+        Config.reloadConfigs();
         getServer().getPluginManager().registerEvents(new MainListener(), this);
         getServer().getPluginManager().registerEvents(new MythicMobListener(), this);
         ArrayList<String> plugins = new ArrayList<>();
@@ -226,7 +112,6 @@ public final class AutoPickupPlugin extends JavaPlugin {
         }
     }
 
-    @SuppressWarnings("Contract")
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length > 0 && (args[0].equalsIgnoreCase("rl") || args[0].equalsIgnoreCase("reload"))) {
             reloadCommand(sender);
@@ -296,20 +181,6 @@ public final class AutoPickupPlugin extends JavaPlugin {
                     }
                 else displayHelp(p);
                 break;
-            case ("FullNotify"):
-                if (!p.hasPermission("FullNotify.command")) p.sendMessage(Message.ERROR0NO_PERM + "");
-                else if (args.length == 0) p.sendMessage(ChatColor.RED + "Use like: /FullNotify toggle");
-                else if (args.length == 1 && args[0].equalsIgnoreCase("toggle"))
-                    if (!p.hasPermission("FullNotify.toggle")) p.sendMessage(Message.ERROR0NO_PERM + "");
-                    else if (fullNotify.contains(p.getName())) {
-                        fullNotify.remove(p.getName());
-                        p.sendMessage(Message.SUCCESS0TOGGLE0NOTIFY_OFF + "");
-                    } else {
-                        fullNotify.add(p.getName());
-                        p.sendMessage(Message.SUCCESS0TOGGLE0NOTIFY_ON + "");
-                    }
-                else displayHelp(p);
-                break;
         }
         return true;
     }
@@ -320,41 +191,31 @@ public final class AutoPickupPlugin extends JavaPlugin {
             return;
         }
         int size = 18;
-        Inventory newInv = Bukkit.createInventory(null, size, ChatColor.BLUE + "Auto Pickup");
+        Inventory newInv = Bukkit.createInventory(null, size, ChatColor.BLUE + "AutoPickup");
         // AP|AB|AS|A$|  |  |  |AS|AB
         // TO|TO|TO|TO|  |  |  |HE|SU
         ItemStack[] conts = newInv.getContents();
-        conts[0] = easyItem(ChatColor.GREEN + "Auto Pickup", Material.HOPPER, 1, 0, ChatColor.GRAY + "Sends mined blocks", ChatColor.GRAY + "straight to your inventory");
-        conts[1] = easyItem(ChatColor.GREEN + "Auto Block", Material.IRON_BLOCK, 1, 0, ChatColor.GRAY + "Turns ingots into blocks");
-        conts[2] = easyItem(ChatColor.GREEN + "Auto Smelt", Material.FURNACE, 1, 0, ChatColor.GRAY + "Smelts all mined ores");
-        if (usingQuickSell) {
-            conts[3] = easyItem(ChatColor.GREEN + "Auto Sell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks");
-            conts[4] = easyItem(ChatColor.GREEN + "Full Notify", Material.NOTE_BLOCK, 1, 0, ChatColor.GRAY + "Notifies you on full inventory");
-        } else {
-            conts[3] = easyItem(ChatColor.GREEN + "Full Notify", Material.NOTE_BLOCK, 1, 0, ChatColor.GRAY + "Notifies you on full inventory");
-        }
+        conts[0] = easyItem(ChatColor.GREEN + "AutoPickup", Material.HOPPER, 1, 0, ChatColor.GRAY + "Sends mined blocks", ChatColor.GRAY + "straight to your inventory");
+        conts[1] = easyItem(ChatColor.GREEN + "AutoBlock", Material.IRON_BLOCK, 1, 0, ChatColor.GRAY + "Turns ingots into blocks");
+        conts[2] = easyItem(ChatColor.GREEN + "AutoSmelt", Material.FURNACE, 1, 0, ChatColor.GRAY + "Smelts all mined ores");
+        if (usingQuickSell)
+            conts[3] = easyItem(ChatColor.GREEN + "AutoSell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks");
 
-        String autoPickupName = (autoPickup.contains(p.getName())) ? ChatColor.GREEN + "Auto Pickup ENABLED" : ChatColor.RED + "Auto Pickup DISABLED";
-        String autoBlockName = (autoBlock.contains(p.getName())) ? ChatColor.GREEN + "Auto Block ENABLED" : ChatColor.RED + "Auto Block DISABLED";
-        String autoSmeltName = (autoSmelt.contains(p.getName())) ? ChatColor.GREEN + "Auto Smelt ENABLED" : ChatColor.RED + "Auto Smelt DISABLED";
-        String autoSellName = (autoSell.contains(p.getName())) ? ChatColor.GREEN + "Auto Sell ENABLED" : ChatColor.RED + "Auto Sell DISABLED";
-        String fullNotifyName = (fullNotify.contains(p.getName())) ? ChatColor.GREEN + "Full Notify ENABLED" : ChatColor.RED + "Full Notify DISABLED";
+        String autoPickupName = (autoPickup.contains(p.getName())) ? ChatColor.GREEN + "AutoPickup ENABLED" : ChatColor.RED + "AutoPickup DISABLED";
+        String autoBlockName = (autoBlock.contains(p.getName())) ? ChatColor.GREEN + "AutoBlock ENABLED" : ChatColor.RED + "AutoBlock DISABLED";
+        String autoSmeltName = (autoSmelt.contains(p.getName())) ? ChatColor.GREEN + "AutoSmelt ENABLED" : ChatColor.RED + "AutoSmelt DISABLED";
+        String autoSellName = (autoSell.contains(p.getName())) ? ChatColor.GREEN + "AutoSell ENABLED" : ChatColor.RED + "AutoSell DISABLED";
 
         int apDur = (autoPickup.contains(p.getName())) ? 10 : 8;
         int abDur = (autoBlock.contains(p.getName())) ? 10 : 8;
         int asDur = (autoSmelt.contains(p.getName())) ? 10 : 8;
         int aSellDur = (autoSell.contains(p.getName())) ? 10 : 8;
-        int fullNotifyDur = (fullNotify.contains(p.getName())) ? 10 : 8;
 
         conts[9] = (p.hasPermission("AutoPickup.Toggle")) ? easyItem(autoPickupName, Material.INK_SACK, 1, apDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoPickupName, Material.INK_SACK, 1, apDur);
         conts[10] = (p.hasPermission("AutoBlock.Toggle")) ? easyItem(autoBlockName, Material.INK_SACK, 1, abDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoBlockName, Material.INK_SACK, 1, abDur);
         conts[11] = (p.hasPermission("AutoSmelt.Toggle")) ? easyItem(autoSmeltName, Material.INK_SACK, 1, asDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoSmeltName, Material.INK_SACK, 1, asDur);
-        if (usingQuickSell) {
+        if (usingQuickSell)
             conts[12] = (p.hasPermission("AutoSell.Toggle")) ? easyItem(autoSellName, Material.INK_SACK, 1, aSellDur, ChatColor.GRAY + "Click to Toggle") : easyItem(autoSellName, Material.INK_SACK, 1, aSellDur);
-            conts[13] = (p.hasPermission("FullNotify.Toggle")) ? easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle") : easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur);
-        } else {
-            conts[12] = (p.hasPermission("FullNotify.Toggle")) ? easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle") : easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur);
-        }
 
         ItemStack locked = easyItem(ChatColor.RED + "LOCKED", Material.STAINED_GLASS_PANE, 1, 14);
         ItemStack empty = easyItem(null, Material.STAINED_GLASS_PANE, 1, 7);
@@ -365,7 +226,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
         conts[17] = easyItem(ChatColor.RED + "Close", Material.ARROW, 1, 0);
         for (int i = 0; i < conts.length; i++) if (conts[i] == null) conts[i] = empty;
 
-        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "Auto Pickup")) {
+        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup")) {
             p.getInventory().setContents(conts);
             p.updateInventory();
         } else {
@@ -416,26 +277,15 @@ public final class AutoPickupPlugin extends JavaPlugin {
     }
 
     public static void warn(Player p) {
-        if (p != null && p.isValid() && fullNotify.contains(p.getName())) {
-            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            p.sendTitle(Message.ERROR0FULL_INVENTORY.toString(), ChatColor.GOLD + "/autopickup to disable", 1, 15, 5);
-        } else {
-            System.out.println("didnt notify");
+        if (warnOnFull && p != null && p.isValid() && (!warnCooldown.containsKey(p.getName()) || warnCooldown.get(p.getName()) < Calendar.getInstance().getTimeInMillis())) {
+            p.sendMessage(Message.ERROR0FULL_INVENTORY + "");
+            warnCooldown.put(p.getName(), 5000 + Calendar.getInstance().getTimeInMillis());
         }
     }
 
     public static HashMap<Integer, ItemStack> giveItem(Player p, Inventory inv, ItemStack is) {
         if (is == null) return new HashMap<>();
-        if (!usingStackableItems || p == null) {
-            HashMap<Integer, ItemStack> remaining = inv.addItem(is);
-
-            if (remaining.size() > 0 && fullNotify.contains(p.getName())) {
-                warn(p);
-            }
-
-            return remaining;
-        }
-
+        if (!usingStackableItems || p == null) return inv.addItem(is);
         ItemStack toSend = is.clone();
         ItemStack remaining = null;
         int freeSpaces = InventoryUtil.getPlayerFreeSpaces(p, toSend);

@@ -145,6 +145,7 @@ public class MainListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
+        //TODO: do we want to remove them from the arrays?
         AutoPickupPlugin.autoPickup.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoBlock.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoSmelt.remove(e.getPlayer().getName());
@@ -155,7 +156,7 @@ public class MainListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onShift(PlayerToggleSneakEvent e) {
         if (AutoPickupPlugin.usingAutoSell) if (e.isSneaking()) try {
-            ItemStack is = e.getPlayer().getItemInHand();
+            ItemStack is = e.getPlayer().getInventory().getItemInMainHand();
             ItemMeta im = is.getItemMeta();
             if (!is.getType().name().toLowerCase().contains("pickaxe")) return;
             String name = im.getDisplayName();
@@ -216,7 +217,7 @@ public class MainListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent e) {
         if (!AutoPickupPlugin.autoChest && e.getBlock().getType().name().contains("CHEST")) return;
-        ItemStack inhand = e.getPlayer().getItemInHand();
+        ItemStack inhand = e.getPlayer().getInventory().getItemInMainHand();
         if (AutoPickupPlugin.FortuneData != null) {
             String worldId = e.getBlock().getWorld().getUID().toString();
             List<String> list = AutoPickupPlugin.FortuneData.getStringList(worldId);
@@ -230,8 +231,8 @@ public class MainListener implements Listener {
         if (AutoPickupPlugin.getBlockedWorlds().contains(e.getPlayer().getWorld())) return;
         String name = e.getPlayer().getName();
         SuperLoc.add(e.getBlock().getLocation(), e.getPlayer(), AutoPickupPlugin.autoPickup.contains(name), AutoPickupPlugin.autoSmelt.contains(name), AutoPickupPlugin.autoBlock.contains(name), inhand);
-        if (AutoPickupPlugin.infinityPick && e.getPlayer().hasPermission("AutoPickup.infinity") && e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType().name().contains("PICKAXE")) {
-            e.getPlayer().getItemInHand().setDurability((short) 1);
+        if (AutoPickupPlugin.infinityPick && e.getPlayer().hasPermission("AutoPickup.infinity") && e.getPlayer().getInventory().getItemInMainHand() != null && e.getPlayer().getInventory().getItemInMainHand().getType().name().contains("PICKAXE")) {
+            e.getPlayer().getInventory().getItemInMainHand().setDurability((short) 1);
             e.getPlayer().updateInventory();
         }
     }

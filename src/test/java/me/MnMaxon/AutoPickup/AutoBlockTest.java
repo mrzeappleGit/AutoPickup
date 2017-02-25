@@ -4,14 +4,11 @@ import org.junit.*;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
 
 import org.mockito.Mock; 
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
-
-
 
 public class AutoBlockTest {
 
@@ -23,14 +20,11 @@ public class AutoBlockTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    //@Test
+    @Test
     public void addItemIngotsTest()
     {
-
         ItemStack itemStack = mock(ItemStack.class);
-
-        AutoBlock ab = new AutoBlock();
-        ab.addItem(player, itemStack);
+        AutoBlock.addItem(player, itemStack);
     }
 
 

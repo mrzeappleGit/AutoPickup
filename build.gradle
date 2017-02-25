@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: "jacoco"
 
 group = 'me.MnMaxon'
@@ -19,9 +18,14 @@ jar {
 }
 
 repositories {
-     maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
-     maven {url('https://oss.sonatype.org/content/repositories/snapshots')}
-     mavenCentral()
+    mavenLocal()
+    mavenCentral()
+    maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
+    maven {url('https://oss.sonatype.org/content/repositories/snapshots')}
+    maven {url('https://jitpack.io/')}
+    maven {url('http://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars')}
+    maven {url('http://repo.mcstats.org/content/groups/public')}
+
 }
 
 jacocoTestReport {
@@ -33,13 +37,14 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 dependencies {
-    compile group: 'org.bukkit', 
-            name: 'bukkit', 
-            version:'1.11.2-R0.1-SNAPSHOT'
 
     compile group: 'org.spigotmc',
             name: 'spigot-api',
             version:'1.11.2-R0.1-SNAPSHOT'
+
+    compile group: "com.github.Nunnery",
+            name: "MythicDrops",
+            version: "development-SNAPSHOT"
 
     compile fileTree(dir: './libs', include: '*.jar')
 

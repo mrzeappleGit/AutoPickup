@@ -14,7 +14,7 @@ import java.util.List;
 public class TokenEnchantListener implements Listener {
     @EventHandler
     public void onTokenEnchantExplode(TEBlockExplodeEvent e) {
-        ItemStack inhand = e.getPlayer().getItemInHand();
+        ItemStack inhand = e.getPlayer().getInventory().getItemInMainHand();
         if (AutoPickupPlugin.FortuneData != null) {
             String worldId = e.getBlock().getWorld().getUID().toString();
             List<String> list = AutoPickupPlugin.FortuneData.getStringList(worldId);
