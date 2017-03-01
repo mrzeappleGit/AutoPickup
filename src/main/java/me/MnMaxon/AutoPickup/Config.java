@@ -115,7 +115,6 @@ public class Config {
             AutoBlock.convertNum.remove(Material.QUARTZ);
         }
 
-		//TODO: WTF
         if (mainConfig.getBoolean("AutoSmelt Compat Mode"))
         {
             smeltList.clear();

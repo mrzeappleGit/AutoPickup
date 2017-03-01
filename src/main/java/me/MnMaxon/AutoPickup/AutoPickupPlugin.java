@@ -226,7 +226,10 @@ public final class AutoPickupPlugin extends JavaPlugin {
         conts[17] = easyItem(ChatColor.RED + "Close", Material.ARROW, 1, 0);
         for (int i = 0; i < conts.length; i++) if (conts[i] == null) conts[i] = empty;
 
-        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup")) {
+        //TODO: wtf?
+        if (p.getInventory() != null
+            && p.getInventory().getName() != null
+            && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup")) {
             p.getInventory().setContents(conts);
             p.updateInventory();
         } else {
