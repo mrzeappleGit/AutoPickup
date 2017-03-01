@@ -61,7 +61,7 @@ public final class AutoPickupPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        dataFolder = this.getDataFolder().getAbsolutePath();
+        Config.setConfigFolder(this.getDataFolder().getAbsolutePath());
         Config.reloadConfigs();
         getServer().getPluginManager().registerEvents(new MainListener(), this);
         getServer().getPluginManager().registerEvents(new MythicMobListener(), this);

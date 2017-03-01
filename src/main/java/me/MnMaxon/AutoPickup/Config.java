@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +18,7 @@ import java.util.logging.Level;
 
 public class Config {
 
-	public static String configFolder;
+	private static String configFolder;
 
 	public static boolean infinityPick = false;
 	public static boolean deleteOnFull = true;
@@ -37,7 +36,6 @@ public class Config {
 	public static Boolean allowBlockGui;
     public static Boolean autoChest;
 
-
 	public static SuperYaml mainConfig = null;
 	public static SuperYaml messageConfig = null;
 	public static SuperYaml smeltConfig = null;
@@ -49,6 +47,11 @@ public class Config {
 	public static List<Material> fortuneList = new ArrayList<>();
 	private static List<String> blockedWorlds = new ArrayList<>();
 	public static HashMap<Material, Short> smeltBlacklist = new HashMap<>();
+
+    public static void setConfigFolder(String configFolder)
+    {
+        Config.configFolder = configFolder;
+    }
 
 	public static YamlConfiguration Load(String FileLocation)
 	{
