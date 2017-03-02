@@ -35,8 +35,8 @@ public class AutoSmelt
             }
             ItemStack newItem = recipe.getResult();
             if ((!Config.smeltList.isEmpty() 
-                && !Config.smeltList.contains(is.getType().name())) || (AutoPickupPlugin.smeltBlacklist.containsKey(newItem.getType()) 
-                && (AutoPickupPlugin.smeltBlacklist.get(newItem.getType()) < 0 || AutoPickupPlugin.smeltBlacklist.get(newItem.getType()) == newItem.getDurability())))
+                && !Config.smeltList.contains(is.getType().name())) || (Config.smeltBlacklist.containsKey(newItem.getType()) 
+                && (Config.smeltBlacklist.get(newItem.getType()) < 0 || Config.smeltBlacklist.get(newItem.getType()) == newItem.getDurability())))
             {
                 return new AutoResult(is, is, false);
             }

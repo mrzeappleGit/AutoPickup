@@ -14,22 +14,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player; 
 import org.bukkit.plugin.java.JavaPlugin; 
 
-
 public final class AutoPickupPlugin extends JavaPlugin 
 {
     
-    public static String dataFolder; 
-    public static AutoPickupPlugin plugin; 
-    public static List < String > autoSmelt = new ArrayList<> ();
-    public static List < String > autoPickup = new ArrayList <> ();
-    public static List < String > autoBlock = new ArrayList <> ();
-    public static List < String > autoSell = new ArrayList <> (); 
-    public static List < String > fullNotify = new ArrayList <> (); 
-    public static HashMap < String, Long > warnCooldown = new HashMap <> (); 
-    public static HashMap < Material, Short > smeltBlacklist = new HashMap <> (); 
-    public static Boolean allowBlockGui; 
-    public static Boolean autoChest; 
-
+    //TODO: move these
+    public static List < String > autoSmelt = new ArrayList<>();
+    public static List < String > autoPickup = new ArrayList<>();
+    public static List < String > autoBlock = new ArrayList<>();
+    public static List < String > autoSell = new ArrayList<>(); 
+    public static List < String > fullNotify = new ArrayList<>(); 
+    public static HashMap < String, Long > warnCooldown = new HashMap<>(); 
 
     @Override
     public void onDisable()
@@ -43,7 +37,6 @@ public final class AutoPickupPlugin extends JavaPlugin
     @Override
     public void onEnable()
     {
-        plugin = this; 
         Config.setConfigFolder(this.getDataFolder().getAbsolutePath()); 
         Config.reloadConfigs(); 
 

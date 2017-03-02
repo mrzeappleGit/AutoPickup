@@ -43,8 +43,8 @@ public class SuperLoc
         final SuperLoc sl = new SuperLoc(p, autoPickup, autoSmelt, autoBlock, is);
         superLocs.put(location, sl);
 
-        //TODO: whats this acheive?
-        Bukkit.getScheduler().scheduleSyncDelayedTask(AutoPickupPlugin.plugin, new Runnable() {
+        //TODO: whats this achieve?
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("AutoPickup"), new Runnable() {
             @Override
             public void run() 
             {

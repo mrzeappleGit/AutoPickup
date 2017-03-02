@@ -55,7 +55,7 @@ public class Common
         messages.add("AutoSmelt-Smelts anything that can be smelted in your inventory"); 
         messages.add("AutoSmelt toggle-Toggles auto smelt"); 
         messages.add("AutoSmelt reload-Reloads the plugin"); 
-        s.sendMessage(c1 + "==== " + c2 + AutoPickupPlugin.plugin.getName() + c1 + " ===="); 
+        s.sendMessage(c1 + "==== " + c2 + AutoPickupPlugin.getPlugin(AutoPickupPlugin.class).getName() + c1 + " ===="); 
         for (String message:messages)
         {
             s.sendMessage(c2 + "/" + message.replace("-", c1 + " - ")); 

@@ -365,7 +365,7 @@ public class MainListener implements Listener
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent e)
     {
-        if ( ! AutoPickupPlugin.autoChest && e.getBlock().getType().name().contains("CHEST"))
+        if ( ! Config.autoChest && e.getBlock().getType().name().contains("CHEST"))
         {
             return;
         }
