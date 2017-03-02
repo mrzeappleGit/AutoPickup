@@ -27,7 +27,7 @@ public class MythicListener implements Listener {
         int id = e.getEntity().getEntityId();
         Player killer = null;
         if (damageMap.containsKey(id)) killer = Bukkit.getPlayer(damageMap.get(id));
-        if (killer == null || AutoPickupPlugin.getBlockedWorlds().contains(killer.getWorld()))
+        if (killer == null || Config.getBlockedWorlds().contains(killer.getWorld()))
             return;
         List<Location> locs = new ArrayList<>();
         Location loc = e.getEntity().getLocation();
@@ -44,7 +44,7 @@ public class MythicListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (!AutoPickupPlugin.autoMob || e.getEntity() instanceof Player) return;
+        if (!Config.autoMob || e.getEntity() instanceof Player) return;
         Player damager;
         if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
         else if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player)

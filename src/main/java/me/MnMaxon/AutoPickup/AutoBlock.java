@@ -48,7 +48,6 @@ public class AutoBlock
             pInv.setStorageContents(newCont); 
             p.updateInventory(); 
         }
-        
         return remaining; 
     }
 

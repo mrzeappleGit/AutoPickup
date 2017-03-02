@@ -324,10 +324,10 @@ public class Config
 	}
 
     public static List < World > getBlockedWorlds()
-                                            {
+    {
         ArrayList < World > worlds = new ArrayList <> (); 
         for (String s:blockedWorlds)
-                                                {
+        {
             World w = Bukkit.getWorld(s); 
             if (w != null)worlds.add(w); 
         }

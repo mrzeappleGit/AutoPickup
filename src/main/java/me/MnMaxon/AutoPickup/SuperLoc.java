@@ -47,15 +47,15 @@ public class SuperLoc {
         SuperLoc sl = superLocs.get(loc);
         if (sl == null || !sl.p.isValid()) return false;
         ItemStack is = item.getItemStack();
-        if (AutoPickupPlugin.usingPrisonGems && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains("Gem"))
+        if (Config.usingPrisonGems && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains("Gem"))
             return false;
         boolean fortunify = false;
         if (sl.autoSmelt) {
             item.setItemStack(AutoSmelt.smelt(is).getNewItem());
-            if (AutoPickupPlugin.smeltFortune && Arrays.asList(Material.IRON_INGOT, Material.GOLD_INGOT).contains(item.getItemStack().getType()))
+            if (Config.smeltFortune && Arrays.asList(Material.IRON_INGOT, Material.GOLD_INGOT).contains(item.getItemStack().getType()))
                 fortunify = true;
         }
-        if (AutoPickupPlugin.fortuneList.contains(item.getItemStack().getType())) fortunify = true;
+        if (Config.fortuneList.contains(item.getItemStack().getType())) fortunify = true;
         //For coal, diamond, emerald, nether quartz, and lapis lazuli, level I gives a 33% chance to multiply drops by 2
         // (averaging 33% increase), level II gives a chance to multiply drops by 2 or 3 (25% chance each, averaging 75% increase),
         // and level III gives a chance to multiply drops by 2, 3, or 4 (20% chance each, averaging 120% increase).
@@ -93,7 +93,7 @@ public class SuperLoc {
             }
             if (!remaining.isEmpty()) {
                 if (!die.isCancelled()) AutoPickupPlugin.warn(sl.p);
-                if (!AutoPickupPlugin.deleteOnFull) return false;
+                if (!Config.deleteOnFull) return false;
             }
             return true;
         }

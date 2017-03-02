@@ -17,9 +17,9 @@ public class MythicMobListener implements Listener {
     public void onKill(MythicMobDeathEvent e) {
         if (e.getKiller() == null || !(e.getKiller() instanceof Player)) return;
         Player killer = (Player) e.getKiller();
-        if (AutoPickupPlugin.getBlockedWorlds().contains(killer.getWorld()))
+        if (Config.getBlockedWorlds().contains(killer.getWorld()))
             return;
-        if (AutoPickupPlugin.autoMob) {
+        if (Config.autoMob) {
             ArrayList<ItemStack> newDrops = new ArrayList<>();
             for (ItemStack drop : e.getDrops()) {
                 HashMap<Integer, ItemStack> remaining = killer.getInventory().addItem(drop);
@@ -27,9 +27,9 @@ public class MythicMobListener implements Listener {
             }
             if (!newDrops.isEmpty()) AutoPickupPlugin.warn(killer);
             e.getDrops().clear();
-            if (!AutoPickupPlugin.deleteOnFull) for (ItemStack is : newDrops) e.getDrops().add(is);
+            if (!Config.deleteOnFull) for (ItemStack is : newDrops) e.getDrops().add(is);
         }
-        if (AutoPickupPlugin.autoMobXP) {
+        if (Config.autoMobXP) {
             killer.giveExp(e.getExp());
             e.setExp(0);
         }

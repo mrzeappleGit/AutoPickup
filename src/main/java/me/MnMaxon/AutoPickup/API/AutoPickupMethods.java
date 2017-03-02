@@ -46,7 +46,7 @@ public class AutoPickupMethods {
                 else remaining.addAll(AutoPickupPlugin.giveItem(player, give).values());
             if (!remaining.isEmpty()) {
                 if (!die.isCancelled()) AutoPickupPlugin.warn(player);
-                if (!AutoPickupPlugin.deleteOnFull)
+                if (!Config.deleteOnFull)
                     for (ItemStack is : remaining) player.getWorld().dropItem(player.getLocation(), is);
             }
         }
