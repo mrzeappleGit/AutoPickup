@@ -1,11 +1,17 @@
 package me.MnMaxon.AutoPickup;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+
+import org.bukkit.Material;
+
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import haveric.stackableItems.util.InventoryUtil;
 
@@ -62,6 +68,38 @@ public class Util
     public static HashMap < Integer, ItemStack > giveItem(Player p, ItemStack is)
     {
         return giveItem(p, p.getInventory(), is); 
+    }
+
+    public static ItemStack easyItem(String name, Material material, int amount, int durability, String... lore)
+    {
+        ItemStack is = new ItemStack(material); 
+        if (durability > 0)
+        {
+            is.setDurability((short)durability); 
+        }
+
+        if (amount > 1)
+        {
+            is.setAmount(amount); 
+        }
+     
+        if (is.getItemMeta() != null)
+        {
+            ItemMeta im = is.getItemMeta(); 
+            if (name != null)
+            {
+                im.setDisplayName(name); 
+            }
+
+            if (lore != null)
+            {
+                ArrayList < String > loreList = new ArrayList <> (); 
+                Collections.addAll(loreList, lore); 
+                im.setLore(loreList); 
+            }
+            is.setItemMeta(im); 
+        }
+        return is; 
     }
 
 }

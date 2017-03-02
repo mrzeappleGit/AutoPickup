@@ -1,29 +1,26 @@
 package me.MnMaxon.AutoPickup; 
 
-import haveric.stackableItems.util.InventoryUtil;
 import me.MnMaxon.AutoPickup.commands.AutoBlockCommand;
 import me.MnMaxon.AutoPickup.commands.AutoPickup;
 import me.MnMaxon.AutoPickup.commands.AutoSell;
 import me.MnMaxon.AutoPickup.commands.AutoSmeltCommand;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit; 
 import org.bukkit.Material; 
-import org.bukkit.World; 
 import org.bukkit.entity.Player; 
-import org.bukkit.inventory.Inventory; 
-import org.bukkit.inventory.ItemStack; 
-import org.bukkit.inventory.meta.ItemMeta; 
 import org.bukkit.plugin.java.JavaPlugin; 
 
-import java.util.*; 
 
 public final class AutoPickupPlugin extends JavaPlugin 
 {
     
     public static String dataFolder; 
     public static AutoPickupPlugin plugin; 
-    public static List < String > autoSmelt = new ArrayList <> ();
+    public static List < String > autoSmelt = new ArrayList<> ();
     public static List < String > autoPickup = new ArrayList <> ();
     public static List < String > autoBlock = new ArrayList <> ();
     public static List < String > autoSell = new ArrayList <> (); 
@@ -33,43 +30,6 @@ public final class AutoPickupPlugin extends JavaPlugin
     public static Boolean allowBlockGui; 
     public static Boolean autoChest; 
 
-    @Deprecated
-    public static void reloadConfigs()
-    {
-        Config.reloadConfigs(); 
-    }
-
-    public static ItemStack easyItem(String name, Material material, int amount, int durability, String... lore)
-    {
-        ItemStack is = new ItemStack(material); 
-        if (durability > 0)
-        {
-            is.setDurability((short)durability); 
-        }
-
-        if (amount > 1)
-        {
-            is.setAmount(amount); 
-        }
-     
-        if (is.getItemMeta() != null)
-        {
-            ItemMeta im = is.getItemMeta(); 
-            if (name != null)
-            {
-                im.setDisplayName(name); 
-            }
-
-            if (lore != null)
-            {
-                ArrayList < String > loreList = new ArrayList <> (); 
-                Collections.addAll(loreList, lore); 
-                im.setLore(loreList); 
-            }
-            is.setItemMeta(im); 
-        }
-        return is; 
-    }
 
     @Override
     public void onDisable()
@@ -156,7 +116,7 @@ public final class AutoPickupPlugin extends JavaPlugin
             }
             Bukkit.getLogger().info(message); 
         }
-        
+
         for (Player p:Bukkit.getOnlinePlayers())
         {
             if (p.hasPermission("AutoPickup.enabled"))
