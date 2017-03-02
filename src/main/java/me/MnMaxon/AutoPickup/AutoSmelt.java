@@ -20,7 +20,7 @@ public class AutoSmelt {
             if (!(recipe instanceof FurnaceRecipe)) continue;
             if (((FurnaceRecipe) recipe).getInput().getType() != is.getType()) continue;
             ItemStack newItem = recipe.getResult();
-            if ((!AutoPickupPlugin.smeltList.isEmpty() && !AutoPickupPlugin.smeltList.contains(is.getType().name())) ||
+            if ((!Config.smeltList.isEmpty() && !Config.smeltList.contains(is.getType().name())) ||
                     (AutoPickupPlugin.smeltBlacklist.containsKey(newItem.getType()) && (AutoPickupPlugin.smeltBlacklist.get(newItem.getType()) < 0
                             || AutoPickupPlugin.smeltBlacklist.get(newItem.getType()) == newItem.getDurability())))
                 return new AutoResult(is, is, false);

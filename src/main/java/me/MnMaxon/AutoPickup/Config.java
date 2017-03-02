@@ -2,7 +2,9 @@ package me.MnMaxon.AutoPickup;
 
 import org.bukkit.Bukkit; 
 import org.bukkit.ChatColor; 
-import org.bukkit.Material; 
+import org.bukkit.Material;
+import org.bukkit.World;
+ 
 import org.bukkit.configuration.InvalidConfigurationException; 
 import org.bukkit.configuration.file.YamlConfiguration; 
 
@@ -320,4 +322,15 @@ public class Config
         }
 
 	}
+
+    public static List < World > getBlockedWorlds()
+                                            {
+        ArrayList < World > worlds = new ArrayList <> (); 
+        for (String s:blockedWorlds)
+                                                {
+            World w = Bukkit.getWorld(s); 
+            if (w != null)worlds.add(w); 
+        }
+        return worlds; 
+    }
 }

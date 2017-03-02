@@ -41,7 +41,10 @@ public enum Message
     {
         String path = name().replace("_", " ").replace("0", "."); 
         message = colorize(Config.messageConfig.getString(path)); 
-        if (message != null)return false; 
+        if (message != null)
+        {
+            return false;
+        }
         message = defaultMessage; 
         Config.messageConfig.set(path, decolorize(defaultMessage)); 
         return true; 
@@ -49,13 +52,19 @@ public enum Message
 
     public static String decolorize(String msg)
     {
-        if (msg == null)return null; 
+        if (msg == null)
+        {
+            return null; 
+        }
         return ChatColor.translateAlternateColorCodes('\u00a7', msg).replaceAll("Å", ""); 
     }
 
     public static String colorize(String msg)
     {
-        if (msg == null)return null; 
+        if (msg == null)
+        {   
+            return null; 
+        }
         return ChatColor.translateAlternateColorCodes('&', msg); 
     }
 
