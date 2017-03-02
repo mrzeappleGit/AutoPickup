@@ -44,7 +44,7 @@ public class MythicMobListener implements Listener
 
             if (!newDrops.isEmpty())
             {
-                AutoPickupPlugin.warn(killer);
+                Util.warn(killer);
             }
 
             e.getDrops().clear();

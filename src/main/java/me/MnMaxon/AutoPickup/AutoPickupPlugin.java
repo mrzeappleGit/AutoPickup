@@ -156,6 +156,7 @@ public final class AutoPickupPlugin extends JavaPlugin
             }
             Bukkit.getLogger().info(message); 
         }
+        
         for (Player p:Bukkit.getOnlinePlayers())
         {
             if (p.hasPermission("AutoPickup.enabled"))
@@ -176,61 +177,5 @@ public final class AutoPickupPlugin extends JavaPlugin
                 AutoPickupPlugin.autoSell.add(p.getName()); 
             }
         }
-    }
-
-    @Deprecated
-    public static List < World > getBlockedWorlds()
-    {
-        return Config.getBlockedWorlds();
-    }
-
-    public static void warn(Player p)
-    {
-        if (Config.warnOnFull 
-            && p != null 
-            && p.isValid() 
-            && ( ! warnCooldown.containsKey(p.getName()) || warnCooldown.get(p.getName()) < Calendar.getInstance().getTimeInMillis()))
-        {
-            p.sendMessage(Message.ERROR0FULL_INVENTORY + ""); 
-            warnCooldown.put(p.getName(), 5000 + Calendar.getInstance().getTimeInMillis()); 
-        }
-    }
-
-    public static HashMap < Integer, ItemStack > giveItem(Player p, Inventory inv, ItemStack is)
-    {
-        if (is == null)
-        {
-            return new HashMap <> (); 
-        }
-
-        if ( ! Config.usingStackableItems || p == null)
-        {
-            return inv.addItem(is); 
-        }
-        ItemStack toSend = is.clone(); 
-        ItemStack remaining = null; 
-        int freeSpaces = InventoryUtil.getPlayerFreeSpaces(p, toSend); 
-        if (freeSpaces < toSend.getAmount())
-        {
-            remaining = toSend.clone(); 
-            remaining.setAmount(toSend.getAmount() - freeSpaces); 
-            toSend.setAmount(freeSpaces); 
-        }
-
-        if (toSend.getAmount() > 0)
-        {
-            InventoryUtil.addItemsToPlayer(p, toSend, "pickup"); 
-        }
-        HashMap < Integer, ItemStack > map = new HashMap <> (); 
-        if (remaining != null)
-        {
-            map.put(0, remaining); 
-        }
-        return map; 
-    }
-
-    public static HashMap < Integer, ItemStack > giveItem(Player p, ItemStack is)
-    {
-        return giveItem(p, p.getInventory(), is); 
     }
 }

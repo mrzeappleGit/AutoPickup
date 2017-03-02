@@ -151,14 +151,14 @@ public class SuperLoc
                     remaining.addAll(AutoBlock.addItem(sl.p, give).values());
                 }else 
                 {
-                    remaining.addAll(AutoPickupPlugin.giveItem(sl.p, give).values());
+                    remaining.addAll(Util.giveItem(sl.p, give).values());
                 }
             }
             if (!remaining.isEmpty())
             {
                 if (!die.isCancelled()) 
                 {
-                    AutoPickupPlugin.warn(sl.p);
+                    Util.warn(sl.p);
                 }
 
                 if (!Config.deleteOnFull)

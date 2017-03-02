@@ -324,7 +324,7 @@ public class MainListener implements Listener
             }
             if ( ! newDrops.isEmpty())
             {
-                AutoPickupPlugin.warn(killer); 
+                Util.warn(killer); 
             }
 
             e.getDrops().clear(); 
@@ -353,7 +353,7 @@ public class MainListener implements Listener
             Collection < ItemStack > newDrops = e.getPlayer().getInventory().addItem(item.getItemStack()).values(); 
             if ( ! newDrops.isEmpty())
             {
-                AutoPickupPlugin.warn(e.getPlayer()); 
+                Util.warn(e.getPlayer()); 
             }
             if (Config.deleteOnFull || newDrops.isEmpty())
             {

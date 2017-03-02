@@ -23,7 +23,7 @@ public class AutoBlock
             return new HashMap <> (); 
         }
 
-        HashMap < Integer, ItemStack > remaining = AutoPickupPlugin.giveItem(p, is); 
+        HashMap < Integer, ItemStack > remaining = Util.giveItem(p, is); 
 
         //its not an item to turn in to blocks
         if ( ! convertTo.containsKey(is.getType()))

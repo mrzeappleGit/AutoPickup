@@ -73,7 +73,7 @@ public class AutoPickupMethods
                         remaining.addAll(AutoBlock.addItem(player, give).values());
                     } else 
                     {
-                        remaining.addAll(AutoPickupPlugin.giveItem(player, give).values());
+                        remaining.addAll(Util.giveItem(player, give).values());
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class AutoPickupMethods
             {
                 if (!die.isCancelled()) 
                 {
-                    AutoPickupPlugin.warn(player);
+                    Util.warn(player);
                 }
 
                 if (!Config.deleteOnFull)
