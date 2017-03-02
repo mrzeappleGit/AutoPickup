@@ -4,6 +4,7 @@ import me.MnMaxon.AutoPickup.commands.AutoBlockCommand;
 import me.MnMaxon.AutoPickup.commands.AutoPickup;
 import me.MnMaxon.AutoPickup.commands.AutoSell;
 import me.MnMaxon.AutoPickup.commands.AutoSmeltCommand;
+import me.MnMaxon.AutoPickup.commands.FullNotify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public final class AutoPickupPlugin extends JavaPlugin
         this.getCommand("AutoSmelt").setExecutor(new AutoSmeltCommand());
         this.getCommand("AutoBlock").setExecutor(new AutoBlockCommand());
         this.getCommand("AutoSell").setExecutor(new AutoSell());
-        //this.getCommand("FullNotify").setExecutor(new Commands());
+        this.getCommand("FullNotify").setExecutor(new FullNotify());
 
         //Set up compatablility Listeners
         if (getServer().getPluginManager().getPlugin("MythicMobs") != null)
