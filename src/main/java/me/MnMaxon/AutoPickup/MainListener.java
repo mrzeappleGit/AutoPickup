@@ -14,7 +14,11 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent; 
 import org.bukkit.event.player. * ; 
 import org.bukkit.inventory.ItemStack; 
-import org.bukkit.inventory.meta.ItemMeta; 
+import org.bukkit.inventory.meta.ItemMeta;
+
+import me.MnMaxon.AutoPickup.commands.Common;
+
+ 
 
 import java.util.ArrayList; 
 import java.util.Collection; 
@@ -89,7 +93,7 @@ public class MainListener implements Listener
                         {
                             AutoPickupPlugin.autoPickup.add(p.getName()); 
                         }
-                        AutoPickupPlugin.openGui(p); 
+                        Common.openGui(p); 
                     }
                 }else if (name.contains("auto smelt"))
                 {
@@ -102,7 +106,7 @@ public class MainListener implements Listener
                         {
                             AutoPickupPlugin.autoSmelt.add(p.getName()); 
                         }
-                        AutoPickupPlugin.openGui(p); 
+                        Common.openGui(p); 
                     }
                 }else if (name.contains("auto block"))
                 {
@@ -115,7 +119,7 @@ public class MainListener implements Listener
                         {
                             AutoPickupPlugin.autoBlock.add(p.getName()); 
                         }
-                        AutoPickupPlugin.openGui(p); 
+                        Common.openGui(p); 
                     }
                 }else if (name.contains("auto sell"))
                 {
@@ -128,7 +132,7 @@ public class MainListener implements Listener
                         {
                             AutoPickupPlugin.autoSell.add(p.getName()); 
                         }
-                        AutoPickupPlugin.openGui(p); 
+                        Common.openGui(p); 
                     }
                 }else if (name.contains("full notify"))
                 {
@@ -141,7 +145,7 @@ public class MainListener implements Listener
                         {
                             AutoPickupPlugin.fullNotify.add(p.getName()); 
                         }
-                        AutoPickupPlugin.openGui(p); 
+                        Common.openGui(p); 
                     }
                 }else if ( ! name.contains("auto"))
                 {
@@ -293,7 +297,7 @@ public class MainListener implements Listener
     public void onItemSpawn(ItemSpawnEvent e)
     {
         fixPick(e.getEntity().getItemStack()); 
-        if ( ! AutoPickupPlugin.getBlockedWorlds().contains(e.getEntity().getWorld())
+        if ( ! Config.getBlockedWorlds().contains(e.getEntity().getWorld())
             && SuperLoc.doStuff(e.getEntity(), e.getLocation()))
         {
             e.setCancelled(true); 
@@ -304,7 +308,7 @@ public class MainListener implements Listener
     public void onKill(EntityDeathEvent e)
     {
         Player killer = e.getEntity().getKiller(); 
-        if (killer == null || e.getEntity()instanceof Player || AutoPickupPlugin.getBlockedWorlds().contains(killer.getWorld()))
+        if (killer == null || e.getEntity()instanceof Player || Config.getBlockedWorlds().contains(killer.getWorld()))
         {
             return; 
         }

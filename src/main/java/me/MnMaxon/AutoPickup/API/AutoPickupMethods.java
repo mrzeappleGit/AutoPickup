@@ -1,6 +1,8 @@
 package me.MnMaxon.AutoPickup.API; 
 
-import me.MnMaxon.AutoPickup. * ; 
+import me.MnMaxon.AutoPickup. * ;
+import me.MnMaxon.AutoPickup.commands.Common;
+ 
 import me.mrCookieSlime.QuickSell.Shop; 
 import org.bukkit.Bukkit; 
 import org.bukkit.entity.Player; 
@@ -16,7 +18,7 @@ public class AutoPickupMethods
 {
     public static void openGui(Player player)
     {
-        AutoPickupPlugin.openGui(player);
+        Common.openGui(player);
     }
 
     public static void autoGive(Player player, ItemStack item)
