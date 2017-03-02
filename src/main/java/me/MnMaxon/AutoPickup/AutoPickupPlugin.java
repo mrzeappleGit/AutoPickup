@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
 public final class AutoPickupPlugin extends JavaPlugin {
+    
     public static String dataFolder;
     public static AutoPickupPlugin plugin;
     public static boolean infinityPick = false, deleteOnFull = true, warnOnFull = false, autoBlockXp = true, autoMob = true, autoMobXP = true, extraInfo = false,
