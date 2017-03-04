@@ -1,8 +1,9 @@
 apply plugin:'java'
 apply plugin:"jacoco"
+apply plugin: 'maven-publish'
 
 group = 'me.MnMaxon'
-version = '4.1.4-beta1'
+version = '4.1.4-beta2'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,6 +19,14 @@ jar
             {
                 line -> line.replace('{{version}}', "$version")
             }
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
         }
     }
 }

@@ -16,42 +16,35 @@ public class AutoBlockCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(cmd.getName().equals("AutoBlock"))
+        Player p = (Player)sender;
+        if (args.length == 0)
         {
-            Player p = (Player)sender; 
-            if (args.length == 0)
+            if ( ! p.hasPermission("AutoBlock.command"))
             {
-                if ( ! p.hasPermission("AutoBlock.command"))
-                {
-                    p.sendMessage(Message.ERROR0NO_PERM + ""); 
-                } else 
-                {
-                    AutoBlock.block(p); 
-                }
-                return true;
-            } else if (args[0].equalsIgnoreCase("toggle"))
-            {
-                if ( ! p.hasPermission("AutoBlock.toggle"))
-                {
-                    p.sendMessage(Message.ERROR0NO_PERM + ""); 
-                }else if (AutoPickupPlugin.autoBlock.contains(p.getName()))
-                {
-                    AutoPickupPlugin.autoBlock.remove(p.getName()); 
-                    p.sendMessage(Message.SUCCESS0TOGGLE0BLOCK_OFF + ""); 
-                }else 
-                {
-                    AutoPickupPlugin.autoBlock.add(p.getName()); 
-                    p.sendMessage(Message.SUCCESS0TOGGLE0BLOCK_ON + ""); 
-                }
-                return true;
+                p.sendMessage(Message.ERROR0NO_PERM + "");
             } else
             {
-                Common.displayHelp(p); 
+                AutoBlock.block(p);
             }
+            return true;
+        } else if (args[0].equalsIgnoreCase("toggle"))
+        {
+            if ( ! p.hasPermission("AutoBlock.toggle"))
+            {
+                p.sendMessage(Message.ERROR0NO_PERM + "");
+            }else if (AutoPickupPlugin.autoBlock.contains(p.getName()))
+            {
+                AutoPickupPlugin.autoBlock.remove(p.getName());
+                p.sendMessage(Message.SUCCESS0TOGGLE0BLOCK_OFF + "");
+            }else
+            {
+                AutoPickupPlugin.autoBlock.add(p.getName());
+                p.sendMessage(Message.SUCCESS0TOGGLE0BLOCK_ON + "");
+            }
+            return true;
         }
         return false;
     }
 
 }
 
-  
