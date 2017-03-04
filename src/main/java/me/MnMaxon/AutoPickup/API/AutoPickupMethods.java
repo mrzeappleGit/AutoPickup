@@ -1,6 +1,12 @@
 package me.MnMaxon.AutoPickup.API;
 
-import me.MnMaxon.AutoPickup. * ;
+import me.MnMaxon.AutoPickup.AutoBlock;
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.AutoResult;
+import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.SuperLoc;
+import me.MnMaxon.AutoPickup.Util;
 import me.MnMaxon.AutoPickup.commands.Common;
 
 import me.mrCookieSlime.QuickSell.Shop;
@@ -18,7 +24,7 @@ public class AutoPickupMethods
         Common.openGui(player);
     }
 
-    public static void autoGive(Player player, ItemStack item)
+    public static void autoGive(Player player, ItemStack item, boolean notify)
     {
         if (AutoPickupPlugin.autoSell.contains(player.getName()))
         {
@@ -98,14 +104,22 @@ public class AutoPickupMethods
         return AutoSmelt.smelt(item);
     }
 
+
+    @Deprecated
     public static void smeltInventory(Player player)
     {
         AutoSmelt.smelt(player);
     }
 
+    @Deprecated
     public static void blockInventory(Player player)
     {
         AutoBlock.block(player);
+    }
+
+    public static void blockInventory(Player player, boolean notify)
+    {
+        AutoBlock.block(player, notify);
     }
 
     public static void addBlockedItem(Player player, ItemStack is)

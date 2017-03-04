@@ -1,11 +1,11 @@
-package me.MnMaxon.AutoPickup.API; 
+package me.MnMaxon.AutoPickup.API;
 
-import org.bukkit.entity.Player; 
-import org.bukkit.event.Event; 
-import org.bukkit.event.HandlerList; 
-import org.bukkit.inventory.ItemStack; 
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 /**
  * Created by MnMaxon on 10/10/2015.  Aren't I great?

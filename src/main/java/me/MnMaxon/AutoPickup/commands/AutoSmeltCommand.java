@@ -15,41 +15,36 @@ public class AutoSmeltCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(cmd.getName().equals("AutoSmelt"))
+        Player p = (Player)sender;
+        if (args.length == 0)
         {
-            Player p = (Player)sender; 
-            if (args.length == 0)
+            if ( ! p.hasPermission("AutoSmelt.command"))
             {
-                if ( ! p.hasPermission("AutoSmelt.command"))
-                {
-                    p.sendMessage(Message.ERROR0NO_PERM + ""); 
-                }
-                else 
-                {
-                    AutoSmelt.smelt(p); 
-                }
-            } else if (args[0].equalsIgnoreCase("toggle"))
-            {
-                if ( ! p.hasPermission("AutoSmelt.toggle"))
-                {
-                    p.sendMessage(Message.ERROR0NO_PERM + ""); 
-                } else if (AutoPickupPlugin.autoSmelt.contains(p.getName()))
-                {
-                    AutoPickupPlugin.autoSmelt.remove(p.getName()); 
-                    p.sendMessage(Message.SUCCESS0TOGGLE0SMELT_OFF + ""); 
-                }else 
-                {
-                    AutoPickupPlugin.autoSmelt.add(p.getName()); 
-                    p.sendMessage(Message.SUCCESS0TOGGLE0SMELT_ON + ""); 
-                }
-            } else
-            {
-                Common.displayHelp(p); 
+                p.sendMessage(Message.ERROR0NO_PERM + "");
             }
+            else
+            {
+                AutoSmelt.smelt(p);
+            }
+            return true;
+        } else if (args[0].equalsIgnoreCase("toggle"))
+        {
+            if ( ! p.hasPermission("AutoSmelt.toggle"))
+            {
+                p.sendMessage(Message.ERROR0NO_PERM + "");
+            } else if (AutoPickupPlugin.autoSmelt.contains(p.getName()))
+            {
+                AutoPickupPlugin.autoSmelt.remove(p.getName());
+                p.sendMessage(Message.SUCCESS0TOGGLE0SMELT_OFF + "");
+            }else
+            {
+                AutoPickupPlugin.autoSmelt.add(p.getName());
+                p.sendMessage(Message.SUCCESS0TOGGLE0SMELT_ON + "");
+            }
+            return true;
         }
         return false;
     }
 
 }
 
-  
