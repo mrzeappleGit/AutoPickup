@@ -13,6 +13,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -64,7 +69,7 @@ public class MainListener implements Listener
             {
                 Bukkit.dispatchCommand(e.getPlayer(), "sellall");
             }
-        }catch (Exception ignored)
+        } catch (Exception ignored)
         {
         }
     }
@@ -87,13 +92,13 @@ public class MainListener implements Listener
                         if (AutoPickupPlugin.autoPickup.contains(p.getName()))
                         {
                             AutoPickupPlugin.autoPickup.remove(p.getName());
-                        }else
+                        } else
                         {
                             AutoPickupPlugin.autoPickup.add(p.getName());
                         }
                         Common.openGui(p);
                     }
-                }else if (name.contains("auto smelt"))
+                } else if (name.contains("auto smelt"))
                 {
                     if (p.hasPermission("AutoSmelt.Toggle"))
                     {
@@ -106,46 +111,46 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                }else if (name.contains("auto block"))
+                } else if (name.contains("auto block"))
                 {
                     if (p.hasPermission("AutoBlock.Toggle"))
                     {
                         if (AutoPickupPlugin.autoBlock.contains(p.getName()))
                         {
                             AutoPickupPlugin.autoBlock.remove(p.getName());
-                        }else
+                        } else
                         {
                             AutoPickupPlugin.autoBlock.add(p.getName());
                         }
                         Common.openGui(p);
                     }
-                }else if (name.contains("auto sell"))
+                } else if (name.contains("auto sell"))
                 {
                     if (p.hasPermission("AutoSell.Toggle"))
                     {
                         if (AutoPickupPlugin.autoSell.contains(p.getName()))
                         {
                             AutoPickupPlugin.autoSell.remove(p.getName());
-                        }else
+                        } else
                         {
                             AutoPickupPlugin.autoSell.add(p.getName());
                         }
                         Common.openGui(p);
                     }
-                }else if (name.contains("full notify"))
+                } else if (name.contains("full notify"))
                 {
                     if (p.hasPermission("FullNotify.Toggle"))
                     {
                         if (AutoPickupPlugin.fullNotify.contains(p.getName()))
                         {
                             AutoPickupPlugin.fullNotify.remove(p.getName());
-                        }else
+                        } else
                         {
                             AutoPickupPlugin.fullNotify.add(p.getName());
                         }
                         Common.openGui(p);
                     }
-                }else if ( ! name.contains("auto"))
+                } else if ( ! name.contains("auto"))
                 {
                     if (name.contains("close"))
                     {
@@ -153,13 +158,13 @@ public class MainListener implements Listener
                     } else if (name.contains("smelt"))
                     {
                         AutoSmelt.smelt(p);
-                    }else if (name.contains("block"))
+                    } else if (name.contains("block"))
                     {
                         AutoBlock.block(p);
                     }
                 }
             }
-        }catch (NullPointerException | ClassCastException ignored)
+        } catch (NullPointerException | ClassCastException ignored)
         {
             //TODO: do something here
         }
@@ -290,7 +295,7 @@ public class MainListener implements Listener
                     im.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Right Click to Sell Your Items");
                     is.setItemMeta(im);
                     e.getPlayer().updateInventory();
-                }catch (NullPointerException ignored)
+                } catch (NullPointerException ignored)
                 {
                 }
             }else
@@ -327,7 +332,9 @@ public class MainListener implements Listener
             {
                 HashMap < Integer, ItemStack > remaining = killer.getInventory().addItem(drop);
                 for (ItemStack remainder:remaining.values())
+                {
                     newDrops.add(remainder);
+                }
             }
             if ( ! newDrops.isEmpty())
             {
@@ -354,14 +361,19 @@ public class MainListener implements Listener
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFish(PlayerFishEvent e)
     {
-        if ( ! Config.getBlockedWorlds().contains(e.getPlayer().getWorld()) && Config.autoMob && e.getCaught() != null && e.getCaught()instanceof Item)
+        if ( ! Config.getBlockedWorlds().contains(e.getPlayer().getWorld())
+            && Config.autoMob
+            && e.getCaught() != null
+            && e.getCaught() instanceof Item)
         {
             Item item = (Item)e.getCaught();
             Collection < ItemStack > newDrops = e.getPlayer().getInventory().addItem(item.getItemStack()).values();
+
             if ( ! newDrops.isEmpty())
             {
                 Util.warn(e.getPlayer());
             }
+
             if (Config.deleteOnFull || newDrops.isEmpty())
             {
                 item.remove();
