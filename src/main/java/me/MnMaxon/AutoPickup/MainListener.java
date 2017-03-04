@@ -80,12 +80,12 @@ public class MainListener implements Listener
         try
         {
             e.getCurrentItem().getData().getItemType();
-            if (e.getInventory().getName().equals(ChatColor.BLUE + "Auto Pickup"))
+            if (e.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup Settings"))
             {
                 e.setCancelled(true);
                 Player p = (Player)e.getWhoClicked();
-                String name = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().toLowerCase());
-                if (name.contains("auto pickup"))
+                String name = e.getCurrentItem().getItemMeta().getDisplayName();
+                if (name.contains("AutoPickup"))
                 {
                     if (p.hasPermission("AutoPickup.Toggle"))
                     {
@@ -98,7 +98,7 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                } else if (name.contains("auto smelt"))
+                } else if (name.contains("AutoSmelt"))
                 {
                     if (p.hasPermission("AutoSmelt.Toggle"))
                     {
@@ -111,7 +111,7 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                } else if (name.contains("auto block"))
+                } else if (name.contains("AutoBlock"))
                 {
                     if (p.hasPermission("AutoBlock.Toggle"))
                     {
@@ -124,7 +124,7 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                } else if (name.contains("auto sell"))
+                } else if (name.contains("AutoSell"))
                 {
                     if (p.hasPermission("AutoSell.Toggle"))
                     {
@@ -137,7 +137,7 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                } else if (name.contains("full notify"))
+                } else if (name.contains("FullNotify"))
                 {
                     if (p.hasPermission("FullNotify.Toggle"))
                     {
@@ -152,13 +152,13 @@ public class MainListener implements Listener
                     }
                 } else if ( ! name.contains("auto"))
                 {
-                    if (name.contains("close"))
+                    if (name.contains("Close"))
                     {
                         p.closeInventory();
-                    } else if (name.contains("smelt"))
+                    } else if (name.contains("Smelt"))
                     {
                         AutoSmelt.smelt(p);
-                    } else if (name.contains("block"))
+                    } else if (name.contains("Block"))
                     {
                         AutoBlock.block(p);
                     }

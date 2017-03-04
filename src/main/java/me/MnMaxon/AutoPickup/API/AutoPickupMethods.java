@@ -1,19 +1,16 @@
-package me.MnMaxon.AutoPickup.API; 
+package me.MnMaxon.AutoPickup.API;
 
 import me.MnMaxon.AutoPickup. * ;
 import me.MnMaxon.AutoPickup.commands.Common;
- 
-import me.mrCookieSlime.QuickSell.Shop; 
-import org.bukkit.Bukkit; 
-import org.bukkit.entity.Player; 
-import org.bukkit.inventory.ItemStack; 
 
-import java.util.ArrayList; 
-import java.util.Collection; 
+import me.mrCookieSlime.QuickSell.Shop;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-/**
- * Created by MnMaxon on 2/29/2016.  Aren't I great?
- */
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class AutoPickupMethods
 {
     public static void openGui(Player player)
@@ -35,7 +32,7 @@ public class AutoPickupMethods
                 }
             }
 
-            if (highestShop != null) 
+            if (highestShop != null)
             {
                 highestShop.sell(player, true, item);
                 return;
@@ -64,30 +61,30 @@ public class AutoPickupMethods
 
                 return;
 
-            } else 
+            } else
             {
                 for (ItemStack give : die.getItems())
                 {
                     if (AutoPickupPlugin.autoBlock.contains(player.getName()))
                     {
                         remaining.addAll(AutoBlock.addItem(player, give).values());
-                    } else 
+                    } else
                     {
                         remaining.addAll(Util.giveItem(player, give).values());
                     }
                 }
             }
 
-            if (!remaining.isEmpty()) 
+            if (!remaining.isEmpty())
             {
-                if (!die.isCancelled()) 
+                if (!die.isCancelled())
                 {
                     Util.warn(player);
                 }
 
                 if (!Config.deleteOnFull)
                 {
-                    for (ItemStack is : remaining) 
+                    for (ItemStack is : remaining)
                     {
                         player.getWorld().dropItem(player.getLocation(), is);
                     }

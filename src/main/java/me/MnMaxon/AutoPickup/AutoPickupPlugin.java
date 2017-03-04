@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AutoPickupPlugin extends JavaPlugin
