@@ -28,6 +28,7 @@ public class AutoBlockCommand implements CommandExecutor
                 {
                     AutoBlock.block(p); 
                 }
+                return true;
             } else if (args[0].equalsIgnoreCase("toggle"))
             {
                 if ( ! p.hasPermission("AutoBlock.toggle"))
@@ -42,6 +43,7 @@ public class AutoBlockCommand implements CommandExecutor
                     AutoPickupPlugin.autoBlock.add(p.getName()); 
                     p.sendMessage(Message.SUCCESS0TOGGLE0BLOCK_ON + ""); 
                 }
+                return true;
             } else
             {
                 Common.displayHelp(p); 

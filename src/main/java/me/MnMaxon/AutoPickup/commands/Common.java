@@ -79,9 +79,10 @@ public class Common
         conts[0] = Util.easyItem(ChatColor.GREEN + "AutoPickup", Material.HOPPER, 1, 0, ChatColor.GRAY + "Sends mined blocks", ChatColor.GRAY + "straight to your inventory"); 
         conts[1] = Util.easyItem(ChatColor.GREEN + "AutoBlock", Material.IRON_BLOCK, 1, 0, ChatColor.GRAY + "Turns ingots into blocks"); 
         conts[2] = Util.easyItem(ChatColor.GREEN + "AutoSmelt", Material.FURNACE, 1, 0, ChatColor.GRAY + "Smelts all mined ores"); 
+        conts[3] = Util.easyItem(ChatColor.GREEN + "Fullnotify", Material.CHEST, 1, 0, ChatColor.GRAY + "Notifys you when your inventory is full"); 
         if (Config.usingQuickSell)
         {
-            conts[3] = Util.easyItem(ChatColor.GREEN + "AutoSell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks"); 
+            conts[4] = Util.easyItem(ChatColor.GREEN + "AutoSell", Material.GOLD_INGOT, 1, 0, ChatColor.GRAY + "Sells any possible", ChatColor.GRAY + "mined blocks"); 
         }
 
         String autoPickupName = (AutoPickupPlugin.autoPickup.contains(p.getName()))?ChatColor.GREEN + "AutoPickup ENABLED":ChatColor.RED + "AutoPickup DISABLED"; 
@@ -99,9 +100,10 @@ public class Common
         conts[9] = (p.hasPermission("AutoPickup.Toggle"))?Util.easyItem(autoPickupName, Material.INK_SACK, 1, apDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoPickupName, Material.INK_SACK, 1, apDur); 
         conts[10] = (p.hasPermission("AutoBlock.Toggle"))?Util.easyItem(autoBlockName, Material.INK_SACK, 1, abDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoBlockName, Material.INK_SACK, 1, abDur); 
         conts[11] = (p.hasPermission("AutoSmelt.Toggle"))?Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur); 
+        conts[12] = (p.hasPermission("Fullnotify.Toggle"))?Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur); 
         if (Config.usingQuickSell)
         {
-            conts[12] = (p.hasPermission("AutoSell.Toggle"))?Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur); 
+            conts[13] = (p.hasPermission("AutoSell.Toggle"))?Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur, ChatColor.GRAY + "Click to Toggle"):Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur); 
         }
 
         ItemStack locked = Util.easyItem(ChatColor.RED + "LOCKED", Material.STAINED_GLASS_PANE, 1, 14); 
@@ -114,14 +116,18 @@ public class Common
         {
             conts[16] =Util.easyItem(ChatColor.RED + "Suggestions/Found Bugs", Material.LAVA_BUCKET, 1, 0, ChatColor.GRAY + "Contact " + ChatColor.GOLD + "MnMaxon" + ChatColor.GRAY + " on ", ChatColor.GRAY + "Spigot or Bukkit", ChatColor.GRAY + "Or, by email:", ChatColor.GRAY + "masontg777@aol.com"); 
         }
+
         conts[17] =Util.easyItem(ChatColor.RED + "Close", Material.ARROW, 1, 0); 
+
         for (int i = 0; i < conts.length; i++)
         {
             if (conts[i] == null)conts[i] = empty; 
         }
 
         //TODO: wtf?
-        if (p.getInventory() != null && p.getInventory().getName() != null && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup"))
+        if (p.getInventory() != null 
+            && p.getInventory().getName() != null 
+            && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup"))
         {
             p.getInventory().setContents(conts); 
             p.updateInventory(); 

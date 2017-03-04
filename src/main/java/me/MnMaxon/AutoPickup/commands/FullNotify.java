@@ -15,7 +15,7 @@ public class FullNotify implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(cmd.getName().equals("AutoPickup"))
+        if(cmd.getName().equals("FullNotify"))
         {
             Player p = (Player)sender; 
             if (!p.hasPermission("FullNotify.command")) 

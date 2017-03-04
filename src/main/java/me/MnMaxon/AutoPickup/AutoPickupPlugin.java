@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit; 
-import org.bukkit.Material; 
 import org.bukkit.entity.Player; 
 import org.bukkit.plugin.java.JavaPlugin; 
 
@@ -41,7 +40,9 @@ public final class AutoPickupPlugin extends JavaPlugin
         Config.setConfigFolder(this.getDataFolder().getAbsolutePath()); 
         Config.reloadConfigs(); 
 
+        //TODO: this dosn't seem to be registering
         getServer().getPluginManager().registerEvents(new MainListener(), this); 
+        
         ArrayList < String > plugins = new ArrayList <> (); 
 
         this.getCommand("AutoPickup").setExecutor(new AutoPickup()); 
