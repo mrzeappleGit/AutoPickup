@@ -2,9 +2,7 @@ package me.MnMaxon.AutoPickup;
 
 import org.bukkit.inventory.ItemStack; 
 
-/**
- * Created by MnMaxon on 5/26/2015. */
-public class AutoResult 
+public class AutoResult
 {
     private final ItemStack newItem; 
     private final ItemStack original; 

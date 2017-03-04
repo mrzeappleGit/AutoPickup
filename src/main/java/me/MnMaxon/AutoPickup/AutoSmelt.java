@@ -1,19 +1,16 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup;
 
-import org.bukkit.Bukkit; 
-import org.bukkit.entity.Player; 
-import org.bukkit.inventory.FurnaceRecipe; 
-import org.bukkit.inventory.ItemStack; 
-import org.bukkit.inventory.Recipe; 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 
-import java.util.Iterator; 
+import java.util.Iterator;
 
-/**
- * Created by MnMaxon on 5/26/2015.  Aren't I great?
- */
-public class AutoSmelt 
+public class AutoSmelt
 {
-    
+
     public static AutoResult smelt(ItemStack is)
     {
         if (is == null)
@@ -34,8 +31,8 @@ public class AutoSmelt
                 continue;
             }
             ItemStack newItem = recipe.getResult();
-            if ((!Config.smeltList.isEmpty() 
-                && !Config.smeltList.contains(is.getType().name())) || (Config.smeltBlacklist.containsKey(newItem.getType()) 
+            if ((!Config.smeltList.isEmpty()
+                && !Config.smeltList.contains(is.getType().name())) || (Config.smeltBlacklist.containsKey(newItem.getType())
                 && (Config.smeltBlacklist.get(newItem.getType()) < 0 || Config.smeltBlacklist.get(newItem.getType()) == newItem.getDurability())))
             {
                 return new AutoResult(is, is, false);
@@ -55,7 +52,7 @@ public class AutoSmelt
 
         boolean changed = false;
         ItemStack[] cont = p.getInventory().getContents();
-        for (int i = 0; i < cont.length; i++) 
+        for (int i = 0; i < cont.length; i++)
         {
             AutoResult result = smelt(cont[i]);
             if (result.isChanged()) {
@@ -66,13 +63,13 @@ public class AutoSmelt
             }
         }
 
-        if (changed) 
+        if (changed)
         {
             if(notify)
             {
                 p.sendMessage(Message.SUCCESS0SMELTED_INVENTORY + "");
             }
-        } else 
+        } else
         {
             if(notify)
             {
@@ -83,13 +80,13 @@ public class AutoSmelt
 
     public static void smelt(Player p)
     {
-        if (p == null || !p.isValid()) 
+        if (p == null || !p.isValid())
         {
             return;
         }
         boolean changed = false;
         ItemStack[] cont = p.getInventory().getContents();
-        for (int i = 0; i < cont.length; i++) 
+        for (int i = 0; i < cont.length; i++)
         {
             AutoResult result = smelt(cont[i]);
             if (result.isChanged())
@@ -103,7 +100,7 @@ public class AutoSmelt
             p.getInventory().setContents(cont);
             p.updateInventory();
             p.sendMessage(Message.SUCCESS0SMELTED_INVENTORY + "");
-        } else 
+        } else
         {
             p.sendMessage(Message.ERROR0SMELTED_INVENTORY + "");
         }
