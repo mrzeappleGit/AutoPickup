@@ -24,7 +24,7 @@ public class AutoPickupMethods
         Common.openGui(player);
     }
 
-    public static void autoGive(Player player, ItemStack item, boolean notify)
+    public static void autoGive(Player player, ItemStack item)
     {
         if (AutoPickupPlugin.autoSell.contains(player.getName()))
         {
