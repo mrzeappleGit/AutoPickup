@@ -43,7 +43,10 @@ public enum Message
                 update = true; 
             }
         }
-        if (update)Config.messageConfig.save(); 
+        if (update)
+        {
+            Config.saveAll(); 
+        }
     }
 
     private boolean reload()
