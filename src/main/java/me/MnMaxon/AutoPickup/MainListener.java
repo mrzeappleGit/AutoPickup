@@ -157,10 +157,16 @@ public class MainListener implements Listener
                         p.closeInventory();
                     } else if (name.contains("Smelt"))
                     {
-                        AutoSmelt.smelt(p);
+                        if(p.hasPermission("AutoSmelt.command"))
+                        {
+                            AutoSmelt.smelt(p);
+                        }
                     } else if (name.contains("Block"))
                     {
-                        AutoBlock.block(p);
+                        if(p.hasPermission("AutoBlock.command"))
+                        {
+                            AutoBlock.block(p);
+                        }
                     }
                 }
             }
