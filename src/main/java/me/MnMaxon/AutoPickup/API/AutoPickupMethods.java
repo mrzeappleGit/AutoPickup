@@ -62,7 +62,10 @@ public class AutoPickupMethods
                 SuperLoc.superLocs.remove(die.getPlayer().getLocation().getBlock().getLocation());
                 for (ItemStack spawn : die.getItems())
                 {
-                    player.getWorld().dropItem(player.getLocation(), spawn);
+                    if (!Config.deleteOnFull)
+                    {
+                        player.getWorld().dropItem(player.getLocation(), spawn);
+                    }
                 }
 
                 return;
