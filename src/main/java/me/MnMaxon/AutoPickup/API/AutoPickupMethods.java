@@ -26,6 +26,13 @@ public class AutoPickupMethods
 
     public static void autoGive(Player player, ItemStack item)
     {
+
+        if (AutoPickupPlugin.autoBlock.contains(player.getName()))
+        {
+            //start by autoblocking the player inventory
+            blockInventory(player, false);
+        }
+
         if (AutoPickupPlugin.autoSell.contains(player.getName()))
         {
             double highestPrice = 0;
@@ -44,6 +51,7 @@ public class AutoPickupMethods
                 return;
             }
         }
+
         if (AutoPickupPlugin.autoSmelt.contains(player.getName()))
         {
             item = smelt(item).getNewItem();
@@ -62,10 +70,7 @@ public class AutoPickupMethods
                 SuperLoc.superLocs.remove(die.getPlayer().getLocation().getBlock().getLocation());
                 for (ItemStack spawn : die.getItems())
                 {
-                    if (!Config.deleteOnFull)
-                    {
-                        player.getWorld().dropItem(player.getLocation(), spawn);
-                    }
+                    player.getWorld().dropItem(player.getLocation(), spawn);
                 }
 
                 return;
