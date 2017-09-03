@@ -168,7 +168,7 @@ public class Common
         }
 
         String fullNotifyName;
-        if (AutoPickupPlugin.autoSell.contains(p.getName()))
+        if (AutoPickupPlugin.fullNotify.contains(p.getName()))
         {
             fullNotifyName = ChatColor.GREEN + "FullNotify ENABLED";
         } else

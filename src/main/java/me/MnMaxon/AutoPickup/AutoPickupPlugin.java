@@ -37,7 +37,6 @@ public final class AutoPickupPlugin extends JavaPlugin
         Config.setConfigFolder(this.getDataFolder().getAbsolutePath());
         Config.reloadConfigs();
 
-        //TODO: this dosn't seem to be registering
         getServer().getPluginManager().registerEvents(new MainListener(), this);
 
         ArrayList < String > plugins = new ArrayList <> ();
