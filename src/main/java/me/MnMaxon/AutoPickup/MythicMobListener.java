@@ -36,10 +36,7 @@ public class MythicMobListener implements Listener
             for (ItemStack drop : e.getDrops()) 
             {
                 HashMap<Integer, ItemStack> remaining = killer.getInventory().addItem(drop);
-                for (ItemStack remainder : remaining.values())
-                {
-                    newDrops.add(remainder);
-                }
+                newDrops.addAll(remaining.values());
             }
 
             if (!newDrops.isEmpty())

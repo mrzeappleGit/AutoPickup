@@ -58,20 +58,21 @@ public enum Message
             return false; 
         }
         message = defaultMessage; 
-        Config.messageConfig.set(path, decolorize(defaultMessage)); 
+        Config.messageConfig.set(path, decolorize(defaultMessage));
         return true; 
     }
 
-    public static String decolorize(String msg)
+    private static String decolorize(String msg)
     {
         if (msg == null)
         {
-            return null; 
+            return null;
         }
-        return ChatColor.translateAlternateColorCodes('\u00a7', msg).replaceAll("Å", ""); 
+
+        return ChatColor.translateAlternateColorCodes('\u00a7', msg).replaceAll("Å", "");
     }
 
-    public static String colorize(String msg)
+    private static String colorize(String msg)
     {
         if (msg == null)
         {

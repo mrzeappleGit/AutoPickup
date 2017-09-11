@@ -1,0 +1,14 @@
+resources:
+- name: Autopickup
+  type: git
+  source:
+    branch: develop
+    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
+
+jobs:
+- name: build
+  plan:
+  - get: Autopickup
+    trigger: true
+  - task: build
+    file: Autopickup/ci/concourse.yml

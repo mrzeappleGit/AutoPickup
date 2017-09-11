@@ -1,12 +1,8 @@
 package me.MnMaxon.AutoPickup.commands;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,70 +11,9 @@ import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.Config;
 import me.MnMaxon.AutoPickup.Util;
 
+@SuppressWarnings("ALL")
 public class Common
 {
-
-    public Common()
-    {}
-
-    public static void displayHelp(CommandSender s)
-    {
-        ChatColor c1 = null;
-        ChatColor c2 = null;
-        Random random = new Random();
-        while (c1 == null
-                || c1 == ChatColor.MAGIC
-                || c1 == ChatColor.ITALIC
-                || c1 == ChatColor.BLACK
-                || c1 == ChatColor.UNDERLINE
-                || c1 == ChatColor.BOLD
-                || c1 == ChatColor.RESET
-                || c1 == ChatColor.STRIKETHROUGH)
-        {
-            c1 = ChatColor.values()[random.nextInt(ChatColor.values().length - 1)];
-        }
-
-        while (c2 == null
-                || c2 == c1
-                || c2 == ChatColor.MAGIC
-                || c2 == ChatColor.ITALIC
-                || c2 == ChatColor.BLACK
-                || c2 == ChatColor.UNDERLINE
-                || c2 == ChatColor.BOLD
-                || c2 == ChatColor.RESET
-                || c2 == ChatColor.STRIKETHROUGH)
-        {
-            c2 = ChatColor.values()[random.nextInt(ChatColor.values().length - 1)];
-        }
-
-        ArrayList < String > messages = new ArrayList<String>();
-
-        messages.add("AutoPickup-Displays this screen");
-
-        if (Config.usingQuickSell)
-        {
-            messages.add("AutoSell toggle - Toggles auto sell");
-        }
-
-        messages.add("AutoPickup toggle - Toggles auto pickup");
-        messages.add("AutoBlock toggle - Toggles auto block");
-        messages.add("AutoBlock - Turns anything that can be into a block");
-        messages.add("AutoSmelt - Smelts anything that can be smelted in your inventory");
-        messages.add("AutoSmelt toggle - Toggles auto smelt");
-
-        //WTF?
-        messages.add("AutoSmelt reload - Reloads the plugin");
-
-        s.sendMessage(c1 + "==== " + c2 + AutoPickupPlugin.getPlugin(AutoPickupPlugin.class).getName() + c1 + " ====");
-
-        for (String message:messages)
-        {
-            s.sendMessage(c2 + "/" + message.replace("-", c1 + " - "));
-        }
-
-        s.sendMessage(c1 + "For more help: " + c2 + "http://goo.gl/WdfLpK");
-        s.sendMessage(c1 + "Shortcuts: " + c2 + "/ap = /AutoPickup, /ab = /AutoBlock, /as = /AutoSmelt");
-    }
 
     public static void openGui(Player p)
     {

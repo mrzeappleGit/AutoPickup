@@ -4,14 +4,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class AutoResult
 {
-    private final ItemStack newItem; 
-    private final ItemStack original; 
+    private final ItemStack newItem;
     private final boolean changed; 
 
-    public AutoResult(ItemStack newItem, ItemStack original, boolean changed)
+    public AutoResult(ItemStack newItem, boolean changed)
     {
-        this.newItem = newItem; 
-        this.original = original; 
+        this.newItem = newItem;
         this.changed = changed; 
     }
 
@@ -23,10 +21,5 @@ public class AutoResult
     public boolean isChanged()
     {
         return changed; 
-    }
-
-    public ItemStack getOriginal()
-    {
-        return original; 
     }
 }

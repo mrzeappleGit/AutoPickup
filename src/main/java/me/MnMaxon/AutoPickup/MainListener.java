@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MainListener implements Listener
 {
 
@@ -203,7 +204,7 @@ public class MainListener implements Listener
         fixPicks(e.getPlayer());
     }
 
-    public static boolean fixPick(ItemStack is)
+    private static boolean fixPick(ItemStack is)
     {
         try
         {
@@ -337,10 +338,7 @@ public class MainListener implements Listener
             for (ItemStack drop:e.getDrops())
             {
                 HashMap < Integer, ItemStack > remaining = killer.getInventory().addItem(drop);
-                for (ItemStack remainder:remaining.values())
-                {
-                    newDrops.add(remainder);
-                }
+                newDrops.addAll(remaining.values());
             }
             if ( ! newDrops.isEmpty())
             {

@@ -9,11 +9,12 @@ import java.util.HashMap;
 
 /**
  * Created by MnMaxon on 5/26/2015. */
+@SuppressWarnings("ALL")
 public class AutoBlock
 {
-    public static HashMap < Material, Material > convertTo = new HashMap <> ();
-    public static HashMap < Material, Integer > convertNum = new HashMap <> ();
-    private static HashMap < Material, Short > convertDurability = new HashMap <> ();
+    public static final HashMap < Material, Material > convertTo = new HashMap <> ();
+    public static final HashMap < Material, Integer > convertNum = new HashMap <> ();
+    private static final HashMap < Material, Short > convertDurability = new HashMap <> ();
 
     public static HashMap < Integer, ItemStack > addItem(Player p, ItemStack is)
     {
@@ -40,7 +41,7 @@ public class AutoBlock
         }
 
         Inventory pInv = p.getInventory();
-        ItemStack[] newCont = block(p, pInv.getStorageContents(), is.getType());
+        ItemStack[] newCont = block(p, pInv.getStorageContents());
 
         //if we made any blocks
         if (newCont != null)
@@ -54,7 +55,7 @@ public class AutoBlock
 
     public static void block(Player p, boolean notify)
     {
-        ItemStack[] newConts = block(p, p.getInventory().getStorageContents(), null);
+        ItemStack[] newConts = block(p, p.getInventory().getStorageContents());
         if (newConts == null)
         {
             if (notify)
@@ -77,7 +78,7 @@ public class AutoBlock
         block(p, true);
     }
 
-    private static ItemStack[] block(Player p, ItemStack[] conts, Material forceType)
+    private static ItemStack[] block(Player p, ItemStack[] conts)
     {
 
         //TODO: work out what these are for
@@ -189,19 +190,6 @@ public class AutoBlock
             return conts;
         }
         return null;
-    }
-
-    static boolean isSpaceAvailable(Player player, ItemStack item) {
-        //Exclude armor slots - ids 100, 101, 102, 103 - Normal Inventory is slots 0-35
-        boolean space = false;
-        for (int i = 0; i <= 35; i++) {
-            ItemStack slotItem = player.getInventory().getItem(i);
-            if (slotItem == null || ((slotItem.getType() == item.getType())
-                && item.getAmount() + slotItem.getAmount() <= slotItem.getMaxStackSize())) {
-                space = true;
-            }
-        }
-        return space;
     }
 
     //conversion data

@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 //TODO: this class must Die!
 public class SuperLoc
 {
-    public static HashMap < Location, SuperLoc > superLocs = new HashMap <> ();
+    public static final HashMap < Location, SuperLoc > superLocs = new HashMap <> ();
     private final Player p;
     private final boolean autoPickup;
     private final boolean autoSmelt;
@@ -49,15 +49,10 @@ public class SuperLoc
         superLocs.put(location, sl);
 
         //TODO: whats this achieve?
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("AutoPickup"), new Runnable()
-        {
-            @Override
-            public void run()
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("AutoPickup"), () -> {
+            if (superLocs.containsKey(location) && superLocs.get(location).equals(sl))
             {
-                if (superLocs.containsKey(location) && superLocs.get(location).equals(sl))
-                {
-                    superLocs.remove(location);
-                }
+                superLocs.remove(location);
             }
         }, 10L);
     }

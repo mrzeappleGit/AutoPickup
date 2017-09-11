@@ -17,10 +17,11 @@ import java.util.Map;
 
 /**
  * Created by MnMaxon on 6/7/2015. */
-public class MythicListener implements Listener 
+@SuppressWarnings("ALL")
+public class MythicListener implements Listener
 {
 
-    private Map < Integer, String > damageMap = new HashMap <> (); 
+    private final Map < Integer, String > damageMap = new HashMap <> ();
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onKill(EntityDeathEvent e) 
