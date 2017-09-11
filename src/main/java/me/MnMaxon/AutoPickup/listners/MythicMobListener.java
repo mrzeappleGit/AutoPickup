@@ -1,7 +1,10 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import net.elseland.xikage.MythicMobs.API.Bukkit.Events.MythicMobDeathEvent; 
-import org.bukkit.entity.Player; 
+import net.elseland.xikage.MythicMobs.API.Bukkit.Events.MythicMobDeathEvent;
+
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.Util;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler; 
 import org.bukkit.event.Listener; 
 import org.bukkit.inventory.ItemStack; 

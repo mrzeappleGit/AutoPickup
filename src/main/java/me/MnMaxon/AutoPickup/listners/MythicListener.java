@@ -1,6 +1,9 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import org.bukkit.Bukkit; 
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.SuperLoc;
+import org.bukkit.Bukkit;
 import org.bukkit.Location; 
 import org.bukkit.entity.Player; 
 import org.bukkit.entity.Projectile; 
@@ -50,7 +53,7 @@ public class MythicListener implements Listener
 
         for (Location location:locs)
         {
-            SuperLoc.add(location, killer, true, AutoPickupPlugin.autoSmelt.contains(killer.getName()), AutoPickupPlugin.autoBlock.contains(killer.getName()), null); 
+            SuperLoc.add(location, killer, true, AutoPickupPlugin.autoSmelt.contains(killer.getName()), AutoPickupPlugin.autoBlock.contains(killer.getName()), null);
         }
 
     }

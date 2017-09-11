@@ -1,7 +1,11 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import com.vk2gpz.tokenenchant.event.TEBlockExplodeEvent; 
-import org.bukkit.block.Block; 
+import com.vk2gpz.tokenenchant.event.TEBlockExplodeEvent;
+
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.SuperLoc;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler; 
 import org.bukkit.event.Listener; 
 import org.bukkit.inventory.ItemStack; 

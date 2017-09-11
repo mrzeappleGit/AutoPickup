@@ -1,5 +1,11 @@
-package me.MnMaxon.AutoPickup;
+package me.MnMaxon.AutoPickup.listners;
 
+import me.MnMaxon.AutoPickup.AutoBlock;
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.SuperLoc;
+import me.MnMaxon.AutoPickup.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
