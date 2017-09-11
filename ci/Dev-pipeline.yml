@@ -2,8 +2,8 @@ resources:
 - name: Autopickup
   type: git
   source:
-    branch: develop
-    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
+    branch: development
+    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/autopickup.git
 
 jobs:
 - name: build
