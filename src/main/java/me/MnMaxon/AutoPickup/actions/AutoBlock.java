@@ -1,5 +1,7 @@
-package me.MnMaxon.AutoPickup;
+package me.MnMaxon.AutoPickup.actions;
 
+import me.MnMaxon.AutoPickup.util.Message;
+import me.MnMaxon.AutoPickup.util.Util;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

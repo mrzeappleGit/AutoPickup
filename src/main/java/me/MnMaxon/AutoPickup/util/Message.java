@@ -1,6 +1,7 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.util;
 
-import org.bukkit.ChatColor; 
+import me.MnMaxon.AutoPickup.Config;
+import org.bukkit.ChatColor;
 
 public enum Message
 {
@@ -45,7 +46,7 @@ public enum Message
         }
         if (update)
         {
-            Config.saveAll(); 
+            Config.saveAll();
         }
     }
 

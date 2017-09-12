@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.Message;
+import me.MnMaxon.AutoPickup.util.Message;
 
 public class FullNotify implements CommandExecutor
 {

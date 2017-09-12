@@ -1,5 +1,8 @@
-package me.MnMaxon.AutoPickup;
+package me.MnMaxon.AutoPickup.actions;
 
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.util.Message;
+import me.MnMaxon.AutoPickup.util.AutoResult;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.FurnaceRecipe;

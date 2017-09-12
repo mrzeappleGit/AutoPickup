@@ -1,4 +1,4 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.util;
 
 import org.bukkit.inventory.ItemStack; 
 

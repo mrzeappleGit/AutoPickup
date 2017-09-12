@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.Util;
+import me.MnMaxon.AutoPickup.util.Util;
 
 @SuppressWarnings("ALL")
 public class Common

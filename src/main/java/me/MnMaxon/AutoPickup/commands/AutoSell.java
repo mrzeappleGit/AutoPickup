@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.Message;
+import me.MnMaxon.AutoPickup.util.Message;
 
 public class AutoSell implements CommandExecutor
 {

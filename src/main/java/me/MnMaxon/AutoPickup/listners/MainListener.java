@@ -1,11 +1,11 @@
 package me.MnMaxon.AutoPickup.listners;
 
-import me.MnMaxon.AutoPickup.AutoBlock;
+import me.MnMaxon.AutoPickup.actions.AutoBlock;
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.actions.AutoSmelt;
 import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.SuperLoc;
-import me.MnMaxon.AutoPickup.Util;
+import me.MnMaxon.AutoPickup.actions.LocationActions;
+import me.MnMaxon.AutoPickup.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
@@ -323,7 +323,7 @@ public class MainListener implements Listener
     {
         fixPick(e.getEntity().getItemStack());
         if ( ! Config.getBlockedWorlds().contains(e.getEntity().getWorld())
-            && SuperLoc.doStuff(e.getEntity(), e.getLocation()))
+            && LocationActions.doAutoActions(e.getEntity(), e.getLocation()))
         {
             e.setCancelled(true);
         }
@@ -418,7 +418,7 @@ public class MainListener implements Listener
         }
         String name = e.getPlayer().getName();
 
-        SuperLoc.add(e.getBlock().getLocation(),
+        LocationActions.add(e.getBlock().getLocation(),
                      e.getPlayer(),
                      AutoPickupPlugin.autoPickup.contains(name),
                      AutoPickupPlugin.autoSmelt.contains(name),
