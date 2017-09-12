@@ -36,4 +36,4 @@ jobs:
   - put: discord-notification
     params:
       text: |
-        Dev build compeleted successfully https://concourse.philderbeast.com/builds/$BUILD_ID
+        Master built successfully https://concourse.philderbeast.com/builds/$BUILD_ID
