@@ -1,5 +1,11 @@
-package me.MnMaxon.AutoPickup;
+package me.MnMaxon.AutoPickup.listners;
 
+import me.MnMaxon.AutoPickup.actions.AutoBlock;
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.actions.AutoSmelt;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.actions.LocationActions;
+import me.MnMaxon.AutoPickup.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
@@ -28,6 +34,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MainListener implements Listener
 {
 
@@ -203,7 +210,7 @@ public class MainListener implements Listener
         fixPicks(e.getPlayer());
     }
 
-    public static boolean fixPick(ItemStack is)
+    private static boolean fixPick(ItemStack is)
     {
         try
         {
@@ -316,7 +323,7 @@ public class MainListener implements Listener
     {
         fixPick(e.getEntity().getItemStack());
         if ( ! Config.getBlockedWorlds().contains(e.getEntity().getWorld())
-            && SuperLoc.doStuff(e.getEntity(), e.getLocation()))
+            && LocationActions.doAutoActions(e.getEntity(), e.getLocation()))
         {
             e.setCancelled(true);
         }
@@ -337,10 +344,7 @@ public class MainListener implements Listener
             for (ItemStack drop:e.getDrops())
             {
                 HashMap < Integer, ItemStack > remaining = killer.getInventory().addItem(drop);
-                for (ItemStack remainder:remaining.values())
-                {
-                    newDrops.add(remainder);
-                }
+                newDrops.addAll(remaining.values());
             }
             if ( ! newDrops.isEmpty())
             {
@@ -414,7 +418,7 @@ public class MainListener implements Listener
         }
         String name = e.getPlayer().getName();
 
-        SuperLoc.add(e.getBlock().getLocation(),
+        LocationActions.add(e.getBlock().getLocation(),
                      e.getPlayer(),
                      AutoPickupPlugin.autoPickup.contains(name),
                      AutoPickupPlugin.autoSmelt.contains(name),

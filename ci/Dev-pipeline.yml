@@ -1,0 +1,14 @@
+resources:
+- name: Autopickup
+  type: git
+  source:
+    branch: development
+    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/autopickup.git
+
+jobs:
+- name: build
+  plan:
+  - get: Autopickup
+    trigger: true
+  - task: build
+    file: Autopickup/ci/concourse.yml

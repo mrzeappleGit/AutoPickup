@@ -1,6 +1,7 @@
 *.class
 *.MF
 build
+testserver
 
 # macOS File System Dust
 *.DS_STORE
@@ -16,17 +17,8 @@ hs_err_pid*
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/*
-.idea/tasks.xml
-.idea/jsLibraryMappings.xml
+.idea
 target/
-
-# Sensitive or high-churn files:
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/dataSources.local.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
 
 # Gradle:
 .gradle/

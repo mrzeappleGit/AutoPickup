@@ -1,5 +1,7 @@
 package me.MnMaxon.AutoPickup;
 
+import me.MnMaxon.AutoPickup.actions.AutoBlock;
+import me.MnMaxon.AutoPickup.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,8 +10,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class Config
 {
@@ -33,57 +32,32 @@ public class Config
 	public static boolean extraInfo = false;
     public static boolean usingQuickSell = false;
 	public static boolean smeltFortune = false;
-	public static boolean usingCompat = false;
-	public static boolean usingAutoSell = false;
+    public static boolean usingAutoSell = false;
 	public static boolean usingStackableItems = false;
 	public static boolean usingPrisonGems = false;
-	public static Boolean allowBlockGui;
-    public static Boolean autoChest;
+	public static boolean allowBlockGui;
+    public static boolean autoChest;
 
-	public static YamlConfiguration mainConfig = null;
-	public static YamlConfiguration messageConfig = null;
-	public static YamlConfiguration smeltConfig = null;
-	public static YamlConfiguration worldConfig = null;
-	public static YamlConfiguration fortuneConfig = null;
-	public static YamlConfiguration fortuneData = null;
+    public static YamlConfiguration messageConfig = null;
+    public static YamlConfiguration fortuneData = null;
 
-	public static List < String > smeltList = new ArrayList < String > ();
-	public static List < Material > fortuneList = new ArrayList <> ();
-	private static List < String > blockedWorlds = new ArrayList <> ();
-	public static HashMap < Material, Short > smeltBlacklist = new HashMap <> ();
+    private static YamlConfiguration mainConfig = null;
+	private static YamlConfiguration smeltConfig = null;
+	private static YamlConfiguration worldConfig = null;
+	private static YamlConfiguration fortuneConfig = null;
+
+
+	public static List < String > smeltList = new ArrayList<>();
+	public static final List < Material > fortuneList = new ArrayList <> ();
+	public static final HashMap < Material, Short > smeltBlacklist = new HashMap <> ();
+    private static final List < String > blockedWorlds = new ArrayList <> ();
 
     public static void setConfigFolder(String configFolder)
     {
         Config.configFolder = configFolder;
     }
 
-	public static YamlConfiguration Load(String FileLocation)
-	{
-        File f = new File(FileLocation);
-		if ( ! f.exists())
-        {
-			try
-            {
-                f.getParentFile().mkdir();
-				f.createNewFile();
-				Bukkit.getServer().getLogger().log(Level.INFO, "New Config Created at: " + FileLocation);
-			}catch (IOException e1)
-            {
-				e1.printStackTrace();
-			}
-        }
-		YamlConfiguration cfg = new YamlConfiguration();
-		try
-        {
-			cfg.load(f);
-		}catch (IOException | InvalidConfigurationException e)
-        {
-			e.printStackTrace();
-		}
-		return cfg;
-	}
-
-	public static void saveAll()
+    public static void saveAll()
     {
 		try
         {
@@ -112,11 +86,7 @@ public class Config
             smeltConfig.load(configFolder + "/Smelt Blacklist.yml");
             worldConfig.load(configFolder + "/World Blacklist.yml");
             fortuneConfig.load(configFolder + "/Advanced Fortune.yml");
-        } catch (FileNotFoundException fnfe)
-        {
-        } catch (IOException ioe)
-        {
-        } catch (InvalidConfigurationException ice)
+        } catch (InvalidConfigurationException | IOException ignored)
         {
         }
 
@@ -124,7 +94,7 @@ public class Config
 		{
             try {
 			    fortuneData.save(configFolder + "/Fortune Data");
-            } catch (IOException ioe)
+            } catch (IOException ignored)
             {
             }
 		}
@@ -186,11 +156,7 @@ public class Config
             try
             {
                 fortuneData.load(configFolder + "/Fortune Data");
-            } catch (FileNotFoundException fnfe)
-            {
-            } catch (IOException ioe)
-            {
-            } catch (InvalidConfigurationException ice)
+            } catch (InvalidConfigurationException | IOException ignored)
             {
             }
 
@@ -269,9 +235,9 @@ public class Config
 
 	}
 
-	public static void defaultConfigs()
+	private static void defaultConfigs()
 	{
-		HashMap < String, Object > defaults = new HashMap < String, Object > ();
+		HashMap < String, Object > defaults = new HashMap<>();
 		defaults.put("Infinity Pick", false);
         defaults.put("Gui.Contact Info", true);
         defaults.put("Full Inventory.Delete Item", true);

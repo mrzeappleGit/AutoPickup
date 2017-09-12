@@ -1,7 +1,11 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import com.vk2gpz.tokenenchant.event.TEBlockExplodeEvent; 
-import org.bukkit.block.Block; 
+import com.vk2gpz.tokenenchant.event.TEBlockExplodeEvent;
+
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.actions.LocationActions;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler; 
 import org.bukkit.event.Listener; 
 import org.bukkit.inventory.ItemStack; 
@@ -37,7 +41,7 @@ public class TokenEnchantListener implements Listener
         String name = e.getPlayer().getName();
         for (Block b : e.blockList())
         {
-            SuperLoc.add(b.getLocation(), e.getPlayer(), AutoPickupPlugin.autoPickup.contains(name), AutoPickupPlugin.autoSmelt.contains(name), AutoPickupPlugin.autoBlock.contains(name), inhand);
+            LocationActions.add(b.getLocation(), e.getPlayer(), AutoPickupPlugin.autoPickup.contains(name), AutoPickupPlugin.autoSmelt.contains(name), AutoPickupPlugin.autoBlock.contains(name), inhand);
         }
     }
 }

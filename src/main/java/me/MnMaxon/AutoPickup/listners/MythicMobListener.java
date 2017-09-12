@@ -1,7 +1,10 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import net.elseland.xikage.MythicMobs.API.Bukkit.Events.MythicMobDeathEvent; 
-import org.bukkit.entity.Player; 
+import net.elseland.xikage.MythicMobs.API.Bukkit.Events.MythicMobDeathEvent;
+
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.util.Util;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler; 
 import org.bukkit.event.Listener; 
 import org.bukkit.inventory.ItemStack; 
@@ -36,10 +39,7 @@ public class MythicMobListener implements Listener
             for (ItemStack drop : e.getDrops()) 
             {
                 HashMap<Integer, ItemStack> remaining = killer.getInventory().addItem(drop);
-                for (ItemStack remainder : remaining.values())
-                {
-                    newDrops.add(remainder);
-                }
+                newDrops.addAll(remaining.values());
             }
 
             if (!newDrops.isEmpty())

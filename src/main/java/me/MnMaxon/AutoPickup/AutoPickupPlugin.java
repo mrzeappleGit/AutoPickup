@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.MnMaxon.AutoPickup.listners.MainListener;
+import me.MnMaxon.AutoPickup.listners.MythicListener;
+import me.MnMaxon.AutoPickup.listners.MythicMobListener;
+import me.MnMaxon.AutoPickup.listners.TokenEnchantListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,12 +22,12 @@ public final class AutoPickupPlugin extends JavaPlugin
 {
 
     //TODO: move these
-    public static List < String > autoSmelt = new ArrayList<>();
-    public static List < String > autoPickup = new ArrayList<>();
-    public static List < String > autoBlock = new ArrayList<>();
-    public static List < String > autoSell = new ArrayList<>();
-    public static List < String > fullNotify = new ArrayList<>();
-    public static HashMap < String, Long > warnCooldown = new HashMap<>();
+    public static final List < String > autoSmelt = new ArrayList<>();
+    public static final List < String > autoPickup = new ArrayList<>();
+    public static final List < String > autoBlock = new ArrayList<>();
+    public static final List < String > autoSell = new ArrayList<>();
+    public static final List < String > fullNotify = new ArrayList<>();
+    public static final HashMap < String, Long > warnCooldown = new HashMap<>();
 
     @Override
     public void onDisable()
@@ -87,7 +91,6 @@ public final class AutoPickupPlugin extends JavaPlugin
         if (getServer().getPluginManager().getPlugin("FortuneBlocks") != null)
         {
             plugins.add("FortuneBlocks");
-            Config.usingCompat = true;
         }
         if (getServer().getPluginManager().getPlugin("PrisonGems") != null)
         {
@@ -96,16 +99,16 @@ public final class AutoPickupPlugin extends JavaPlugin
         }
         if ( ! plugins.isEmpty())
         {
-            String message = "[AutoPickup] Detected you are using ";
+            StringBuilder message = new StringBuilder("[AutoPickup] Detected you are using ");
             for (String pName:plugins)
             {
-                if ( ! message.endsWith(" "))
+                if ( ! message.toString().endsWith(" "))
                 {
-                    message = message + ", ";
+                    message.append(", ");
                 }
-                message = message + pName;
+                message.append(pName);
             }
-            Bukkit.getLogger().info(message);
+            Bukkit.getLogger().info(message.toString());
         }
 
         for (Player p:Bukkit.getOnlinePlayers())

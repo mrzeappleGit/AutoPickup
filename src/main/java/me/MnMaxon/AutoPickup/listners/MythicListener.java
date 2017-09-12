@@ -1,6 +1,9 @@
-package me.MnMaxon.AutoPickup; 
+package me.MnMaxon.AutoPickup.listners;
 
-import org.bukkit.Bukkit; 
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.Config;
+import me.MnMaxon.AutoPickup.actions.LocationActions;
+import org.bukkit.Bukkit;
 import org.bukkit.Location; 
 import org.bukkit.entity.Player; 
 import org.bukkit.entity.Projectile; 
@@ -17,10 +20,11 @@ import java.util.Map;
 
 /**
  * Created by MnMaxon on 6/7/2015. */
-public class MythicListener implements Listener 
+@SuppressWarnings("ALL")
+public class MythicListener implements Listener
 {
 
-    private Map < Integer, String > damageMap = new HashMap <> (); 
+    private final Map < Integer, String > damageMap = new HashMap <> ();
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onKill(EntityDeathEvent e) 
@@ -49,7 +53,7 @@ public class MythicListener implements Listener
 
         for (Location location:locs)
         {
-            SuperLoc.add(location, killer, true, AutoPickupPlugin.autoSmelt.contains(killer.getName()), AutoPickupPlugin.autoBlock.contains(killer.getName()), null); 
+            LocationActions.add(location, killer, true, AutoPickupPlugin.autoSmelt.contains(killer.getName()), AutoPickupPlugin.autoBlock.contains(killer.getName()), null);
         }
 
     }

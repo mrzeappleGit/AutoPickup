@@ -1,5 +1,6 @@
 package me.MnMaxon.AutoPickup;
 
+import me.MnMaxon.AutoPickup.actions.AutoBlock;
 import org.junit.*;
 import org.bukkit.ChatColor;
 
