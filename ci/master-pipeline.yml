@@ -1,3 +1,10 @@
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
 resources:
 - name: Autopickup
   type: git
@@ -12,6 +19,11 @@ resources:
     uri: git@github.com:ThePhilderbeast/AutoPickup.git
     private_key: ((private_repo_key))
 
+- name: discord-notification
+  type: slack-notification
+  source:
+    url: https://discordapp.com/api/webhooks/356928845116604416/mCzSi2wOdGPIll51hv9ubRGeR3z9LWxTQar2Ow-ZgeMFm5T0QAKVVdZPRgak3K7r2GnF/slack
+
 jobs:
 - name: build
   plan:
@@ -21,3 +33,7 @@ jobs:
     file: Autopickup/ci/concourse.yml
   - put: github
     params: {repository: Autopickup }
+  - put: discord-notification
+    params:
+      text: |
+        Dev build compeleted successfully https://concourse.philderbeast.com/builds/$BUILD_ID
