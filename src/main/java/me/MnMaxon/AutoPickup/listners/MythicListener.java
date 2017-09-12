@@ -53,7 +53,7 @@ public class MythicListener implements Listener
 
         for (Location location:locs)
         {
-            LocationActions.add(location, killer, true, AutoPickupPlugin.autoSmelt.contains(killer.getName()), AutoPickupPlugin.autoBlock.contains(killer.getName()), null);
+            LocationActions.add(location, killer, null);
         }
 
     }

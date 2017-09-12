@@ -15,54 +15,47 @@ import org.bukkit.inventory.ItemStack;
 //TODO: this class must Die!
 public class LocationActions
 {
-    public static final HashMap < Location, LocationActions> superLocs = new HashMap <> ();
+    public static final HashMap < Location, LocationActions> locations = new HashMap <> ();
     private final Player p;
-    private final boolean autoPickup;
-    private final boolean autoSmelt;
-    private final boolean autoBlock;
     private final ItemStack itemStack;
 
-    private LocationActions(Player p, boolean autoPickup, boolean autoSmelt, boolean autoBlock, ItemStack is)
+    private LocationActions(Player p, ItemStack is)
     {
         this.p = p;
-        this.autoPickup = autoPickup;
-        this.autoSmelt = autoSmelt;
-        this.autoBlock = autoBlock;
         this.itemStack = is;
     }
 
-    public static void add(Location loc, Player p, boolean autoPickup, boolean autoSmelt, boolean autoBlock, ItemStack is)
+    public static void add(Location loc, Player p, ItemStack is)
     {
         final Location location = loc.getBlock().getLocation();
 
-        if (superLocs.containsKey(location))
+        if (locations.containsKey(location))
         {
-            superLocs.remove(location);
+            locations.remove(location);
         }
 
-        final LocationActions sl = new LocationActions(p, autoPickup, autoSmelt, autoBlock, is);
-        superLocs.put(location, sl);
+        final LocationActions sl = new LocationActions(p, is);
+        locations.put(location, sl);
 
         //TODO: whats this achieve?
         Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("AutoPickup"), () -> {
-            if (superLocs.containsKey(location) && superLocs.get(location).equals(sl))
+            if (locations.containsKey(location) && locations.get(location).equals(sl))
             {
-                superLocs.remove(location);
+                locations.remove(location);
             }
         }, 10L);
     }
 
-    //TODO: DIE IN A FIRE!
     public static boolean doAutoActions(Item item, Location exactLoc)
     {
         Location loc = exactLoc.getBlock().getLocation();
 
-        if (item == null ||  ! superLocs.containsKey(loc))
+        if (item == null ||  ! locations.containsKey(loc))
         {
             return false;
         }
 
-        LocationActions sl = superLocs.get(loc);
+        LocationActions sl = locations.get(loc);
 
         if (sl == null ||  ! sl.p.isValid())
         {
@@ -87,9 +80,10 @@ public class LocationActions
             }
         }
 
-        if (sl.autoPickup)
+        if (AutoPickupPlugin.autoPickup.contains(sl.p.getName()))
         {
-            return AutoPickup.pickup(sl.p, item.getItemStack());
+            AutoPickup.pickup(sl.p, item.getItemStack());
+            return true;
         }
         return false;
     }

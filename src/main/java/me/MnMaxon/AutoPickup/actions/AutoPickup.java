@@ -20,7 +20,7 @@ import java.util.Collection;
 
 public class AutoPickup
 {
-    public static boolean pickup(Player player, ItemStack item)
+    public static void pickup(Player player, ItemStack item)
     {
         ArrayList<ItemStack> items = new ArrayList<>();
         items.add(item);
@@ -30,12 +30,12 @@ public class AutoPickup
 
         if (die.isCancelled())
         {
-            LocationActions.superLocs.remove(die.getPlayer().getLocation().getBlock().getLocation());
+            LocationActions.locations.remove(die.getPlayer().getLocation().getBlock().getLocation());
             for (ItemStack spawn : die.getItems())
             {
                 player.getWorld().dropItem(player.getLocation(), spawn);
             }
-            return true;
+            return;
 
         } else
         {
@@ -63,11 +63,10 @@ public class AutoPickup
                 for (ItemStack is : remaining)
                 {
                     player.getWorld().dropItem(player.getLocation(), is);
-                    return false;
+                    return;
                 }
             }
-            return true;
+            return;
         }
-        return false;
     }
 }

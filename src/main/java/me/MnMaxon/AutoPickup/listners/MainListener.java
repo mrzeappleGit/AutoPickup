@@ -418,11 +418,7 @@ public class MainListener implements Listener
         }
         String name = e.getPlayer().getName();
 
-        LocationActions.add(e.getBlock().getLocation(),
-                     e.getPlayer(),
-                     AutoPickupPlugin.autoPickup.contains(name),
-                     AutoPickupPlugin.autoSmelt.contains(name),
-                     AutoPickupPlugin.autoBlock.contains(name), inhand);
+        LocationActions.add(e.getBlock().getLocation(), e.getPlayer(), inhand);
 
         if (Config.infinityPick
             && e.getPlayer().hasPermission("AutoPickup.infinity")

@@ -41,7 +41,7 @@ public class TokenEnchantListener implements Listener
         String name = e.getPlayer().getName();
         for (Block b : e.blockList())
         {
-            LocationActions.add(b.getLocation(), e.getPlayer(), AutoPickupPlugin.autoPickup.contains(name), AutoPickupPlugin.autoSmelt.contains(name), AutoPickupPlugin.autoBlock.contains(name), inhand);
+            LocationActions.add(b.getLocation(), e.getPlayer(), inhand);
         }
     }
 }
