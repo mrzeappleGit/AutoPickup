@@ -19,8 +19,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import haveric.stackableItems.util.InventoryUtil;
-
 public class Util
 {
 
@@ -40,35 +38,7 @@ public class Util
 
     private static HashMap < Integer, ItemStack > giveItem(Player p, Inventory inv, ItemStack is)
     {
-        if (is == null)
-        {
-            return new HashMap <> ();
-        }
-
-        if ( ! Config.usingStackableItems || p == null)
-        {
-            return inv.addItem(is);
-        }
-        ItemStack toSend = is.clone();
-        ItemStack remaining = null;
-        int freeSpaces = InventoryUtil.getPlayerFreeSpaces(p, toSend);
-        if (freeSpaces < toSend.getAmount())
-        {
-            remaining = toSend.clone();
-            remaining.setAmount(toSend.getAmount() - freeSpaces);
-            toSend.setAmount(freeSpaces);
-        }
-
-        if (toSend.getAmount() > 0)
-        {
-            InventoryUtil.addItemsToPlayer(p, toSend, "pickup");
-        }
-        HashMap < Integer, ItemStack > map = new HashMap <> ();
-        if (remaining != null)
-        {
-            map.put(0, remaining);
-        }
-        return map;
+        return inv.addItem(is);
     }
 
     public static HashMap < Integer, ItemStack > giveItem(Player p, ItemStack is)

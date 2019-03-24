@@ -93,15 +93,6 @@ public class Common
             autoSmeltName = ChatColor.RED + "AutoSmelt DISABLED";
         }
 
-        String autoSellName;
-        if (AutoPickupPlugin.autoSell.contains(p.getName()))
-        {
-            autoSellName = ChatColor.GREEN + "AutoSell ENABLED";
-        } else
-        {
-            autoSellName = ChatColor.RED + "AutoSell DISABLED";
-        }
-
         String fullNotifyName;
         if (AutoPickupPlugin.fullNotify.contains(p.getName()))
         {
@@ -111,58 +102,46 @@ public class Common
             fullNotifyName = ChatColor.RED + "FullNotify DISABLED";
         }
 
-        //set the durability of the dye, 10 = lime, 8 = gray
+        //set the durability of the INK_SAC, 10 = lime, 8 = gray
         int apDur = (AutoPickupPlugin.autoPickup.contains(p.getName()))  ? 10 : 8;
         int abDur = (AutoPickupPlugin.autoBlock.contains(p.getName()))   ? 10 : 8;
         int asDur = (AutoPickupPlugin.autoSmelt.contains(p.getName()))   ? 10 : 8;
-        int aSellDur = (AutoPickupPlugin.autoSell.contains(p.getName())) ? 10 : 8;
         int fullNotifyDur = (AutoPickupPlugin.fullNotify.contains(p.getName())) ? 10 : 8;
 
         if (p.hasPermission("AutoPickup.Toggle"))
         {
-            conts[9] = Util.easyItem(autoPickupName, Material.INK_SACK, 1, apDur, ChatColor.GRAY + "Click to Toggle");
+            conts[9] = Util.easyItem(autoPickupName, Material.INK_SAC, 1, apDur, ChatColor.GRAY + "Click to Toggle");
         } else
         {
-            conts[9] = Util.easyItem(autoPickupName, Material.INK_SACK, 1, apDur);
+            conts[9] = Util.easyItem(autoPickupName, Material.INK_SAC, 1, apDur);
         }
 
         if (p.hasPermission("AutoBlock.Toggle"))
         {
-            conts[10] = Util.easyItem(autoBlockName, Material.INK_SACK, 1, abDur, ChatColor.GRAY + "Click to Toggle");
+            conts[10] = Util.easyItem(autoBlockName, Material.INK_SAC, 1, abDur, ChatColor.GRAY + "Click to Toggle");
         } else
         {
-            conts[10] = Util.easyItem(autoBlockName, Material.INK_SACK, 1, abDur);
+            conts[10] = Util.easyItem(autoBlockName, Material.INK_SAC, 1, abDur);
         }
 
         if (p.hasPermission("AutoSmelt.Toggle"))
         {
-            conts[11] = Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur, ChatColor.GRAY + "Click to Toggle");
+            conts[11] = Util.easyItem(autoSmeltName, Material.INK_SAC, 1, asDur, ChatColor.GRAY + "Click to Toggle");
         } else
         {
-            conts[11] = Util.easyItem(autoSmeltName, Material.INK_SACK, 1, asDur);
+            conts[11] = Util.easyItem(autoSmeltName, Material.INK_SAC, 1, asDur);
         }
 
         if (p.hasPermission("Fullnotify.Toggle"))
         {
-            conts[12] = Util.easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle");
+            conts[12] = Util.easyItem(fullNotifyName, Material.INK_SAC, 1, fullNotifyDur, ChatColor.GRAY + "Click to Toggle");
         } else
         {
-            Util.easyItem(fullNotifyName, Material.INK_SACK, 1, fullNotifyDur);
+            Util.easyItem(fullNotifyName, Material.INK_SAC, 1, fullNotifyDur);
         }
 
-        if (Config.usingQuickSell)
-        {
-            if (p.hasPermission("AutoSell.Toggle"))
-            {
-                conts[13] = Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur, ChatColor.GRAY + "Click to Toggle");
-            } else
-            {
-                conts[13] = Util.easyItem(autoSellName, Material.INK_SACK, 1, aSellDur);
-            }
-        }
-
-        ItemStack locked = Util.easyItem(ChatColor.RED + "LOCKED", Material.STAINED_GLASS_PANE, 1, 14);
-        ItemStack empty = Util.easyItem(null, Material.STAINED_GLASS_PANE, 1, 7);
+        ItemStack locked = Util.easyItem(ChatColor.RED + "LOCKED", Material.GLASS_PANE, 1, 14);
+        ItemStack empty = Util.easyItem(null, Material.GLASS_PANE, 1, 7);
 
         //TODO: make these real if statements
         if (p.hasPermission("AutoBlock.Command"))

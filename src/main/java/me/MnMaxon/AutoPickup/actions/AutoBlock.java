@@ -208,9 +208,9 @@ public class AutoBlock
         convertTo.put(Material.DIAMOND, Material.DIAMOND_BLOCK);
         convertNum.put(Material.DIAMOND, 9);
 
-        convertTo.put(Material.INK_SACK, Material.LAPIS_BLOCK);
-        convertNum.put(Material.INK_SACK, 9);
-        convertDurability.put(Material.INK_SACK, (short) 4);
+        convertTo.put(Material.INK_SAC, Material.LAPIS_BLOCK);
+        convertNum.put(Material.INK_SAC, 9);
+        convertDurability.put(Material.INK_SAC, (short) 4);
 
         convertTo.put(Material.COAL, Material.COAL_BLOCK);
         convertNum.put(Material.COAL, 9);

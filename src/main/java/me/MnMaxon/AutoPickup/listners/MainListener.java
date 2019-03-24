@@ -131,19 +131,6 @@ public class MainListener implements Listener
                         }
                         Common.openGui(p);
                     }
-                } else if (name.contains("AutoSell"))
-                {
-                    if (p.hasPermission("AutoSell.Toggle"))
-                    {
-                        if (AutoPickupPlugin.autoSell.contains(p.getName()))
-                        {
-                            AutoPickupPlugin.autoSell.remove(p.getName());
-                        } else
-                        {
-                            AutoPickupPlugin.autoSell.add(p.getName());
-                        }
-                        Common.openGui(p);
-                    }
                 } else if (name.contains("FullNotify"))
                 {
                     if (p.hasPermission("FullNotify.Toggle"))
@@ -202,11 +189,6 @@ public class MainListener implements Listener
         {
             AutoPickupPlugin.fullNotify.add(e.getPlayer().getName());
         }
-        if (e.getPlayer().hasPermission("AutoSell.enabled") && Config.usingQuickSell)
-        {
-            AutoPickupPlugin.autoSell.add(e.getPlayer().getName());
-        }
-        //TODO: huh?
         fixPicks(e.getPlayer());
     }
 
@@ -267,7 +249,6 @@ public class MainListener implements Listener
         AutoPickupPlugin.autoPickup.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoBlock.remove(e.getPlayer().getName());
         AutoPickupPlugin.autoSmelt.remove(e.getPlayer().getName());
-        AutoPickupPlugin.autoSell.remove(e.getPlayer().getName());
         AutoPickupPlugin.fullNotify.remove(e.getPlayer().getName());
     }
 
@@ -418,11 +399,7 @@ public class MainListener implements Listener
         }
         String name = e.getPlayer().getName();
 
-        LocationActions.add(e.getBlock().getLocation(),
-                     e.getPlayer(),
-                     AutoPickupPlugin.autoPickup.contains(name),
-                     AutoPickupPlugin.autoSmelt.contains(name),
-                     AutoPickupPlugin.autoBlock.contains(name), inhand);
+        LocationActions.add(e.getBlock().getLocation(), e.getPlayer(), inhand);
 
         if (Config.infinityPick
             && e.getPlayer().hasPermission("AutoPickup.infinity")
