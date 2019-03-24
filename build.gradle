@@ -49,13 +49,17 @@ repositories
 {
     mavenLocal()
     mavenCentral()
-    maven  {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
-    maven {url('https://oss.sonatype.org/content/repositories/snapshots')}
-    maven {url('http://maven.drekryan.com:8081/artifactory/libs-release-local')}
-    maven {url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local')}
-    maven {url('http://repo.stealthyone.com/content/groups/public')}
-    maven {url('https://jitpack.io/')}
-    maven {url('http://repo.mcstats.org/content/groups/public')}
+    maven { url('https://nexus.philderbeast.com/repository/artifactory-releases/') }
+    
+    // Spigot Main repo
+    maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+
+    // Bungeecord Repo
+    // For spigot-api
+    maven { url('https://oss.sonatype.org/content/repositories/snapshots') }
+    
+    // maven { url('https://jitpack.io/') }
+    // maven { url('http://repo.mcstats.org/content/groups/public') }
 
 }
 
@@ -74,33 +78,11 @@ build.dependsOn jar
 
 dependencies
 {
-    compile group:'org.bukkit',
-            name:'bukkit',
-            version:'1.11.2-R0.1-SNAPSHOT'
 
-    compile group:'org.spigotmc',
+    compileOnly group:'org.spigotmc',
             name:'spigot-api',
-            version:'1.11.2-R0.1-SNAPSHOT'
-
-    compile group:'com.tealcube.minecraft.bukkit',
-            name:'mythicdrops',
-            version:'4.0.1'
-
-    compile group:'net.elseland.xikage',
-            name:'MythicMobs',
-            version:'2.2.0'
-
-    compile group:'com.vk2gpz.tokenenchant',
-            name:'TokenEnchantAPI',
-            version:'2.8.0'
-
-    compile group:'com.drekryan',
-            name:'QuickSell',
-            version:'1.0'
-
-    compile group:'com.drekryan',
-            name:'StackableItems',
-            version:'1.0'
+            version: "1.13.2-R0.1-SNAPSHOT"
+            // project.property("apiversion")
 
     //testing dependencys
     testCompile group:"junit",

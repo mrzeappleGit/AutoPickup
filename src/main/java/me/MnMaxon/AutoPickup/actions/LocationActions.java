@@ -71,15 +71,6 @@ public class LocationActions
 
         item = Util.doFortune(sl.p, item, sl.itemStack);
 
-        if (AutoPickupPlugin.autoSell.contains(sl.p.getName()))
-        {
-
-            if (AutoSell.sell(sl.p, item.getItemStack()))
-            {
-                return true;
-            }
-        }
-
         if (AutoPickupPlugin.autoPickup.contains(sl.p.getName()))
         {
             AutoPickup.pickup(sl.p, item.getItemStack());

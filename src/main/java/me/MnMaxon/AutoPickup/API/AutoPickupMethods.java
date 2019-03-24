@@ -4,7 +4,6 @@ import me.MnMaxon.AutoPickup.actions.AutoBlock;
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.actions.AutoPickup;
 import me.MnMaxon.AutoPickup.util.AutoResult;
-import me.MnMaxon.AutoPickup.actions.AutoSell;
 import me.MnMaxon.AutoPickup.actions.AutoSmelt;
 import me.MnMaxon.AutoPickup.commands.Common;
 
@@ -24,11 +23,6 @@ public class AutoPickupMethods
         if (AutoPickupPlugin.autoBlock.contains(player.getName()))
         {
             blockInventory(player, false);
-        }
-
-        if (AutoPickupPlugin.autoSell.contains(player.getName()))
-        {
-            AutoSell.sell(player, item);
         }
 
         if (AutoPickupPlugin.autoSmelt.contains(player.getName()))

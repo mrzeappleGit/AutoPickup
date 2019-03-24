@@ -1,5 +1,6 @@
 name: AutoPickup
 version: {{version}}
+api-version: 1.13
 main: me.MnMaxon.AutoPickup.AutoPickupPlugin
 softdepend: [MythicDrops, MythicMobs, QuickSell, FortuneBlocks, AutoSell, StackableItems, PrisonGems, MyPet, TokenEnchant]
 commands:
