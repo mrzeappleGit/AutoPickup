@@ -180,9 +180,9 @@ public class Common
         }
 
         //TODO: wtf?
-        if (p.getInventory() != null
-            && p.getInventory().getName() != null
-            && p.getInventory().getName().equals(ChatColor.BLUE + "AutoPickup"))
+        if (p.getOpenInventory() != null
+            && p.getOpenInventory().getTitle() != null
+            && p.getOpenInventory().getTitle().equals(ChatColor.BLUE + "AutoPickup"))
         {
             p.getInventory().setContents(conts);
             p.updateInventory();
