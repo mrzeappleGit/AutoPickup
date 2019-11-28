@@ -80,6 +80,8 @@ public class Config
         worldConfig = new YamlConfiguration();
         fortuneConfig = new YamlConfiguration();
 
+        defaultConfigs();
+
         try{
             mainConfig.load(configFolder + "/Config.yml");
             messageConfig.load(configFolder + "/Messages.yml");
@@ -88,6 +90,7 @@ public class Config
             fortuneConfig.load(configFolder + "/Advanced Fortune.yml");
         } catch (InvalidConfigurationException | IOException ignored)
         {
+            Bukkit.getLogger().severe("Failed to load all configs");
         }
 
         if (fortuneData != null)
@@ -101,8 +104,6 @@ public class Config
         fortuneData = null;
         Message.setup();
 
-		//set up the default configs for anything not set
-		defaultConfigs();
 
 		if (mainConfig.getBoolean("AutoBlock Quartz"))
         {
@@ -309,8 +310,6 @@ public class Config
         {
             worldConfig.set("Blacklist", Arrays.asList("ExampleWorld", "2nd_Example"));
         }
-
-        saveAll();
 
 	}
 
