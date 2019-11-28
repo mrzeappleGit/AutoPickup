@@ -49,18 +49,16 @@ repositories
 {
     mavenLocal()
     mavenCentral()
-    maven { url('https://nexus.philderbeast.com/repository/artifactory-releases/') }
-    
-    // Spigot Main repo
-    maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
 
-    // Bungeecord Repo
-    // For spigot-api
-    maven { url('https://oss.sonatype.org/content/repositories/snapshots') }
-    
-    // maven { url('https://jitpack.io/') }
-    // maven { url('http://repo.mcstats.org/content/groups/public') }
+    maven 
+    { 
+        url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') 
+    }
 
+    maven 
+    { 
+        url('https://oss.sonatype.org/content/repositories/snapshots')
+    }
 }
 
 jacocoTestReport
@@ -78,21 +76,17 @@ build.dependsOn jar
 
 dependencies
 {
-
     compileOnly group:'org.spigotmc',
             name:'spigot-api',
-            version: "1.14.2-R0.1-SNAPSHOT"
-            // project.property("apiversion")
+            version: "1.14.4-R0.1-SNAPSHOT"
 
     //testing dependencys
     testCompile group:"junit",
                 name:"junit",
                 version:"4.12"
-
     testCompile group:"org.mockito",
                 name:"mockito-core",
                 version:"2.+"
-
 }
 
 task deploy(type: Copy, dependsOn: ['build']) {
@@ -127,9 +121,7 @@ def spigotBuildDir = new File("$buildDir/spigot/")
 task extractServerJar(type: Copy) {
     from spigotBuildDir
     into "testserver/"
-
     include "spigot-" + project.property("apibuildtoolversion") + ".jar"
-
     rename  "spigot-" + project.property("apibuildtoolversion") + ".jar", "server.jar"
 }
 
@@ -138,7 +130,8 @@ task setupWorkspace(dependsOn: ['buildSpigot']) {
 
 task buildSpigot(type: Exec) {
 
-    if (hasSpigotJar()) {
+    if (hasSpigotJar()) 
+    {
         enabled = false
         dependsOn = []
     } else {
