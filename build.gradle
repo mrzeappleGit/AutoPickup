@@ -81,7 +81,6 @@ dependencies
     testCompile 'junit:junit:4.12'
     testCompile 'com.github.seeseemelk:MockBukkit-v1.13:0.1.1-SNAPSHOT'
 }
-}
 
 task deploy(type: Copy, dependsOn: ['build']) {
     from "${buildDir}/libs"
