@@ -8,11 +8,14 @@ import com.philderbeast.autopickup.commands.FullNotify;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.io.File;
 
 import com.philderbeast.autopickup.listners.MainListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 public final class AutoPickupPlugin extends JavaPlugin
 {
