@@ -1,11 +1,11 @@
-package me.MnMaxon.AutoPickup.listners;
+package com.philderbeast.autopickup.listners;
 
-import me.MnMaxon.AutoPickup.actions.AutoBlock;
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.actions.AutoSmelt;
-import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.actions.LocationActions;
-import me.MnMaxon.AutoPickup.util.Util;
+import com.philderbeast.autopickup.actions.AutoBlock;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.actions.AutoSmelt;
+import com.philderbeast.autopickup.Config;
+import com.philderbeast.autopickup.actions.LocationActions;
+import com.philderbeast.autopickup.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.MnMaxon.AutoPickup.commands.Common;
+import com.philderbeast.autopickup.commands.Common;
 
 import java.util.ArrayList;
 import java.util.Collection;

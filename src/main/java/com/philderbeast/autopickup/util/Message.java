@@ -1,6 +1,6 @@
-package me.MnMaxon.AutoPickup.util;
+package com.philderbeast.autopickup.util;
 
-import me.MnMaxon.AutoPickup.Config;
+import com.philderbeast.autopickup.Config;
 import org.bukkit.ChatColor;
 
 public enum Message

@@ -1,4 +1,4 @@
-package me.MnMaxon.AutoPickup.util;
+package com.philderbeast.autopickup.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.actions.AutoSmelt;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.Config;
+import com.philderbeast.autopickup.actions.AutoSmelt;
 import org.bukkit.Material;
 
 import org.bukkit.enchantments.Enchantment;

@@ -5,12 +5,12 @@
  * This file is licensed under the BSD 2-Clause License, which accompanies this project
  * and is available under https://opensource.org/licenses/BSD-2-Clause.
  **/
-package me.MnMaxon.AutoPickup.actions;
+package com.philderbeast.autopickup.actions;
 
-import me.MnMaxon.AutoPickup.API.DropToInventoryEvent;
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.util.Util;
+import com.philderbeast.autopickup.API.DropToInventoryEvent;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.Config;
+import com.philderbeast.autopickup.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

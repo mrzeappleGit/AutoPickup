@@ -1,7 +1,7 @@
-package me.MnMaxon.AutoPickup;
+package com.philderbeast.autopickup;
 
-import me.MnMaxon.AutoPickup.actions.AutoBlock;
-import me.MnMaxon.AutoPickup.util.Message;
+import com.philderbeast.autopickup.actions.AutoBlock;
+import com.philderbeast.autopickup.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

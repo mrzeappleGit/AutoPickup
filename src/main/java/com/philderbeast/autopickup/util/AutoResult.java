@@ -1,4 +1,4 @@
-package me.MnMaxon.AutoPickup.util;
+package com.philderbeast.autopickup.util;
 
 import org.bukkit.inventory.ItemStack; 
 

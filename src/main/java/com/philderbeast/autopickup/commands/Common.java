@@ -1,4 +1,4 @@
-package me.MnMaxon.AutoPickup.commands;
+package com.philderbeast.autopickup.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.util.Util;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.Config;
+import com.philderbeast.autopickup.util.Util;
 
 @SuppressWarnings("ALL")
 public class Common
@@ -143,7 +143,6 @@ public class Common
         ItemStack locked = Util.easyItem(ChatColor.RED + "LOCKED", Material.GLASS_PANE, 1, 14);
         ItemStack empty = Util.easyItem(null, Material.GLASS_PANE, 1, 7);
 
-        //TODO: make these real if statements
         if (p.hasPermission("AutoBlock.Command"))
         {
             conts[7] = Util.easyItem(ChatColor.GREEN + "Block Your Items", Material.IRON_INGOT, 1, 0);
@@ -151,7 +150,6 @@ public class Common
         {
             conts[7] = locked;
         }
-
 
         if (p.hasPermission("AutoSmelt.Command"))
         {
@@ -179,7 +177,6 @@ public class Common
             if (conts[i] == null)conts[i] = empty;
         }
 
-        //TODO: wtf?
         if (p.getOpenInventory() != null
             && p.getOpenInventory().getTitle() != null
             && p.getOpenInventory().getTitle().equals(ChatColor.BLUE + "AutoPickup"))

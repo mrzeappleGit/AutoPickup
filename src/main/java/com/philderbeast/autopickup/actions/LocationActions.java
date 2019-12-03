@@ -1,8 +1,8 @@
-package me.MnMaxon.AutoPickup.actions;
+package com.philderbeast.autopickup.actions;
 
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.Config;
-import me.MnMaxon.AutoPickup.util.Util;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.Config;
+import com.philderbeast.autopickup.util.Util;
 
 import java.util.HashMap;
 

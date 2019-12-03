@@ -1,15 +1,15 @@
-package me.MnMaxon.AutoPickup;
+package com.philderbeast.autopickup;
 
-import me.MnMaxon.AutoPickup.commands.AutoBlockCommand;
-import me.MnMaxon.AutoPickup.commands.AutoPickup;
-import me.MnMaxon.AutoPickup.commands.AutoSmeltCommand;
-import me.MnMaxon.AutoPickup.commands.FullNotify;
+import com.philderbeast.autopickup.commands.AutoBlockCommand;
+import com.philderbeast.autopickup.commands.AutoPickup;
+import com.philderbeast.autopickup.commands.AutoSmeltCommand;
+import com.philderbeast.autopickup.commands.FullNotify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.MnMaxon.AutoPickup.listners.MainListener;
+import com.philderbeast.autopickup.listners.MainListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +23,16 @@ public final class AutoPickupPlugin extends JavaPlugin
     public static final List < String > autoBlock = new ArrayList<>();
     public static final List < String > fullNotify = new ArrayList<>();
     public static final HashMap < String, Long > warnCooldown = new HashMap<>();
+    
+    public AutoPickupPlugin()
+    {
+        super();
+    }
+
+    protected AutoPickupPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
+    {
+        super(loader, description, dataFolder, file);
+    }
 
     @Override
     public void onDisable()

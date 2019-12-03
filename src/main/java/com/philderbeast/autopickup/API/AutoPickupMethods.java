@@ -1,11 +1,11 @@
-package me.MnMaxon.AutoPickup.API;
+package com.philderbeast.autopickup.API;
 
-import me.MnMaxon.AutoPickup.actions.AutoBlock;
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.actions.AutoPickup;
-import me.MnMaxon.AutoPickup.util.AutoResult;
-import me.MnMaxon.AutoPickup.actions.AutoSmelt;
-import me.MnMaxon.AutoPickup.commands.Common;
+import com.philderbeast.autopickup.actions.AutoBlock;
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.philderbeast.autopickup.actions.AutoPickup;
+import com.philderbeast.autopickup.util.AutoResult;
+import com.philderbeast.autopickup.actions.AutoSmelt;
+import com.philderbeast.autopickup.commands.Common;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

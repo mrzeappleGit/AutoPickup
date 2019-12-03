@@ -1,4 +1,4 @@
-package me.MnMaxon.AutoPickup.API;
+package com.philderbeast.autopickup.API;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
