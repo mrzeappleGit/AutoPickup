@@ -90,7 +90,7 @@ public class Config
             fortuneConfig.load(configFolder + "/Advanced Fortune.yml");
         } catch (InvalidConfigurationException | IOException ignored)
         {
-            Bukkit.getLogger().severe("Failed to load all configs");
+            Bukkit.getLogger().severe("Failed to load all configs, using defaults");
         }
 
         if (fortuneData != null)
@@ -296,7 +296,7 @@ public class Config
 		//blacklist coal from being smelted by default
         if (smeltConfig.get("Blacklist") == null)
         {
-            smeltConfig.set("Blacklist", Arrays.asList("1", "Coal:1"));
+            smeltConfig.set("Blacklist", Arrays.asList("Coal:1"));
         }
 
 		//disable world blacklist

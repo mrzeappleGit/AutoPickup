@@ -13,8 +13,8 @@ plugins {
     id "de.undercouch.download" version "4.0.2"
 }
 
-apply plugin:'java'
-apply plugin:"jacoco"
+apply plugin: 'java'
+apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
 
 group = project.property("group")
@@ -61,6 +61,11 @@ repositories
     }
 }
 
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/jacoco")
+}
+
 jacocoTestReport
 {
     reports
@@ -70,8 +75,6 @@ jacocoTestReport
     }
 }
 
-check.dependsOn jacocoTestReport
-
 build.dependsOn jar
 
 dependencies
@@ -79,7 +82,8 @@ dependencies
     compileOnly'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'com.github.seeseemelk:MockBukkit-v1.13:0.1.1-SNAPSHOT'
+    testCompile 'com.github.seeseemelk:MockBukkit-v1.14:0.2.1'
+
 }
 
 task deploy(type: Copy, dependsOn: ['build']) {
