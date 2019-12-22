@@ -10,10 +10,15 @@ buildscript {
 }
 
 plugins {
+<<<<<<< HEAD
     id 'java'
     id 'jacoco'
     id 'maven-publish'
     id 'de.undercouch.download' version "4.0.2"
+=======
+    id "de.undercouch.download" version "3.1.1"
+    id "org.sonarqube" version "2.7"
+>>>>>>> 6852c0219eee2ae2d311ffb82a4eca27b3494c14
 }
 
 // include( "gradle/spigot.gradle")

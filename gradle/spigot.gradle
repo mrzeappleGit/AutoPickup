@@ -1,0 +1,91 @@
+
+
+task setupDevServer(dependsOn: 'extractServerJar', type: Copy) {
+    from 'config/serverfiles'
+    into 'testserver'
+}
+
+task copyPluginToTestserver(dependsOn: ['build', 'jar'], type: Copy) {
+    from "${buildDir}/libs"
+    include "*.jar"
+    into "testserver/plugins"
+}
+
+task prepareDevServer(dependsOn: ['buildSpigot', 'setupDevServer', 'copyPluginToTestserver']) {}
+
+task startDevServer(dependsOn: [prepareDevServer], type: JavaExec) {
+    classpath configurations.compile, configurations.runtime
+    main = "-jar"
+    args "server.jar"
+    workingDir = "testserver/"
+    standardInput = System.in
+}
+
+// START Building Spigot and Bukkit
+def spigotBuildDir = new File("$buildDir/spigot/")
+
+task extractServerJar(type: Copy) {
+    from spigotBuildDir
+    into "testserver/"
+    include "spigot-" + project.property("apibuildtoolversion") + ".jar"
+    rename  "spigot-" + project.property("apibuildtoolversion") + ".jar", "server.jar"
+}
+
+task setupWorkspace(dependsOn: ['buildSpigot']) {
+}
+
+task buildSpigot(type: Exec) {
+
+    if (hasSpigotJar()) 
+    {
+        enabled = false
+        dependsOn = []
+    } else {
+        dependsOn = ['downloadBuildTool']
+    }
+
+    // Determine the current OS.
+    def os_name = System.getProperty("os.name").toLowerCase()
+    def os_windows = os_name.contains("windows")
+    def os_linux = os_name.contains("linux")
+
+    workingDir = spigotBuildDir
+
+    if (os_windows)
+    {
+        executable = 'C:\\Program Files\\Git\\bin\\bash.exe'
+    }else if(os_linux)
+    {
+        executable = 'bash'
+    }
+
+    args = ['-c', 'java -jar ./BuildTools.jar --rev ' + project.property("apibuildtoolversion") ]
+}
+
+task downloadBuildTool(type: Download) {
+    spigotBuildDir.mkdirs()
+    src project.property("buildtoolurl")
+    dest new File(spigotBuildDir, "BuildTools.jar")
+}
+
+def hasSpigotJar() {
+    def file = new File("$buildDir/spigot/spigot-" + project.property("apibuildtoolversion") + ".jar")
+    return file.exists()
+}
+
+jar
+{
+    eachFile
+    {
+        copyDetails ->
+        if (copyDetails.path == 'plugin.yml')
+        {
+            filter
+            {
+                line -> line.replace('{{version}}', "$version")
+            }
+        }
+    }
+}
+
+build.dependsOn jar
