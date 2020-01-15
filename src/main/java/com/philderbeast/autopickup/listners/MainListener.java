@@ -264,15 +264,11 @@ public class MainListener implements Listener
                 {
                     ItemStack is = e.getPlayer().getInventory().getItemInMainHand();
                     ItemMeta im = is.getItemMeta();
-                    if ( ! is.getType().name().toLowerCase().contains("pickaxe"))
+                    if ( !is.getType().name().toLowerCase().contains("pickaxe"))
                     {
                         return;
                     }
                     String name = im.getDisplayName();
-                    if (name == null)
-                    {
-                        name = "null";
-                    }
                     ArrayList < String > lore = new ArrayList <> ();
                     List < String > oldLore = im.getLore();
                     if (oldLore != null && oldLore.size() != 0 && oldLore.get(0).equals(ChatColor.MAGIC + "DATA"))

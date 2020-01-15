@@ -7,6 +7,7 @@ import com.philderbeast.autopickup.commands.FullNotify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.io.File;
 
@@ -25,7 +26,7 @@ public final class AutoPickupPlugin extends JavaPlugin
     public static final List < String > autoPickup = new ArrayList<>();
     public static final List < String > autoBlock = new ArrayList<>();
     public static final List < String > fullNotify = new ArrayList<>();
-    public static final HashMap < String, Long > warnCooldown = new HashMap<>();
+    public static final Map < String, Long > warnCooldown = new HashMap<>();
     
     public AutoPickupPlugin()
     {

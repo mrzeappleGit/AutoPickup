@@ -6,6 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MnMaxon on 10/10/2015.  Aren't I great?
@@ -27,14 +28,14 @@ public class DropToInventoryEvent extends Event
         return handlers;
     }
 
-    public DropToInventoryEvent(Player player, ArrayList<ItemStack> items)
+    public DropToInventoryEvent(Player player, List<ItemStack> items)
     {
         super();
-        this.player=player;
-        this.items = items;
+        this.player = player;
+        this.items  = (ArrayList) items;
     }
 
-    public ArrayList<ItemStack> getItems()
+    public List<ItemStack> getItems()
     {
         return items;
     }

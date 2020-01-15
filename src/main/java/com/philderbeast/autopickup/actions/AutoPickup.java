@@ -63,7 +63,6 @@ public class AutoPickup
                 for (ItemStack is : remaining)
                 {
                     player.getWorld().dropItem(player.getLocation(), is);
-                    return;
                 }
             }
             return;
