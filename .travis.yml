@@ -1,20 +1,27 @@
 language: java
+
 before_script:
-  - chmod +x gradlew
+- chmod +x gradlew
+
 script:
-  - ./gradlew check
-  - ./gradlew jacocoTestReport
+- ./gradlew check
+- ./gradlew jacocoTestReport
+- ./gradlew sonarqube
+
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
   - "$HOME/.m2"
-deploy:
+
+  deploy:
   provider: releases
   api_key:
     secure: OkSf6bXnZxTKwgF3gVeMoJr+uuP3ZMJHEVsQp/dgcSSlOOxWWrZ+j9Fi+6/pa42NmYZVr/tQRQSDZq30bZHU86Q8v/s++Jy0QXgJtrNcCJ9nPF0511ZefxEmDUdAm/epNuUmyb8A66VMclkGHiERQi/e48KIB4GG+yO1MgY8ciF2jK7YBi0hEIdkUoDShUU+R6mQKFbGOawsLsO7azCpq5BsdNfzdTGA73lmmm5dwbeHLLT9l3aAVZa9IVTFys7m3+U1lcUm1RcQWGl5ATPluQ0W7KBYQ+LSd5FmKcGST9LO4pWLcMHylXXi3pX0Lty7AaFF7fJwW4BQ4jwrj41xQp6WRUfVgRSMMMMeq5Cd9nnZw1KpCNZvrwqPnESycV8ajOLLRyjidx+sUO7zNZRPzryO9pQL3xbWErDnX+SNN3L370TvnnmDW59Dr/B8ILWCdiIzYkjqUtbMtTkIRMJe+JWe5CNz1bvQH2lyIE1G5qrZUBJYPxxyNg9DOW+kJYVvmzas2wYXM1Yb1n0j2T1hjQbQyIDMWlIFPUpMBAdRu++etro88Ir62HGCDvd581PyurD7qmOrR39TJsyp+nA4pdj1J82BGOWPpVwzYlR4oXq+TKWHdOAAlXB0+htII4NBMPtJFZvVvI0vPBO9w5lZ+xvlFqYmcqvu/5sKcPg8oDE=
@@ -22,3 +29,9 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+
+addons:
+  sonarcloud:
+    organization: "thephilderbeast"
+    token:
+      secure: GbKWR/SWNNBl/PkZjURDXL7++fq0wK2cqSyIekj1z7KFzh4TOgINk1vsAAPu79dpyQD2mmZ3igpYUX5l0uPttf2f8jRigmeRgVEkevpX/lOxvNfaQBl5d6twoP7mPHK6jQih4BFSMfvgZmAejGDFZNjLtmkNov7byBqLM7aTjvGyO4ptfkPg6EdUk8L14EDAi7IYrbIEXkOhvJd9GbZwXO3rCRahqoR1fxL/nQkWoki2UORMECVAzfFNbjETofuJdyxTdjtZy1TghV608VKArd36LFngFCc2U9CRqtYz3/ng+EXkafmHBk3M7t1neG9CNXTy7VuGMJexEjN10gELv4eDr5JMqEMkJqh6wlI+JwVZBRCJmhoMYqY6JAJcy20L/9h4mgWgmmX32aHhkhx7AtuhbzdofPuw9ds0bT6CYanEV6PJ2wGMckfqfHwJXSw7msHYe3KafuCDSOJJPSHd3uj2lc1mJ50/UXmLN92UZ1MqNY80M6PQ1MSfNc9rYMdWtyAaHbwH/HDqs0EEm2gL2dH0dQ6oPtZ3Glq3fxFh4u7xrfgghLwFDL+qDsYzZetn+o6iq3a+43fySK5EIKi55jPD1R06U/R4q5eMcERjXOKeNJA24aMsPLELoREhFUjjgXLRUtzAAK57MwSY00Shb2Mb/R+mT61prvI4rMTaC3I=
