@@ -80,6 +80,12 @@ jacocoTestReport
     }
 }
 
+sonarqube {
+  properties {
+    property "sonar.projectKey", "ThePhilderbeast_AutoPickup"
+  }
+}
+
 dependencies
 {
     implementation 'org.spigotmc:spigot-api:1.15.1-R0.1-SNAPSHOT'

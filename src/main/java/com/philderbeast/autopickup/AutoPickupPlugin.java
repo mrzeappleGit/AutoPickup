@@ -58,17 +58,21 @@ public final class AutoPickupPlugin extends JavaPlugin
 
         for (Player p:Bukkit.getOnlinePlayers())
         {
-            if (p.hasPermission("AutoPickup.enabled"))
+            if (p.hasPermission("autopickup.enabled"))
             {
                 AutoPickupPlugin.autoPickup.add(p.getName());
             }
-            if (p.hasPermission("AutoBlock.enabled"))
+            if (p.hasPermission("autoblock.enabled"))
             {
                 AutoPickupPlugin.autoBlock.add(p.getName());
             }
-            if (p.hasPermission("AutoSmelt.enabled"))
+            if (p.hasPermission("autosmelt.enabled"))
             {
                 AutoPickupPlugin.autoSmelt.add(p.getName());
+            }
+            if (p.hasPermission("fullnotify.enabled"))
+            {
+                AutoPickupPlugin.fullNotify.add(p.getName());
             }
         }
     }

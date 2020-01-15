@@ -173,23 +173,24 @@ public class MainListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e)
     {
-        if (e.getPlayer().hasPermission("AutoPickup.enabled"))
+        Player p = e.getPlayer();
+        if (p.hasPermission("autopickup.enabled"))
         {
-            AutoPickupPlugin.autoPickup.add(e.getPlayer().getName());
+            AutoPickupPlugin.autoPickup.add(p.getName());
         }
-        if (e.getPlayer().hasPermission("AutoBlock.enabled"))
+        if (p.hasPermission("autoblock.enabled"))
         {
-            AutoPickupPlugin.autoBlock.add(e.getPlayer().getName());
+            AutoPickupPlugin.autoBlock.add(p.getName());
         }
-        if (e.getPlayer().hasPermission("AutoSmelt.enabled"))
+        if (p.hasPermission("autosmelt.enabled"))
         {
-            AutoPickupPlugin.autoSmelt.add(e.getPlayer().getName());
+            AutoPickupPlugin.autoSmelt.add(p.getName());
         }
-        if (e.getPlayer().hasPermission("FullNotify.enabled"))
+        if (p.hasPermission("fullnotify.enabled"))
         {
-            AutoPickupPlugin.fullNotify.add(e.getPlayer().getName());
+            AutoPickupPlugin.fullNotify.add(p.getName());
         }
-        fixPicks(e.getPlayer());
+        fixPicks(p);
     }
 
     private static boolean fixPick(ItemStack is)
