@@ -9,6 +9,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMockFactory;
 
 public class AutoPickupPluginTest {
 
@@ -30,24 +32,24 @@ public class AutoPickupPluginTest {
     @Test
     public void dummyTest()
     {
-        Assert.assertTrue(true);`
+        Assert.assertTrue(true);
     }
 
     @Test
     public void playerJoin()
     {
-        server.addPlayer();
+        PlayerMockFactory factory = new PlayerMockFactory(server);
+		PlayerMock player = factory.createRandomPlayer();
 
-        // this failes due to an error int he mocking library
-        server.getPluginManager().assertEventFired(event -> { return event instanceof PlayerJoinEvent; });
+        // this fails due to an error in the mocking library
+        server.joinPlayer(player);
+        server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
 
         // //no permissions so they arnt added
-        // Assert.assertFalse(AutoPickupPlugin.autoBlock.contains(player.getName()));
-        // Assert.assertFalse(AutoPickupPlugin.autoPickup.contains(player.getName()));
-        // Assert.assertFalse(AutoPickupPlugin.autoSmelt.contains(player.getName()));
+        Assert.assertFalse(AutoPickupPlugin.autoBlock.contains(player.getName()));
+        Assert.assertFalse(AutoPickupPlugin.autoPickup.contains(player.getName()));
+        Assert.assertFalse(AutoPickupPlugin.autoSmelt.contains(player.getName()));
 
-        // server.execute("autopickup", player);
-        // Assert.assertTrue(AutoPickupPlugin.autoPickup.contains(player.getName()));
     }
 
 
