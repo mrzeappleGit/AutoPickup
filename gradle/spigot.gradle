@@ -89,3 +89,4 @@ jar
 }
 
 build.dependsOn jar
+build.dependsOn 

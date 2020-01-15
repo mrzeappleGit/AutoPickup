@@ -15,18 +15,21 @@ import be.seeseemelk.mockbukkit.entity.PlayerMockFactory;
 public class AutoPickupPluginTest {
 
 	private ServerMock server;
-
+    private AutoPickupPlugin plugin;
+    
     @Before
     public void setUp()
     {
         server = MockBukkit.mock();
-        MockBukkit.load(AutoPickupPlugin.class);
+        plugin = (AutoPickupPlugin) MockBukkit.load(AutoPickupPlugin.class);
+        plugin.onEnable();
     }
 
     @After
     public void tearDown()
     {
         MockBukkit.unload();
+        
     }
 
     @Test
@@ -40,8 +43,6 @@ public class AutoPickupPluginTest {
     {
         PlayerMockFactory factory = new PlayerMockFactory(server);
 		PlayerMock player = factory.createRandomPlayer();
-
-        // this fails due to an error in the mocking library
         server.joinPlayer(player);
         server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
 
