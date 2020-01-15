@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.plugin.Plugin;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -21,8 +23,10 @@ public class AutoPickupPluginTest {
     public void setUp()
     {
         server = MockBukkit.mock();
+        PlayerMockFactory factory = new PlayerMockFactory(server);
+        PlayerMock player = factory.createRandomPlayer();
+        server.joinPlayer(player);
         plugin = (AutoPickupPlugin) MockBukkit.load(AutoPickupPlugin.class);
-        plugin.onEnable();
     }
 
     @After
@@ -33,12 +37,6 @@ public class AutoPickupPluginTest {
     }
 
     @Test
-    public void dummyTest()
-    {
-        Assert.assertTrue(true);
-    }
-
-    @Test
     public void playerJoin()
     {
         PlayerMockFactory factory = new PlayerMockFactory(server);
@@ -46,12 +44,33 @@ public class AutoPickupPluginTest {
         server.joinPlayer(player);
         server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
 
-        // //no permissions so they arnt added
+        // no permissions so they arnt added
         Assert.assertFalse(AutoPickupPlugin.autoBlock.contains(player.getName()));
         Assert.assertFalse(AutoPickupPlugin.autoPickup.contains(player.getName()));
         Assert.assertFalse(AutoPickupPlugin.autoSmelt.contains(player.getName()));
+        Assert.assertFalse(AutoPickupPlugin.fullNotify.contains(player.getName()));
 
     }
 
+    @Test
+    public void playerWithPermsJoin()
+    {
+        PlayerMockFactory factory = new PlayerMockFactory(server);
+        PlayerMock player = factory.createRandomPlayer();
+        PermissionAttachment pa = player.addAttachment(plugin);
+        pa.setPermission("autopickup.enabled", true);
+        pa.setPermission("autoblock.enabled", true);
+        pa.setPermission("autosmelt.enabled", true);
+        pa.setPermission("fullnotify.enabled", true);
+        server.joinPlayer(player);
+        server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
+
+        // permissions so they should be in everything
+        Assert.assertTrue(AutoPickupPlugin.autoBlock.contains(player.getName()));
+        Assert.assertTrue(AutoPickupPlugin.autoPickup.contains(player.getName()));
+        Assert.assertTrue(AutoPickupPlugin.autoSmelt.contains(player.getName()));
+        Assert.assertTrue(AutoPickupPlugin.fullNotify.contains(player.getName()));
+
+    }
 
 }
