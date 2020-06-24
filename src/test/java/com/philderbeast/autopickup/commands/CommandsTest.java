@@ -31,7 +31,7 @@ public class CommandsTest {
         pa.setPermission("autoblock.enabled", true);
         pa.setPermission("autosmelt.enabled", true);
         pa.setPermission("fullnotify.enabled", true);
-        server.joinPlayer(player);
+        server.addPlayer(player);
     }
 
     @After

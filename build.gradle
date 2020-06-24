@@ -33,7 +33,7 @@ repositories
 
     maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
     maven { url('https://oss.sonatype.org/content/repositories/snapshots')}
-
+    maven { url 'https://jitpack.io' }
     mavenCentral()
 }
 
@@ -91,9 +91,10 @@ dependencies
     implementation 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
 
     testImplementation  'junit:junit:4.13'
-    // testImplementation 'com.github.seeseemelk:MockBukkit-v1.14:0.2.1'
-    testImplementation  files('libs/MockBukkit-v1.14-0.2.2-SNAPSHOT.jar')
+    testImplementation 'com.github.seeseemelk:MockBukkit-v1.15:0.3.0-SNAPSHOT'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     testImplementation 'commons-io:commons-io:2.7'
 
 }
+
+apply from: "gradle/spigot.gradle"

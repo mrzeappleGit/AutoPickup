@@ -1,5 +1,3 @@
-
-
 task setupDevServer(dependsOn: 'extractServerJar', type: Copy) {
     from 'config/serverfiles'
     into 'testserver'
