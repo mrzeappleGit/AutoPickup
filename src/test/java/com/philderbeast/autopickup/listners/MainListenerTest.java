@@ -34,7 +34,7 @@ public class MainListenerTest {
 
         PlayerMockFactory factory = new PlayerMockFactory(server);
 		player = factory.createRandomPlayer();
-        server.joinPlayer(player);
+        server.addPlayer(player);
     }
 
     @After

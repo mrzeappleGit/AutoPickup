@@ -25,7 +25,7 @@ public class AutoPickupPluginTest {
         server = MockBukkit.mock();
         PlayerMockFactory factory = new PlayerMockFactory(server);
         PlayerMock player = factory.createRandomPlayer();
-        server.joinPlayer(player);
+        server.addPlayer(player);
         plugin = (AutoPickupPlugin) MockBukkit.load(AutoPickupPlugin.class);
     }
 
@@ -41,7 +41,7 @@ public class AutoPickupPluginTest {
     {
         PlayerMockFactory factory = new PlayerMockFactory(server);
 		PlayerMock player = factory.createRandomPlayer();
-        server.joinPlayer(player);
+        server.addPlayer(player);
         server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
 
         // no permissions so they arnt added
@@ -62,7 +62,7 @@ public class AutoPickupPluginTest {
         pa.setPermission("autoblock.enabled", true);
         pa.setPermission("autosmelt.enabled", true);
         pa.setPermission("fullnotify.enabled", true);
-        server.joinPlayer(player);
+        server.addPlayer(player);
         server.getPluginManager().assertEventFired(PlayerJoinEvent.class, event -> event.getPlayer().equals(player)); 
 
         // permissions so they should be in everything

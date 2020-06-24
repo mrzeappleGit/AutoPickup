@@ -27,7 +27,7 @@ public class AutoPickupMethodsTest {
 
         PlayerMockFactory factory = new PlayerMockFactory(server);
 		player = factory.createRandomPlayer();
-        server.joinPlayer(player);
+        server.addPlayer(player);
     }
 
     @After
